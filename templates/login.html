@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sportify | Login / Sign Up</title>
+    <!-- Reference to CSS file here -->
+    <link rel="stylesheet" href="{%static 'css/login.css' %}">
+</head>
+<body>
+<div class="container">
+    <!-- LEFT SECTION -->
+    <div class="left-section">
+        <h1>SPORTIFY</h1>
+        <p class="subtitle">YOUR LIFE</p>
+    </div>
+
+    <!-- RIGHT SECTION -->
+    <div class="right-section">
+        <div class="forms-container">
+            <!-- LOGIN FORM -->
+            <div class="form-block">
+                <div class="form-title">Email or Username</div>
+                <input type="text" placeholder="Email or Username">
+
+                <div class="form-title">Password</div>
+                <input type="password" placeholder="Password">
+
+                <div class="remember-container">
+                    <input type="checkbox" id="remember">
+                    <label for="remember">Remember me</label>
+                </div>
+
+                <button class="btn">LOGIN</button>
+                <a href="#" class="forgot-link">Forgot Password?</a>
+            </div>
+
+            <!-- SIGNUP FORM -->
+            <div class="form-block">
+                <!-- Name & Age side by side -->
+                <div class="small-fields">
+                    <div class="form-block">
+                        <div class="form-title">Name</div>
+                        <input type="text" placeholder="Name">
+                    </div>
+                    <div class="form-block">
+                        <div class="form-title">Age</div>
+                        <input type="number" placeholder="Age">
+                    </div>
+                </div>
+
+                <div class="form-title">UoG Email</div>
+                <input type="email" placeholder="UoG Email">
+
+                <div class="form-title">Password</div>
+                <input type="password" placeholder="Password">
+
+                <div class="form-title">Re-enter Password</div>
+                <input type="password" placeholder="Re-enter Password">
+
+                <div class="form-title">Gym</div>
+                <input type="text" placeholder="Gym">
+
+                <button class="btn signup-btn">SIGN UP</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

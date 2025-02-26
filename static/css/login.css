@@ -1,0 +1,156 @@
+/* RESET & BASIC STYLES */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+/* CONTAINER: TWO SECTIONS */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* LEFT SECTION: MULTI-STRIPE BACKGROUND + TITLE */
+.left-section {
+    flex: 1;
+    /* 4 vertical stripes - adjust colors as needed. */
+    background: linear-gradient(
+            to right,
+            #242F40 0%,
+            #242F40 25%,
+            #4059AD 25%,
+            #4059AD 50%,
+            #6B9AC4 50%,
+            #6B9AC4 75%,
+            #97D8C4 75%,
+            #97D8C4 100%
+    );
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    padding: 10rem;
+}
+
+/* BIG SPORTIFY TEXT */
+.left-section h1 {
+    font-size: 20rem;
+    color: #EEF2F1;
+    margin-bottom: 0;
+}
+/* "YOUR LIFE" SUBTEXT */
+.left-section p.subtitle {
+    font-size: 3rem;
+    color: #EEF2F1;
+    font-weight:10;
+}
+
+.right-section {
+    flex: 1;
+    background: linear-gradient(
+            to left,
+            #F4B942 10%,  /* Start color at 0% */
+            #EEF2F1 50% /* End color at 100% */
+    );
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem;
+}
+
+/* FORMS CONTAINER */
+.forms-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem; /* space between login & signup forms */
+    max-width: 400px; /* limit total width so forms are narrower */
+}
+
+/* EACH FORM BLOCK */
+.form-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.form-block label {
+    font-size: 0.9rem;
+    font-weight: normal;
+    margin-bottom: 0.2rem;
+}
+.form-block input[type="text"],
+.form-block input[type="email"],
+.form-block input[type="password"],
+.form-block input[type="number"] {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    border: 1px solid #333; /* black border from screenshot */
+    outline: none;
+}
+
+/* FORM HEADERS (SMALL TITLES ABOVE FIELDS) */
+.form-title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+/* CHECKBOX + REMEMBER ME */
+.remember-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* BUTTONS */
+.btn {
+    background: #4059AD;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    border-radius: 3px;
+    margin-top: 0.25rem;
+    align-self: flex-start; /* align button to left */
+}
+.btn:hover {
+    background: #1f4c8b;
+}
+.signup-btn {
+    background: #F4B942; /* bright button for signup */
+    color: #000;         /* black text */
+    border: none;
+    margin-top: 0.25rem;
+}
+.signup-btn:hover {
+    background: #F4B942;
+}
+
+/* FORGOT PASSWORD LINK */
+.forgot-link {
+    margin-top: 0.25rem;
+    font-size: 0.8rem;
+    color: #000; /* black link as per screenshot */
+    text-decoration: none;
+}
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+/* SMALL FIELDS (NAME & AGE SIDE-BY-SIDE) */
+.small-fields {
+    display: flex;
+    gap: 0.75rem;
+}
+.small-fields .form-block {
+    flex: 1;
+}
