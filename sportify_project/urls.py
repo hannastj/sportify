@@ -14,7 +14,7 @@ urlpatterns = [
     path('home/', home_view, name='home'),
     path('events/', events_view, name='events'),
     path('buddyup/', buddyup_view, name='buddyup'),
-    path('profile/', profile_view, name='profile'),
+
 
 
     path('events/', include('events_app.urls')),
