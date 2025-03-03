@@ -1,10 +1,23 @@
 from django.contrib import admin
 from django.urls import path, include
-from sportify_app import views
+from events_app.views import events_view
+from social_app.views import buddyup_view
+from users_app.views import login_view, home_view
+
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('', include('sportify_app.urls')),
     path('admin/', admin.site.urls),
-    path('', include('sportify_app.urls')),
+
+
+
+    path('login/', login_view, name='login'),
+    path('home/', home_view, name='home'),
+    path('events/', events_view, name='events'),
+    path('buddyup/', buddyup_view, name='buddyup'),
+    path('profile/', profile_view, name='profile'),
+
+
+    path('events/', include('events_app.urls')),
+    path('social/', include('social_app.urls')),
+    path('users/', include('users_app.urls')),
 ]

@@ -3,6 +3,10 @@ from django.shortcuts import redirect, get_object_or_404
 from .models import WorkoutEvent
 from .forms import WorkoutEventForm
 
+#----------------------- EVENTS PAGE  ----------------------------
+def events_view(request):
+    return render(request, 'events.html')
+
 #---------------- EVENT SEARCH FILTER ---------------------
 def search_events_view(request):
     q = request.GET.get('q', '')

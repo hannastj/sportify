@@ -1,16 +1,22 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
 
-def index(request):
-    context = {'boldmessage': 'Hello from Sportify!'}
-    return render(request, 'index.html', context)
-
-#----------------------- ABOUT PAGE  ----------------------------
-def about_view(request):
-    return render(request, 'about.html')
+#----------------------- HOME PAGE  ----------------------------
+def home_view(request):
+    return render(request, 'home.html')
 
 #----------------------- LOGIN/SIGNUP PAGE --------------------------
-def login_signup_view(request):
+def login_view(request):
     context = {}
-    return render(request, 'login.html')
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            context['error'] = "Invalid username or password."
 
+    return render(request, 'login.html', context)
