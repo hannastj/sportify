@@ -43,9 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'events_app',
     'social_app',
     'users_app',
+    'django_email_verification', #IZZAK: Added for email verification
 ]
 
 MIDDLEWARE = [
@@ -98,7 +100,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    'OPTIONS': {'min_length': 8},
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -127,3 +130,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+AUTH_USER_MODEL = "users_app.CustomUser" #IZZAK: Django by default uses its built-in User model. Since we have added attributes, we must tell Django to use it
+
+LOGIN_REDIRECT_URL = "home" #IZZAK: Redirect after login
+LOGOUT_REDIRECT_URL = "login" #IZZAK: Redirect after logout
+LOGIN_URL = "login" #IZZAK: If users need to be logged in, send them to the login page
+
+
+# EMAIL CONFIGURATION (Needed for email verification)
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.office365.com"  # Use your email provider's SMTP
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "2461029f@student.gla.ac.uk"
+EMAIL_HOST_PASSWORD = "your-app-password" # IZZAK: Need to Figure this out
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
