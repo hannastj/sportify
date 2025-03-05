@@ -28,6 +28,14 @@ class CustomUser(AbstractUser):
     bio = models.TextField(blank=True, null=True)
     clubs = models.ManyToManyField(SportsClub, blank=True)
     
+    # HANNA added attribute: buddies (friendship links)
+    buddies = models.ManyToManyField(
+        "self",  # Users can be buddies with other users
+        symmetrical=True,  # Friendship is mutual
+        blank=True
+    )
+
+    
     def __str__(self):
         return self.username
     
