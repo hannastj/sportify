@@ -147,3 +147,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "2461029f@student.gla.ac.uk"
 EMAIL_HOST_PASSWORD = "your-app-password" # IZZAK: Need to Figure this out
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

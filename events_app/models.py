@@ -11,8 +11,7 @@ class WorkoutEvent(models.Model):
     end_time = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     is_public = models.BooleanField(default=False) #Events are private by default
-
-    participants = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='events_joined', blank=True)
+    participants = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="participated_events")
 
     def __str__(self):
         return self.title

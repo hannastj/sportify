@@ -2,7 +2,7 @@ from django import forms #IZZAK: Added
 from django.contrib.auth.forms import UserCreationForm # IZZAK: This is built into django
 from .models import CustomUser, Gym #IZZAK: Added
 
-class registrationForm(UserCreationForm):
+class RegistrationForm(UserCreationForm):
     # IZZAK: We create an email field to say the potential users we only accept UofG student emails
     email = forms.EmailField(help_text="Must be a University of Glasgow Student Email")
     
