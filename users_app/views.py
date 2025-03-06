@@ -6,9 +6,18 @@ from .forms import RegistrationForm #IZZAK: This is the form from forms.py
 from .models import CustomUser #IZZAK: This is the user from model.py
 from django_email_verification import send_email #IZZAK: This sends the email with the link to new users to verify them
 
+
 #----------------------- HOME PAGE  ----------------------------
 def home_view(request):
     return render(request, 'home.html')
+
+#----------------------- PROFILE PAGE  ----------------------------
+def profile_view(request):
+    return render(request, 'profile.html')
+
+#----------------------- VERIFICATION PROMPT  ----------------------------
+def verification_prompt_view(request):
+    return render(request, "verification_prompt.html")
 
 #----------------------- LOGIN/SIGNUP PAGE --------------------------
 def login_view(request):
