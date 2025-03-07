@@ -24,7 +24,7 @@ class SportsClub(models.Model):
 class CustomUser(AbstractUser):
     is_email_verified = models.BooleanField(default=False) 
     gym = models.ManyToManyField(Gym, blank=False)
-    profile_picture = models.ImageField(upload_to="profile_pictures/", null=True, blank=True)
+    profile_picture = models.ImageField(upload_to="profile_pictures/",default='profile_pics/avatar.png', null=True, blank=True)
     age = models.PositiveIntegerField(null=True, blank=True)
     bio = models.TextField(blank=True, null=True)
     clubs = models.ManyToManyField(SportsClub, blank=True)
