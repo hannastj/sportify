@@ -1,0 +1,188 @@
+/* RESET & BASIC STYLES */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f0f0;
+    color: #333;
+}
+
+/* NAVBAR (SAME SIZE AS OTHER PAGES) */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #242F40; /* Dark navy */
+    padding: 1rem 2rem;  /* This ensures same height/padding as your other pages */
+}
+
+.nav-left a,
+.nav-right a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.nav-center h1 {
+    color: #fff;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* MAIN CONTAINER: LEFT SIDEBAR + RIGHT CONTENT */
+.main-container {
+    display: flex;
+    min-height: calc(100vh - 60px); /* subtract navbar height if needed */
+}
+
+/* LEFT SIDEBAR */
+.left-sidebar {
+    width: 200px;
+    background: #242F40; /* slightly different dark color */
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+.sidebar-btn {
+    background: #F4B942;
+    color: #fff;
+    border: none;
+    padding: 0.75rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: left;
+    border-radius: 4px;
+}
+
+.sidebar-btn:hover {
+    background: #F4B942;
+}
+
+/* RIGHT CONTENT AREA */
+.right-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* SEARCH & FILTERS ROW */
+.search-filter-row {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    padding: 1rem;
+    border-bottom: 2px solid #ccc;
+    gap: 1rem;
+}
+
+.search-input {
+    flex: 1;
+    max-width: 400px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+}
+
+.filter-btn {
+    background: #F4B942;
+    border: none;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+    border-radius: 4px;
+}
+.filter-btn:hover {
+    background: #F4B942;
+}
+
+/* EVENTS LIST */
+.events-list {
+    padding: 1rem;
+    overflow-y: auto; /* if you want scrollable events */
+    flex: 1;          /* let this area grow */
+}
+
+/* EVENT ROW */
+.event-row {
+    display: flex;
+    background: #fff;
+    margin-bottom: 1rem;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+/* LEFT COL: BUDDY IMAGE & NAME */
+.buddy-info-col {
+    width: 150px;
+    background: #e3e3e3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    gap: 0.5rem;
+}
+
+.buddy-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.buddy-name {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+/* MIDDLE COL: EVENT DETAILS (DATE, TIME, SPORT, LOCATION, ATTENDEES) */
+.event-details-col {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    background: #d2e4f1; /* light bluish color to mimic screenshot */
+    gap: 1px; /* a little gap between detail boxes if you want */
+}
+
+.detail-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fafafa;
+    font-weight: bold;
+    font-size: 0.9rem;
+    padding: 1rem;
+}
+
+/* RIGHT COL: REQUEST TO JOIN BUTTON */
+.join-col {
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+}
+
+.join-btn {
+    background: #F4B942;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.join-btn:hover {
+    background: #F4B942;
+}

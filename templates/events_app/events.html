@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Events Page</title>
+    <link rel="stylesheet" href="{%static 'css/events.css' %}">
+</head>
+<body>
+
+<!-- TOP NAV BAR (Same size as your other pages) -->
+<nav class="navbar">
+    <div class="nav-left">
+        <a href="#">CONTACT</a>
+    </div>
+    <div class="nav-center">
+        <h1>NAVIGATION BAR</h1>
+    </div>
+    <div class="nav-right">
+        <a href="#">PROFILE</a>
+    </div>
+</nav>
+
+<!-- MAIN CONTAINER SPLIT: LEFT SIDEBAR & RIGHT CONTENT -->
+<div class="main-container">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="left-sidebar">
+        <button class="sidebar-btn">+ ADD EVENT</button>
+        <button class="sidebar-btn">PRIVATE</button>
+        <button class="sidebar-btn">PUBLIC</button>
+        <button class="sidebar-btn">MY EVENTS</button>
+    </aside>
+
+    <!-- RIGHT CONTENT AREA -->
+    <section class="right-content">
+
+        <!-- SEARCH BAR & FILTERS -->
+        <div class="search-filter-row">
+            <input type="text" class="search-input" placeholder="Search...">
+            <button class="filter-btn">FILTERS</button>
+        </div>
+
+        <!-- EVENTS LIST (SCROLLABLE IF YOU HAVE MANY EVENTS) -->
+        <div class="events-list">
+            <!-- EVENT ROW 1 -->
+            <div class="event-row">
+                <div class="buddy-info-col">
+                    <img src="https://via.placeholder.com/120x120" alt="Leyla" class="buddy-pic">
+                    <p class="buddy-name">Leyla</p>
+                </div>
+                <div class="event-details-col">
+                    <div class="detail-box">DATE</div>
+                    <div class="detail-box">TIME</div>
+                    <div class="detail-box">SPORT</div>
+                    <div class="detail-box">LOCATION</div>
+                    <div class="detail-box">ATTENDEES</div>
+                </div>
+                <div class="join-col">
+                    <button class="join-btn">REQUEST TO JOIN</button>
+                </div>
+            </div>
+
+            <!-- EVENT ROW 2 -->
+            <div class="event-row">
+                <div class="buddy-info-col">
+                    <img src="https://via.placeholder.com/120x120" alt="Adam" class="buddy-pic">
+                    <p class="buddy-name">Adam</p>
+                </div>
+                <div class="event-details-col">
+                    <div class="detail-box">DATE</div>
+                    <div class="detail-box">TIME</div>
+                    <div class="detail-box">SPORT</div>
+                    <div class="detail-box">LOCATION</div>
+                    <div class="detail-box">ATTENDEES</div>
+                </div>
+                <div class="join-col">
+                    <button class="join-btn">REQUEST TO JOIN</button>
+                </div>
+            </div>
+
+            <!-- EVENT ROW 3 -->
+            <div class="event-row">
+                <div class="buddy-info-col">
+                    <img src="https://via.placeholder.com/120x120" alt="Claire" class="buddy-pic">
+                    <p class="buddy-name">Claire</p>
+                </div>
+                <div class="event-details-col">
+                    <div class="detail-box">DATE</div>
+                    <div class="detail-box">TIME</div>
+                    <div class="detail-box">SPORT</div>
+                    <div class="detail-box">LOCATION</div>
+                    <div class="detail-box">ATTENDEES</div>
+                </div>
+                <div class="join-col">
+                    <button class="join-btn">REQUEST TO JOIN</button>
+                </div>
+            </div>
+
+            <!-- Add more .event-row as needed -->
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>

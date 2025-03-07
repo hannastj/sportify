@@ -5,7 +5,7 @@ from social_app import models
 
 #----------------------- BUDDYUP PAGE  ----------------------------
 def buddyup_view(request):
-    return render(request, 'buddyup.html')
+    return render(request, 'social_app/buddyup.html')
 
 #---------------- SENDING A BUDDY REQUEST ---------------------
 def send_buddy_request_view(request, user_id):
@@ -34,7 +34,7 @@ def respond_buddy_request_view(request, request_id):
 def buddy_requests_list_view(request):
     incoming = models.BuddyRequest.objects.filter(receiver=request.user, status='pending')
     outgoing = models.BuddyRequest.objects.filter(sender=request.user, status='pending')
-    return render(request, 'buddy_requests.html', {'incoming': incoming, 'outgoing': outgoing})
+    return render(request, 'social_app/buddy_requests.html', {'incoming': incoming, 'outgoing': outgoing})
 
 #---------------- BUDDY SEARCH ---------------------
 def search_users_view(request):
@@ -43,4 +43,4 @@ def search_users_view(request):
         results = User.objects.filter(username__icontains=query)
     else:
         results = []
-    return render(request, 'search_users.html', {'results': results, 'query': query})
+    return render(request, 'social_app/search_users.html', {'results': results, 'query': query})
