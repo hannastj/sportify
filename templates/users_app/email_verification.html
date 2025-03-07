@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Verify Your Email - Sportify</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            color: white;
+            background-color: #007BFF;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Welcome to Sportify, {{ user.username }}!</h2>
+        <p>Thank you for signing up. Please verify your email address by clicking the button below.</p>
+
+        <a class="btn" href="{{ link }}">Verify My Email</a>
+
+        <p>If you did not sign up for Sportify, you can ignore this email.</p>
+        <p>Thanks,<br>Sportify Team</p>
+    </div>
+
+</body>
+</html>

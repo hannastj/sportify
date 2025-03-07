@@ -22,7 +22,6 @@ class SportsClub(models.Model):
  
 # IZZAK: Attributes of each user     
 class CustomUser(AbstractUser):
-    is_email_verified = models.BooleanField(default=False) 
     gym = models.ManyToManyField(Gym, blank=False)
     profile_picture = models.ImageField(upload_to="profile_pictures/", null=True, blank=True)
     age = models.PositiveIntegerField(null=True, blank=True)
