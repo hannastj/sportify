@@ -36,7 +36,7 @@ def login_view(request):
                 user = login_form.get_user()
                 if user.is_email_verified:
                     login(request, user)
-                    return redirect("about") #IZZAK: For consistency rename about to Home
+                    return redirect("home") #IZZAK: For consistency rename about to Home
                 else:
                     return render(request, "login.html", {
                         "error": "Please verify your email before logging in.",
