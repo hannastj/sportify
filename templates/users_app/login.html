@@ -1,0 +1,81 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sportify | Login / Sign Up</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+<div class="container">
+    <!-- LEFT SECTION -->
+    <div class="left-section">
+        <h1>SPORTIFY</h1>
+        <p class="subtitle">YOUR LIFE</p>
+    </div>
+
+    <!-- RIGHT SECTION -->
+    <div class="right-section">
+        <div class="forms-container">
+
+            <!-- LOGIN FORM -->
+            <form method="POST" class="form-block" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 2rem;">
+                {% csrf_token %}
+                <!-- This hidden input tells your view you submitted the "login" form -->
+                <input type="hidden" name="login" value="true">
+
+                <div class="form-title">Email or Username</div>
+                {{ login_form.username }}
+
+                <div class="form-title">Password</div>
+                {{ login_form.password }}
+
+                <div class="remember-container">
+                    <!-- If you want a "Remember me" feature, you'd handle it in your view or with a custom field -->
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">Remember me</label>
+                </div>
+                <button class="btn" type="submit">LOGIN</button>
+                <a href="#" class="forgot-link">Forgot Password?</a>
+            </form>
+
+            <!-- REGISTER FORM -->
+            <form method="POST" class="form-block" style="border: 1px solid #ccc; padding: 1rem;">
+                {% csrf_token %}
+                <!-- This hidden input tells your view you submitted the "register" form -->
+                <input type="hidden" name="register" value="true">
+
+                <!-- Name side by side (we'll use first_name and last_name from your RegistrationForm) -->
+                <div class="small-fields">
+                    <div class="form-block">
+                        <div class="form-title">First Name</div>
+                        {{ register_form.first_name }}
+                    </div>
+                    <div class="form-block">
+                        <div class="form-title">Last Name</div>
+                        {{ register_form.last_name }}
+                    </div>
+                </div>
+
+                <div class="form-title">UoG Email</div>
+                {{ register_form.email }}
+
+                <div class="form-title">Password</div>
+                {{ register_form.password1 }}
+
+                <div class="form-title">Re-enter Password</div>
+                {{ register_form.password2 }}
+
+                <!-- Gym is a ModelMultipleChoiceField with Checkboxes in your form -->
+                <div class="form-title">Gym</div>
+                {{ register_form.gym }}
+
+                <button class="btn signup-btn" type="submit">SIGN UP</button>
+            </form>
+
+        </div> <!-- .forms-container -->
+    </div> <!-- .right-section -->
+</div> <!-- .container -->
+</body>
+</html>

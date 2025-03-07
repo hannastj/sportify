@@ -5,7 +5,7 @@ from .forms import WorkoutEventForm
 
 #----------------------- EVENTS PAGE  ----------------------------
 def events_view(request):
-    return render(request, 'events.html')
+    return render(request, 'events_app/events.html')
 
 #---------------- EVENT SEARCH FILTER ---------------------
 def search_events_view(request):
@@ -14,7 +14,7 @@ def search_events_view(request):
         events = WorkoutEvent.objects.filter(title__icontains=q)
     else:
         events = WorkoutEvent.objects.none()
-    return render(request, 'search_events.html', {'events': events, 'q': q})
+    return render(request, 'events_app/search_events.html', {'events': events, 'q': q})
 
 #---------------- JOINING OR LEAVING AN EVENT ---------------------
 def join_event_view(request, event_id):
@@ -33,7 +33,7 @@ from django.utils import timezone
 def event_feed_view(request):
     now = timezone.now()
     events = WorkoutEvent.objects.filter(start_time__gte=now).order_by('start_time')
-    return render(request, 'event_feed.html', {'events': events})
+    return render(request, 'events_app/event_feed.html', {'events': events})
 
 #---------------- CREATING AN EVENT ---------------------
 def create_event_view(request):
@@ -46,4 +46,4 @@ def create_event_view(request):
             return redirect('event_detail', event_id=event.id)
     else:
         form = WorkoutEventForm()
-    return render(request, 'create_event.html', {'form': form})
+    return render(request, 'events_app/create_event.html', {'form': form})
