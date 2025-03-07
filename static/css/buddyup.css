@@ -1,0 +1,113 @@
+/* RESET & BASIC STYLES */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #242F40;
+    color: #333;
+}
+
+/* TOP NAV BAR */
+.top-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #242F40              ;  /* Dark navy/blue */
+    padding: 1rem 2rem;
+    height: 70px;          /* or a fixed height if you want exact size */
+}
+
+.top-nav .nav-left a,
+.top-nav .nav-right a {
+    color: #EEF2F1;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.top-nav .nav-center h1 {
+    color: #EEF2F1;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* SEARCH BAR & FILTERS ROW */
+.search-row {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* center the row content horizontally */
+    padding: 1rem;
+    background: #242F40;
+    border-bottom: 2px solid #ccc;
+    gap: 1rem;
+}
+
+.search-input {
+    flex: 1; /* allow the input to grow */
+    max-width: 400px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+}
+
+.filter-btn {
+    background: #F4B942; /* orange color for filters button */
+    border: none;
+    color: #EEF2F1;
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.filter-btn:hover {
+    background: #F4B942;
+}
+
+/* SCROLLABLE BUDDY GRID CONTAINER */
+.buddy-grid-container {
+    max-height: 70vh; /* or a fixed px height, e.g. 600px */
+    overflow-y: auto; /* enable vertical scroll */
+    margin: 1rem 2rem; /* spacing from sides */
+    scrollbar-color: #F4B942 #4059AD;
+    scrollbar-width: auto;
+}
+
+/* BUDDY GRID */
+.buddy-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    grid-gap: 1rem;
+    padding: 1rem 0;
+}
+
+.buddy-card {
+    position: relative; /* allow absolute positioning inside */
+    overflow: hidden;   /* ensures the overlay doesn't leak out */
+    border-radius: 6px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    text-align: center;
+    background: #EEF2F1; /* fallback if no image is loaded */
+}
+
+.buddy-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.buddy-info {
+    font-size: 2rem;
+    font-weight: initial;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgb(64, 89, 173, 0.7); /* I want this to be transparent??? */
+    color: #EEF2F1;
+    padding: 3rem;
+}
