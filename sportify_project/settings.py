@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-#from django_email_verification import verify_email
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -51,7 +50,6 @@ INSTALLED_APPS = [
     'social_app',
     'users_app',
 
-    'django_email_verification', #IZZAK: Added for email verification
 ]
 
 MIDDLEWARE = [
@@ -69,7 +67,7 @@ ROOT_URLCONF = 'sportify_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR],
+        'DIRS':  [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -143,22 +141,5 @@ LOGOUT_REDIRECT_URL = "login" #IZZAK: Redirect after logout
 LOGIN_URL = "login" #IZZAK: If users need to be logged in, send them to the login page
 
 
-# EMAIL CONFIGURATION (Needed for email verification)
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"  # Use your email provider's SMTP
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "sprtfdmn@gmail.com"
-EMAIL_HOST_PASSWORD = "ybixx tiby vowb ojur" # IZZAK: Need to Figure this out
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_VERIFICATION = {
-    "APP_NAME": "Sportify",
-    "FROM_EMAIL": EMAIL_HOST_USER,  # Uses the email you set up
-    "TOKEN_EXPIRY": 3600,  # Link expires in 1 hour
-    "VERIFICATION_URL": "users/verify/{token}/",  # Path used in email
-    "HTML_TEMPLATE": "templates/email_verification.html",  # Email template
-}
