@@ -7,8 +7,8 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (("Additional Info", {"fields": ("is_email_verified", "gym", "clubs", "profile_picture", "age", "bio")}),
     )
     #IZZAK: defines the columns and how we can filter users
-    list_display = ("username", "email", "is_email_verified", "get_gyms", "get_clubs")
-    list_filter = ("is_email_verified", "gym", "clubs")
+    list_display = ("username", "email", "get_gyms", "get_clubs")
+    list_filter = ("gym", "clubs")
 
     #IZZAK: Now we have to have getters. 
     def get_gyms(self, obj):
