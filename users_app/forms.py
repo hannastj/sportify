@@ -16,7 +16,7 @@ class RegistrationForm(UserCreationForm):
     class Meta:
         # IZZAK: This is a configuration class for CustomUserForm
         model = CustomUser
-        fields = ("username", "first_name", "last_name", "email", "password1", "password2", "gym")
+        fields = ("username", "first_name", "last_name", "email", "password1", "password2", "gym") #Username has been removed currently
         # IZZAK: username uniquenss is automatically enforced in Django's authentication system
         
         
