@@ -9,15 +9,15 @@ from django_email_verification import send_email #IZZAK: This sends the email wi
 
 #----------------------- HOME PAGE  ----------------------------
 def home_view(request):
-    return render(request, 'home.html')
+    return render(request, 'users_app/home.html')
 
 #----------------------- PROFILE PAGE  ----------------------------
 def profile_view(request):
-    return render(request, 'profile.html')
+    return render(request, 'users_app/profile.html')
 
 #----------------------- VERIFICATION PROMPT  ----------------------------
 def verification_prompt_view(request):
-    return render(request, "verification_prompt.html")
+    return render(request, 'users_app/verification_prompt.html')
 
 #----------------------- LOGIN/SIGNUP PAGE --------------------------
 def login_view(request):
@@ -36,7 +36,7 @@ def login_view(request):
                 user.is_active = False #This disables login until email verification
                 user.save()
                 send_email(user)
-                return render(request, "verify_prompt.html") # This is a new page that informs new users to check their email. Does not need to be added to path as it is not a page. just a html screen
+                return render(request, "users_app/verification_prompt.html") # This is a new page that informs new users to check their email. Does not need to be added to path as it is not a page. just a html screen
             
         #IZZAK: Now check login stuff
         elif "login" in request.POST:
@@ -47,13 +47,13 @@ def login_view(request):
                     login(request, user)
                     return redirect("about") #IZZAK: For consistency rename about to Home
                 else:
-                    return render(request, "login.html", {
+                    return render(request, "users_app/login.html", {
                         "error": "Please verify your email before logging in.",
                         "login_form": login_form,
                         "register_form": register_form
                     })
                 
-    return render(request, "login.html", {"login_form": login_form, "register_form": register_form})
+    return render(request, "users_app/login.html", {"login_form": login_form, "register_form": register_form})
 
 @login_required
 def logout_view(request):
