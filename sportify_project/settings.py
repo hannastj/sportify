@@ -18,7 +18,7 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/admin')
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/profile_pictures')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 MEDIA_URL = '/media/'
 
 # Quick-start development settings - unsuitable for production
