@@ -31,7 +31,7 @@
 <div class="buddy-grid-container">
     <div class="buddy-grid">
 
-        {% for user in buddies %}
+    {% for user in buddies %}
             <div class="buddy-card">
                 <!-- If user.profile_picture is set, use that; otherwise fallback to static avatar.png -->
                 <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{{ MEDIA_URL }}profile_pictures/avatar.jpg{% endif %}" alt="{{ user.username }}">
@@ -41,7 +41,6 @@
                 </p>
             </div>
         {% endfor %}
-
     </div>
 </div>
 <script src="{% static 'js/buddyup.js' %}"></script>
