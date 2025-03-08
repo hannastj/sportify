@@ -48,5 +48,5 @@ def search_users_view(request):
 
 #---------------- BUDDY LISTING  ---------------------
 def buddy_list_view(request):
-    buddies = CustomUser.objects.all()  # or filter as needed
+    buddies = CustomUser.objects.all()
     return render(request, 'social_app/buddyup.html', {'buddies': buddies})

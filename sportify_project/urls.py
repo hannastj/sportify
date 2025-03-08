@@ -1,11 +1,9 @@
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from events_app.views import events_view
-from social_app.views import buddyup_view
+from social_app.views import buddyup_view, buddy_list_view
 from django.conf import settings
-from django.urls import re_path
-from django.views.static import serve
-
 from users_app.views import login_view, home_view, profile_view, verification_prompt_view, logout_view
 
 
@@ -26,10 +24,9 @@ urlpatterns = [
     # REDIRECT PAGES
     path('verification/', verification_prompt_view, name='verification'),
     path('logout/', logout_view, name='logout'),
+    path('social/buddylist/', buddy_list_view, name='buddylist'),
+
 ]
 
-
 if settings.DEBUG:
-    urlpatterns += [
-        re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT,}),
-    ]
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

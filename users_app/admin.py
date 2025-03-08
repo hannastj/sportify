@@ -4,7 +4,7 @@ from .models import CustomUser, Gym, SportsClub
 
 class CustomUserAdmin(UserAdmin):
     #IZZAK: We need to add our custom fields
-    fieldsets = UserAdmin.fieldsets + (("Additional Info", {"fields": ("is_email_verified", "gym", "clubs", "profile_picture", "age", "bio")}),
+    fieldsets = UserAdmin.fieldsets + (("Additional Info", {"fields": ("gym", "clubs", "profile_picture", "age", "bio")}),
     )
     #IZZAK: defines the columns and how we can filter users
     list_display = ("username", "email", "get_gyms", "get_clubs")

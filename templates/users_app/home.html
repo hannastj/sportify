@@ -1,11 +1,55 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Sportify Home</title>
+    <link rel="stylesheet" href="{%static 'css/home.css' %}">
 </head>
 <body>
-<h1>HOME PAGE</h1>
-<p>If you see this, your app is running correctly.</p>
+
+<!-- NAVIGATION BAR -->
+<nav class="navbar">
+    <ul class="nav-left">
+        <li><a href="#">PROFILE</a></li>
+        <li><a href="#">BUDDY-UP</a></li>
+        <li><a href="#">EVENTS</a></li>
+        <li><a href="#">CONTACT</a></li>
+    </ul>
+    <div class="nav-right">
+        <a href="#" class="logout-btn">LOGOUT</a>
+    </div>
+</nav>
+
+<!-- MAIN CAROUSEL IMAGE -->
+<section class="carousel">
+    <div class="carousel-placeholder">
+        <h2>MAIN CAROUSEL IMAGE</h2>
+    </div>
+</section>
+
+<!-- TWO-COLUMN BOTTOM SECTION -->
+<section class="bottom-content">
+    <!-- LEFT COLUMN: DESCRIPTION -->
+    <div class="description-box">
+        <h2>DESCRIPTION</h2>
+        <p>
+            <!-- Replace this text with your actual description -->
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Sed vitae nunc at ligula vehicula bibendum non a metus.
+            Pellentesque et massa vel ipsum vulputate varius.
+        </p>
+    </div>
+
+    <!-- RIGHT COLUMN: SPORTS EVENT IMAGE -->
+    <div class="event-image-box">
+        <h2>SPORTS EVENT IMAGE</h2>
+        <!-- Replace this with an actual image or placeholder -->
+        <div class="event-img-placeholder">
+            <p>Placeholder for an event image</p>
+        </div>
+    </div>
+</section>
+
 </body>
 </html>
