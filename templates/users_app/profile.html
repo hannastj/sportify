@@ -11,47 +11,49 @@
 <!-- TOP NAV BAR (same size as other pages) -->
 <nav class="navbar">
     <div class="nav-left">
-        <a href="#">CONTACT</a>
+        <a href="#">CONTACT US</a> 
     </div>
     <div class="nav-center">
         <h1>NAVIGATION BAR</h1>
     </div>
     <div class="nav-right">
-        <a href="#">PROFILE</a>
-        <a href="#">HOME</a>
+        <a href="{% url 'events' %}">EVENTS</a>
+        <a href="{% url 'home' %}">HOME</a>
     </div>
 </nav>
 
 <!-- LARGE BACKGROUND / PROFILE HEADER -->
 <section class="profile-header">
     <!-- Background image (inline style for demo, or move to CSS) -->
-    <div class="bg-picture"
-         style="background: url('{% static "images/PROFILE PIC BACKGROUND.png" %}') center / cover no-repeat;">
+    <div class="bg-picture" style="background-color: grey;">
     </div>
+    
 
     <!-- Circular container for the profile image -->
     <div class="profile-image">
-        {% if userprofile.profile_pic %}
+        {% if user.profile_picture %}
             <!-- If the user uploaded a pic, display it -->
-            <img src="{{ userprofile.profile_pic.url }}" alt="Profile Pic">
+            <img src="{{ user.profile_picture.url }}" alt="Profile Pic">
         {% else %}
-            <!-- Otherwise, show BORAT.jpeg by default -->
-            <img src="{% static 'images/BORAT.jpeg' %}" alt="Default Pic">
+            <img src="{% static 'images/blank-profile-picture.jpg' %}" alt="Default Pic">
         {% endif %}
     </div>
 
     <!-- Overlapping name box -->
     <div class="user-name-box">
-        <p>{{ userprofile.user.username }} Borat, 23</p>
-        <!-- or any other name/age logic -->
+        <p>{{ user.username }}{% if user.age %} ({{ user.age }}){% endif %}</p>
     </div>
 </section>
 
 <!-- PROFILE DESCRIPTION BAR -->
 <section class="profile-description-bar">
-    <h2> My name is Borat Sagdiyev. I come from glorious Kazakhstan,
-        but now I study at the University of Glasgow, working on PhD in Politics.
-        I hope to share my unique flexibility with the Scottish friends. Very nice!</h2>
+    <h2>
+        {% if user.bio %}
+            {{ user.bio }}
+        {% else %}
+            No bio.
+        {% endif %}
+    </h2>
 </section>
 
 <!-- MAIN CONTENT: 3 COLUMNS -->
@@ -59,13 +61,29 @@
     <!-- LEFT COLUMN: Age, Gyms, Sports Club, Buddy List -->
     <div class="left-col">
         <h3>AGE</h3>
-        <p>23</p>
+        <p>{{ user.age|default:"Not specified" }}</p>
         <h3>GYMS</h3>
-        <p>UoG Gym</p>
+        <p>
+            {% for gym in user.gym.all %}
+                {{ gym.name }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
         <h3>SPORTS CLUB</h3>
-        <p>Beach Volleyball Club</p>
+        <p>
+            {% for club in user.clubs.all %}
+                {{ club.name }}{% if not forloop.last %}, {% endif %}
+            {% empty %}
+                None selected
+            {% endfor %}
+        </p>
         <h3>BUDDY LIST</h3>
-        <p>Adam, Claire, Isaac, etc.</p>
+        <p>
+            {% for buddy in user.buddies.all %}
+                {{ buddy.username }}{% if not forloop.last %}, {% endif %}
+            {% empty %}
+                No buddies yet
+            {% endfor %}
+        </p>
     </div>
 
     <!-- CENTER COLUMN: Create Event / My Events -->
@@ -93,15 +111,31 @@
             <!-- MY EVENTS CONTENT -->
             <div class="tab-content" id="my-events">
                 <h2>My Events</h2>
-                <div class="my-events-list">
-                    <!-- This area can be populated dynamically with user's events -->
-                    <div class="event-item">Event A</div>
-                    <div class="event-item">Event B</div>
-                    <div class="event-item">Event C</div>
-                    <!-- Add more events to test the scrollbar -->
-                    <div class="event-item">Event D</div>
-                    <div class="event-item">Event E</div>
-                    <div class="event-item">Event F</div>
+                
+                <div class="events-section">
+                    <h3>Hosted Events</h3>
+                    {% for event in hosted_events %}
+                        <div class="event-item">
+                            <strong>{{ event.title }}</strong><br>
+                            <span>{{ event.start_time|date:"M d, Y H:i" }}</span><br>
+                            <span>{{ event.location }}</span>
+                        </div>
+                    {% empty %}
+                        <div class="event-item">No hosted events found.</div>
+                    {% endfor %}
+                </div>
+                
+                <div class="events-section">
+                    <h3>Participated Events</h3>
+                    {% for event in participated_events %}
+                        <div class="event-item">
+                            <strong>{{ event.title }}</strong><br>
+                            <span>{{ event.start_time|date:"M d, Y H:i" }}</span><br>
+                            <span>{{ event.location }}</span>
+                        </div>
+                    {% empty %}
+                        <div class="event-item">No participated events found.</div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -109,16 +143,11 @@
 
     <!-- RIGHT COLUMN: Settings + Upload New Profile Pic -->
     <div class="right-col">
-        <h2>SETTINGS</h2>
-        <p>Change password, notification preferences, etc.</p>
+        <h2>Edit Profile</h2>
 
-        <!-- Upload Profile Picture Form -->
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <label for="profile_pic">Upload New Profile Picture:</label><br><br>
-            <input type="file" name="profile_pic" id="profile_pic"><br><br>
-            <button type="submit" class="btn">Save Picture</button>
-        </form>
+        <!-- Separate link to edit profile -->
+        <a href="{% url 'edit_profile' %}">Edit Profile</a>
+
     </div>
 </div>
 
@@ -127,14 +156,10 @@
     document.addEventListener('DOMContentLoaded', () => {
         const tabButtons = document.querySelectorAll('.tab-btn');
         const tabContents = document.querySelectorAll('.tab-content');
-
         tabButtons.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Remove 'active' from all tabs
                 tabButtons.forEach(b => b.classList.remove('active'));
                 tabContents.forEach(tc => tc.classList.remove('active'));
-
-                // Activate this tab
                 btn.classList.add('active');
                 const targetId = btn.getAttribute('data-tab');
                 document.getElementById(targetId).classList.add('active');

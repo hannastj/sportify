@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser #IZZAK: This is provided by django and provides lots basic attributres we use for users
                                                     #IZZAK: AbstractUser inherits the User class and is used to add Additional Fields required for your User in Database itself
+from django.template.defaultfilters import slugify 
+
 
         
 #-------------------User Model-----------------    
@@ -38,4 +40,4 @@ class CustomUser(AbstractUser):
     
     def __str__(self):
         return self.username
-    
+

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import redirect, get_object_or_404
 from .models import WorkoutEvent
 from .forms import WorkoutEventForm
+from django.contrib.auth.decorators import login_required
 
 #----------------------- EVENTS PAGE  ----------------------------
 def events_view(request):
@@ -33,7 +34,7 @@ from django.utils import timezone
 def event_feed_view(request):
     now = timezone.now()
     events = WorkoutEvent.objects.filter(start_time__gte=now).order_by('start_time')
-    return render(request, 'events_app/event_feed.html', {'events': events})
+    return render(request, 'events_app/event_feed.html')
 
 #---------------- CREATING AN EVENT ---------------------
 def create_event_view(request):
@@ -47,3 +48,16 @@ def create_event_view(request):
     else:
         form = WorkoutEventForm()
     return render(request, 'events_app/create_event.html', {'form': form})
+
+
+
+@login_required
+def my_events_view(request):
+    # Example: get events where the user is the host or a participant.
+    hosted_events = WorkoutEvent.objects.filter(host=request.user)
+    participated_events = WorkoutEvent.objects.filter(participants=request.user)
+    # Combine the two querysets (if you want both) and remove duplicates:
+    events = (hosted_events | participated_events).distinct()
+    
+    context = {'events': events}
+    return render(request, 'events_app/events.html', context)
