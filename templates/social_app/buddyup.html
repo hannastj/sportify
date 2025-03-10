@@ -32,10 +32,8 @@
     <div class="buddy-grid">
 
     {% for user in buddies %}
-            <div class="buddy-card">
-                <!-- If user.profile_picture is set, use that; otherwise fallback to static avatar.png -->
+            <div class="buddy-card" data-buddy-id="{{ user.id }}">
                 <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{{ MEDIA_URL }}profile_pictures/avatar.jpg{% endif %}" alt="{{ user.username }}">
-                <!-- Buddy info: username, age, etc. -->
                 <p class="buddy-info">
                     {{ user.username }}, {{ user.age }}
                 </p>

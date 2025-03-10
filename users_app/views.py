@@ -34,7 +34,7 @@ def login_view(request):
             if login_form.is_valid():
                 user = login_form.get_user()
                 login(request, user)
-                return redirect("home")  
+                return redirect("home")
             else:
                 return render(request, "users_app/login.html", {
                     "error": "Invalid credentials. Please try again or sign up.",
