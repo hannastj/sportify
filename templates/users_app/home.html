@@ -1,11 +1,54 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Sportify Home</title>
+    <link rel="stylesheet" href="{%static 'css/home.css' %}">
 </head>
 <body>
-<h1>HOME PAGE</h1>
-<p>If you see this, your app is running correctly.</p>
+
+<!-- NAVIGATION BAR -->
+<nav class="navbar">
+    <ul class="nav-left">
+        <li><a href="{% url 'users_app:home' %}">HOME</a></li>
+        <li><a href="{% url 'users_app:profile' %}">PROFILE</a></li>
+        <li><a href="{% url 'social_app:buddyup' %}">BUDDY-UP</a></li>
+        <li><a href="{% url 'events_app:events' %}">EVENTS</a></li>
+    </ul>
+    <div class="nav-right">
+        <a href="{% url 'users_app:logout' %}" class="logout-btn">LOGOUT</a>
+    </div>
+</nav>
+
+<!-- MAIN CAROUSEL IMAGE -->
+<section class="carousel">
+    <div class="carousel-placeholder">
+        <h2>MAIN CAROUSEL IMAGE</h2>
+    </div>
+</section>
+
+<!-- TWO-COLUMN BOTTOM SECTION -->
+<section class="bottom-content">
+    <!-- LEFT COLUMN: DESCRIPTION -->
+    <div class="description-box">
+        <h2>WELCOME TO SPORTIFY!</h2>
+        <p>
+            <!-- Replace this text with your actual description -->
+            Small description about the website here.
+        </p>
+    </div>
+
+    <!-- RIGHT COLUMN: SPORTS EVENT IMAGE -->
+    <div class="event-image-box">
+        <h2>YOUR NEXT EVENT</h2>
+        <!-- Replace this with an actual image or placeholder -->
+        <div class="event-img-placeholder">
+            <p>Displays the next upcoming event for the user</p>
+        </div>
+    </div>
+</section>
+
 </body>
 </html>
+

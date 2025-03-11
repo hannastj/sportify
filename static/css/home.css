@@ -45,7 +45,7 @@ top.navbar {
 /* RIGHT NAV LOGOUT BUTTON */
 .logout-btn {
     color: #EEF2F1;
-    background: #c;
+    background: #ccc;
     text-decoration: none;
     padding: 0.5rem 1rem;
     border-radius: 4px;
