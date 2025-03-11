@@ -36,7 +36,6 @@ class CustomUser(AbstractUser):
         symmetrical=True,  # Friendship is mutual
         blank=True
     )
-
     
     def __str__(self):
         return self.username

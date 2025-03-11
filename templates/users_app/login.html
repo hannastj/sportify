@@ -4,6 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>Sportify | Login / Sign Up</title>
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
@@ -46,7 +47,7 @@
                 <!-- This hidden input tells your view you submitted the "register" form -->
                 <input type="hidden" name="register" value="true">
 
-                <!-- Name side by side (we'll use first_name and last_name from your RegistrationForm) -->
+                <!-- Name side by side (we'll use first_name and last_name from the RegistrationForm) -->
                 <div class="small-fields">
                     <div class="form-block">
                         <div class="form-title">First Name</div>
@@ -58,7 +59,7 @@
                     </div>
                 </div>
 
-                <div class="form-title">UoG Email</div>
+                <div class="form-title">UofG Student Email</div>
                 {{ register_form.email }}
 
                 <div class="form-title">Username</div>
@@ -66,6 +67,12 @@
 
                 <div class="form-title">Password</div>
                 {{ register_form.password1 }}
+
+                {% if register_form.password1.help_text %}
+                    <div class="help-text">
+                        {{ register_form.password1.help_text|safe }}
+                    </div>
+                {% endif %}
 
                 <div class="form-title">Re-enter Password</div>
                 {{ register_form.password2 }}

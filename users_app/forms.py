@@ -18,6 +18,20 @@ class RegistrationForm(UserCreationForm):
         model = CustomUser
         fields = ("username", "first_name", "last_name", "email", "password1", "password2", "gym") #Username has been removed currently
         # IZZAK: username uniquenss is automatically enforced in Django's authentication system
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            # HS: Pull in the help text from all active validators
+            help_texts = password_validation.password_validators_help_texts()
+
+            # HS: Create a bullet list of requirement messages
+            bullet_list = "<ul>"
+            for text in help_texts:
+                bullet_list += f"<li>{text}</li>"
+            bullet_list += "</ul>"
+
+            # HS: Assign the bullet list to the password1 field's help_text
+            self.fields["password1"].help_text = bullet_list
         
         
     def clean_email(self):
