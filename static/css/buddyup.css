@@ -83,9 +83,9 @@ body {
 /* BUDDY GRID */
 .buddy-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(7, 1fr);
     gap: 1rem;
-    padding: 5rem 0;
+    padding: 3rem 0;
     max-height: 100vh;
     overflow-y: auto;
     margin: 1rem 2rem;
@@ -121,7 +121,7 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(64, 89, 173, 0.7);
+    background: rgb(0, 156, 91);
     color: #EEF2F1;
     padding: 5rem;
     transform: translateY(100%);
