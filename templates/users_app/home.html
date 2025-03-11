@@ -11,13 +11,13 @@
 <!-- NAVIGATION BAR -->
 <nav class="navbar">
     <ul class="nav-left">
-        <li><a href="#">PROFILE</a></li>
-        <li><a href="#">BUDDY-UP</a></li>
-        <li><a href="#">EVENTS</a></li>
-        <li><a href="#">CONTACT</a></li>
+        <li><a href="{% url 'users_app:home' %}">HOME</a></li>
+        <li><a href="{% url 'users_app:profile' %}">PROFILE</a></li>
+        <li><a href="{% url 'social_app:buddyup' %}">BUDDY-UP</a></li>
+        <li><a href="{% url 'events_app:events' %}">EVENTS</a></li>
     </ul>
     <div class="nav-right">
-        <a href="#" class="logout-btn">LOGOUT</a>
+        <a href="{% url 'users_app:logout' %}" class="logout-btn">LOGOUT</a>
     </div>
 </nav>
 
@@ -32,24 +32,23 @@
 <section class="bottom-content">
     <!-- LEFT COLUMN: DESCRIPTION -->
     <div class="description-box">
-        <h2>DESCRIPTION</h2>
+        <h2>WELCOME TO SPORTIFY!</h2>
         <p>
             <!-- Replace this text with your actual description -->
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Sed vitae nunc at ligula vehicula bibendum non a metus.
-            Pellentesque et massa vel ipsum vulputate varius.
+            Small description about the website here.
         </p>
     </div>
 
     <!-- RIGHT COLUMN: SPORTS EVENT IMAGE -->
     <div class="event-image-box">
-        <h2>SPORTS EVENT IMAGE</h2>
+        <h2>YOUR NEXT EVENT</h2>
         <!-- Replace this with an actual image or placeholder -->
         <div class="event-img-placeholder">
-            <p>Placeholder for an event image</p>
+            <p>Displays the next upcoming event for the user</p>
         </div>
     </div>
 </section>
 
 </body>
 </html>
+
