@@ -41,17 +41,10 @@ class RegistrationForm(UserCreationForm):
             raise forms.ValidationError("Email must be a University of Glasgow student Email")
         return email
     
-class ProfileUpdateForm(forms.ModelForm):
-    clubs = forms.ModelMultipleChoiceField(
-        queryset=SportsClub.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=False
-    )
-    gym = forms.ModelMultipleChoiceField(
-        queryset=Gym.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=False
-    )
+class ProfileUpdateForm(forms.ModelForm): 
+    clubs = forms.ModelMultipleChoiceField(queryset=SportsClub.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)
+    
+    gym = forms.ModelMultipleChoiceField(queryset=Gym.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)
 
     class Meta:
         model = CustomUser
