@@ -1,6 +1,6 @@
 from django import forms #IZZAK: Added
 from django.contrib.auth.forms import UserCreationForm # IZZAK: This is built into django
-from .models import CustomUser, Gym #IZZAK: Added
+from .models import CustomUser, Gym, SportsClub #IZZAK: Added
 
 class RegistrationForm(UserCreationForm):
     # IZZAK: We create an email field to say the potential users we only accept UofG student emails
@@ -40,3 +40,19 @@ class RegistrationForm(UserCreationForm):
         # IZZAK: This is the equivalent of throwing an excpetion in java
             raise forms.ValidationError("Email must be a University of Glasgow student Email")
         return email
+    
+class ProfileUpdateForm(forms.ModelForm):
+    clubs = forms.ModelMultipleChoiceField(
+        queryset=SportsClub.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
+    gym = forms.ModelMultipleChoiceField(
+        queryset=Gym.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
+
+    class Meta:
+        model = CustomUser
+        fields = ('profile_picture', 'age', 'bio', 'clubs', 'last_name', 'gym')

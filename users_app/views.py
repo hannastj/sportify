@@ -4,6 +4,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required 
 from .forms import RegistrationForm 
 from .models import CustomUser 
+from django import forms
+from events_app.models import WorkoutEvent
+from .forms import ProfileUpdateForm
 
 #----------------------- HOME PAGE  ----------------------------
 def home_view(request):
@@ -12,7 +15,23 @@ def home_view(request):
 #----------------------- PROFILE PAGE  ----------------------------
 @login_required
 def profile_view(request):
-    return render(request, 'users_app/profile.html')
+    hosted_events = WorkoutEvent.objects.filter(host=request.user)
+    participated_events = request.user.participated_events.all()
+    context = {
+        'user': request.user,
+        'hosted_events': hosted_events,
+        'participated_events': participated_events,
+    }
+    return render(request, 'users_app/profile.html', context)
+
+#Stuff for profile page will be here!!
+
+
+#---------------------- EDIT PROFILE ------------------------
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ('profile_picture', 'age', 'bio', 'clubs')  # add any extra fields here
 
 #----------------------- VERIFICATION PROMPT  ----------------------------
 def verification_prompt_view(request):
@@ -35,7 +54,8 @@ def login_view(request):
             if login_form.is_valid():
                 user = login_form.get_user()
                 login(request, user)
-                return redirect("users_app:home")  
+                return redirect("home")  
+
             else:
                 return render(request, "users_app/login.html", {
                     "error": "Invalid credentials. Please try again or sign up.",
@@ -52,3 +72,16 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect("login")  
+
+
+@login_required
+def edit_profile_view(request):
+    if request.method == 'POST':
+        form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()  # This updates the user's fields, M2Ms, and saves the image
+            return redirect('profile')  # Or wherever you want them to go
+    else:
+        form = ProfileUpdateForm(instance=request.user)
+
+    return render(request, 'users_app/edit_profile.html', {'form': form})

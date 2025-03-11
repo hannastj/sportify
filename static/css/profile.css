@@ -62,7 +62,21 @@ body {
     border-radius: 50%;     /* makes it a circle */
     overflow: hidden;       /* ensure image doesn’t spill out */
     border: 4px solid #F4B942; /* optional border around the circle */
+    background-color: grey; /* default grey background */
 }
+
+.default-profile-pic {
+    position: absolute;
+    bottom: -150px; /* or wherever you want the circle to overlap */
+    left: 2rem;
+    width: 400px;           /* fixed width */
+    height: 400px;          /* fixed height */
+    border-radius: 50%;     /* makes it a circle */
+    overflow: hidden;       /* ensure image doesn’t spill out */
+    border: 4px solid #F4B942; /* optional border around the circle */
+}
+
+
 .profile-image img {
     width: 100%;
     height: 100%;
@@ -89,7 +103,7 @@ body {
     background: #4059AD; /* a blue bar */
     padding: 5rem;
     text-align: center;
-    margin-top: 5px; /* offset the overlap of the profile image */
+    margin-top: 100px; /* offset the overlap of the profile image */
 }
 .profile-description-bar h2 {
     color: #fff;
