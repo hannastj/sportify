@@ -22,10 +22,13 @@
 </nav>
 
 <!-- MAIN CAROUSEL IMAGE -->
-<section class="carousel">
-    <div class="carousel-placeholder">
-        <h2>MAIN CAROUSEL IMAGE</h2>
-    </div>
+<section class="carousel" id="carousel-container"
+    data-img1="{% static 'images/Carousel1.jpg' %}"
+    data-img2="{% static 'images/Carousel2.jpg' %}"
+    data-img3="{% static 'images/Carousel3.jpg' %}">
+    <!-- Arrow buttons -->
+    <div class="arrow left-arrow">&#10094;</div>
+    <div class="arrow right-arrow">&#10095;</div>
 </section>
 
 <!-- TWO-COLUMN BOTTOM SECTION -->
@@ -49,6 +52,11 @@
     </div>
 </section>
 
+<!-- Load jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Load the home JavaScript file -->
+<script src="{% static 'js/home.js' %}"></script>
 </body>
 </html>
+
 
