@@ -58,7 +58,7 @@ def login_view(request):
 
             else:
                 return render(request, "users_app/login.html", {
-                    "error": "Invalid credentials. Please try again or sign up.",
+                    "error_message": "Invalid credentials. Please try again or sign up.",
                     "login_form": login_form,
                     "register_form": register_form
                 })

@@ -32,13 +32,13 @@
                 <div class="form-title">Password</div>
                 {{ login_form.password }}
 
-                <div class="remember-container">
-                    <!-- If you want a "Remember me" feature, you'd handle it in your view or with a custom field -->
-                    <input type="checkbox" id="remember" name="remember">
-                    <label for="remember">Remember me</label>
-                </div>
+                {% if error_message %}
+                    <p style="color: red; margin-top: 0.5rem;">
+                        {{ error_message }}
+                    </p>
+                {% endif %}
+
                 <button class="btn" type="submit">LOGIN</button>
-                <a href="#" class="forgot-link">Forgot Password?</a>
             </form>
 
             <!-- REGISTER FORM -->
