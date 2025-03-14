@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.models import User
 from social_app import models
+from users_app.models import CustomUser
+from django.http import JsonResponse, Http404
 
 #----------------------- BUDDYUP PAGE  ----------------------------
 def buddyup_view(request):
@@ -44,3 +46,22 @@ def search_users_view(request):
     else:
         results = []
     return render(request, 'social_app/search_users.html', {'results': results, 'query': query})
+
+#---------------- BUDDY LISTING  ---------------------
+def buddy_list_view(request):
+    buddies = CustomUser.objects.all()
+    return render(request, 'social_app/buddyup.html', {'buddies': buddies})
+
+#---------------- BUDDY LISTING DETAIL (AJAX) ---------------------
+
+def buddy_details_ajax(request, buddy_id):
+    try:
+        buddy = CustomUser.objects.get(pk=buddy_id)
+    except CustomUser.DoesNotExist:
+        raise Http404("Buddy not found")
+
+    data = {
+        'username': buddy.username,
+        'age': buddy.age,
+    }
+    return JsonResponse(data)

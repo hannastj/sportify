@@ -3,7 +3,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm 
 from django.contrib.auth.decorators import login_required 
 from .forms import RegistrationForm 
-from .models import CustomUser 
+from .models import CustomUser
 from django import forms
 from events_app.models import WorkoutEvent
 from .forms import ProfileUpdateForm
@@ -24,14 +24,6 @@ def profile_view(request):
     }
     return render(request, 'users_app/profile.html', context)
 
-#Stuff for profile page will be here!!
-
-
-#---------------------- EDIT PROFILE ------------------------
-class ProfileUpdateForm(forms.ModelForm):
-    class Meta:
-        model = CustomUser
-        fields = ('profile_picture', 'age', 'bio', 'clubs')  # add any extra fields here
 
 #----------------------- VERIFICATION PROMPT  ----------------------------
 def verification_prompt_view(request):
@@ -54,11 +46,11 @@ def login_view(request):
             if login_form.is_valid():
                 user = login_form.get_user()
                 login(request, user)
-                return redirect("home")  
+                return redirect("home")
 
             else:
                 return render(request, "users_app/login.html", {
-                    "error": "Invalid credentials. Please try again or sign up.",
+                    "error_message": "Invalid credentials. Please try again or sign up.",
                     "login_form": login_form,
                     "register_form": register_form
                 })
