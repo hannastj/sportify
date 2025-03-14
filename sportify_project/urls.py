@@ -2,14 +2,13 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from events_app.views import events_view
-from social_app.views import buddyup_view, buddy_list_view
+from social_app.views import buddyup_view, buddy_list_view, buddy_profile_view
 from django.conf import settings
 from django.conf.urls.static import static
 from users_app.views import login_view, home_view, profile_view, verification_prompt_view, logout_view, edit_profile_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
     path('events/', include('events_app.urls')),
     path('social/', include('social_app.urls')),
     path('users/', include('users_app.urls')),
@@ -25,8 +24,9 @@ urlpatterns = [
     # REDIRECT PAGES
     path('verification/', verification_prompt_view, name='verification'),
     path('logout/', logout_view, name='logout'),
-    path('social/buddylist/', buddy_list_view, name='buddylist'),
+    path('social/buddylist/', buddy_list_view, name='buddyup'),
     path('profile/edit/', edit_profile_view, name='edit_profile'),
+    path('buddy/<int:user_id>/', buddy_profile_view, name='buddy_profile'),
 ]
 
 if settings.DEBUG:

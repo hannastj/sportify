@@ -1,10 +1,20 @@
-{% load static %}
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Find a Buddy</title>
-    <link rel="stylesheet" href="{%static 'css/buddyup.css' %}">
+
+    <!-- Bootstrap CSS (CDN) -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-ENjdO4Dr2bkBIFxQPEM8zFQeR4lKn7gZc5JErXOK0N3QGzPhfVe4q2v5aEz0EbI5"
+            crossorigin="anonymous"
+    >
+
+    <!-- Your custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/buddyup.css' %}">
 </head>
 <body>
 
@@ -23,24 +33,33 @@
 
 <!-- SEARCH BAR & FILTERS ROW -->
 <div class="search-row">
-    <input type="text" placeholder="Search..." class="search-input">
-    <button class="filter-btn">FILTERS</button>
+    <input type="text" id="searchQuery" class="search-input" placeholder="Search...">
+    <button class="filter-btn" id="searchBtn">Search</button>
 </div>
 
 <!-- SCROLLABLE BUDDY GRID CONTAINER -->
 <div class="buddy-grid-container">
-    <div class="buddy-grid">
-
-    {% for user in buddies %}
-            <div class="buddy-card" data-buddy-id="{{ user.id }}">
-                <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{{ MEDIA_URL }}profile_pictures/avatar.jpg{% endif %}" alt="{{ user.username }}">
-                <p class="buddy-info">
-                    {{ user.username }}, {{ user.age }}
-                </p>
-            </div>
+    <div class="buddy-grid" id="buddyGrid">
+        {% for user in buddies %}
+        <div class="buddy-card" data-buddy-id="{{ user.id }}">
+            <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{{ MEDIA_URL }}profile_pictures/avatar.jpg{% endif %}" alt="{{ user.username }}">
+            <p class="buddy-info">
+                {{ user.username }}, {{ user.age }}, {{ user.gym }}, {{ user.bio }}
+            </p>
+        </div>
         {% endfor %}
     </div>
 </div>
+
+<!-- Your JavaScript file(s) -->
 <script src="{% static 'js/buddyup.js' %}"></script>
+
+<!-- Bootstrap JS (CDN) -->
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQPEM8zFQeR4lKn7gZc5JErXOK0N3QGzPhfVe4q2v5aEz0EbI5"
+        crossorigin="anonymous"
+></script>
+
 </body>
 </html>

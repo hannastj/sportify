@@ -1,6 +1,6 @@
-from django.shortcuts import render
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect,get_object_or_404,render
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from social_app import models
 from users_app.models import CustomUser
 from django.http import JsonResponse, Http404
@@ -39,13 +39,33 @@ def buddy_requests_list_view(request):
     return render(request, 'social_app/buddy_requests.html', {'incoming': incoming, 'outgoing': outgoing})
 
 #---------------- BUDDY SEARCH ---------------------
-def search_users_view(request):
+def search_buddy_view(request):
+    # We'll assume you pass the query as a GET param named 'q'
     query = request.GET.get('q', '')
-    if query:
-        results = User.objects.filter(username__icontains=query)
-    else:
-        results = []
-    return render(request, 'social_app/search_users.html', {'results': results, 'query': query})
+    UserModel = get_user_model()
+
+    # Filter users by username (case-insensitive)
+    # e.g., if query = 'kerr', matches 'Kerr', 'kerrigan', etc.
+    buddies = UserModel.objects.filter(username__icontains=query)
+
+    # Build a list of dicts to return as JSON
+    results = []
+    for buddy in buddies:
+        results.append({
+            'id': buddy.id,
+            'username': buddy.username,
+            'age': buddy.age if hasattr(buddy, 'age') else None,
+            # or any other fields you want
+        })
+
+    return JsonResponse({'results': results})
+
+
+#---------------- BUDDY PROFILE VIEW ---------------------
+def buddy_profile_view(request, user_id):
+    UserModel = get_user_model()
+    buddy = get_object_or_404(UserModel, pk=user_id)
+    return render(request, 'social_app/buddy_profile.html', {'buddy': buddy})
 
 #---------------- BUDDY LISTING  ---------------------
 def buddy_list_view(request):
@@ -59,9 +79,9 @@ def buddy_details_ajax(request, buddy_id):
         buddy = CustomUser.objects.get(pk=buddy_id)
     except CustomUser.DoesNotExist:
         raise Http404("Buddy not found")
-
     data = {
         'username': buddy.username,
         'age': buddy.age,
+        'bio': buddy.bio
     }
     return JsonResponse(data)

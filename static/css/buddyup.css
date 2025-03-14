@@ -4,14 +4,11 @@
     padding: 0;
     box-sizing: border-box;
 }
-
 body {
     font-family: Arial, sans-serif;
-    background: #EEF2F1;
-    color: #333;
+    background: #242F40;
+    color: #242F40;
 }
-
-/* TOP NAV BAR */
 .top-nav {
     position: relative;      /* so we can set a higher z-index if needed */
     z-index: 999;
@@ -22,7 +19,6 @@ body {
     padding: 1rem 2rem;
     height: 70px;
 }
-
 .top-nav .nav-left a,
 .top-nav .nav-right a {
     color: #EEF2F1;
@@ -31,15 +27,12 @@ body {
     font-size: 1rem;
     margin-right: 1rem; /* optional spacing */
 }
-
 .top-nav .nav-center h1 {
     color: #EEF2F1;
     font-size: 1.5rem;
     text-transform: uppercase;
     letter-spacing: 2px;
 }
-
-/* SEARCH BAR & FILTERS ROW */
 .search-row {
     display: flex;
     align-items: center;
@@ -49,7 +42,6 @@ body {
     border-bottom: 2px solid #ccc;
     gap: 1rem;
 }
-
 .search-input {
     flex: 1;
     max-width: 400px;
@@ -57,7 +49,6 @@ body {
     font-size: 1rem;
     border: 1px solid #ccc;
 }
-
 .filter-btn {
     background: #F4B942; /* orange color for filters button */
     border: none;
@@ -69,46 +60,34 @@ body {
     border-radius: 4px;
 }
 .filter-btn:hover {
-    background: #e8ac2c; /* slightly darker orange on hover */
+    background: #F4B942; /* slightly darker orange on hover */
 }
 
 /* SCROLLABLE BUDDY GRID CONTAINER */
 .buddy-grid-container {
-    overflow-y: auto;
-    margin: 1rem 2rem;
-    scrollbar-color: #F4B942 #4059AD;
-    scrollbar-width: auto;
+    margin: 2rem;
 }
 
 /* BUDDY GRID */
 .buddy-grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 1rem;
-    padding: 3rem 0;
-    max-height: 100vh;
-    overflow-y: auto;
-    margin: 1rem 2rem;
-    scrollbar-color: #F4B942 #4059AD;
-    scrollbar-width: auto;
+    position: relative;
+    overflow: visible;
 }
 
+/* BUDDY CARD */
 .buddy-card {
     position: relative;
     overflow: hidden;
-    border-radius: 20px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    border-radius: 20px; /* radius on corners */
     text-align: center;
-    background: #EEF2F1; /* fallback if no image is loaded */
-    transition: transform 0.2s ease; /* optional hover effect */
+    transition: transform 0.5s ease;
     aspect-ratio: 1/1;
 }
 
-.buddy-card:hover {
-    transform: scale(1.5);
-    z-index: 10; /* bring this card above others */
-}
-
+/* IMAGE INSIDE BUDDY CARD */
 .buddy-card img {
     width: 100%;
     height: 100%;
@@ -118,20 +97,22 @@ body {
 
 .buddy-info {
     position: absolute;
-    bottom: 0;
+    top: 0;
     left: 0;
     right: 0;
-    background: rgb(0, 156, 91);
+    bottom: 0;
     color: #EEF2F1;
-    padding: 5rem;
-    transform: translateY(100%);
-    opacity: 0;
-    pointer-events: none;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+    opacity: 0;                    /* hidden by default */
+    transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
 .buddy-card:hover .buddy-info {
     transform: translateY(0);
-    opacity: 1;
+    opacity: 0.7;
     pointer-events: auto;
 }
