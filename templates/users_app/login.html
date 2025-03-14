@@ -21,7 +21,7 @@
         <div class="forms-container">
 
             <!-- LOGIN FORM -->
-            <form method="POST" class="form-block" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 2rem;">
+            <form method="POST" class="form-block" style=>
                 {% csrf_token %}
                 <!-- This hidden input tells your view you submitted the "login" form -->
                 <input type="hidden" name="login" value="true">
@@ -42,7 +42,7 @@
             </form>
 
             <!-- REGISTER FORM -->
-            <form method="POST" class="form-block" style="border: 1px solid #ccc; padding: 1rem;">
+            <form method="POST" class="form-block" style=>
                 {% csrf_token %}
                 <!-- This hidden input tells your view you submitted the "register" form -->
                 <input type="hidden" name="register" value="true">

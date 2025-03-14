@@ -21,7 +21,6 @@
     </div>
 </nav>
 
-
 <!-- SEARCH BAR & FILTERS ROW -->
 <div class="search-row">
     <input type="text" placeholder="Search..." class="search-input">
@@ -31,70 +30,17 @@
 <!-- SCROLLABLE BUDDY GRID CONTAINER -->
 <div class="buddy-grid-container">
     <div class="buddy-grid">
-        <!-- Card 1 -->
-        <div class="buddy-card">
-            <img src="{% static 'images/BORAT.jpeg' %}" alt="Johanna">
-            <p class="buddy-info">Borat, 23</p>
-        </div>
-        <!-- Card 2 -->
-        <div class="buddy-card">
-            <img src="{% static 'images/BORAT.jpeg' %}" alt="Johanna">
-            <p class="buddy-info">Borat, 23</p>
-        </div>
-        <!-- Card 3 -->
-        <div class="buddy-card">
-            <img src="{% static 'images/BORAT.jpeg' %}" alt="Johanna">
-            <p class="buddy-info">Borat, 23</p>
-        </div>
-        <!-- Card 4 -->
-        <div class="buddy-card">
-            <img src="{% static 'images/BORAT.jpeg' %}" alt="Johanna">
-            <p class="buddy-info">Borat, 23</p>
-        </div>
-        <!-- Card 5 -->
-        <div class="buddy-card">
-            <img src="{% static 'images/BORAT.jpeg' %}" alt="Johanna">
-            <p class="buddy-info">Borat, 23</p>
-        </div>
-        <!-- Card 6 -->
-        <div class="buddy-card">
-            <img src="{% static 'images/BORAT.jpeg' %}" alt="Johanna">
-            <p class="buddy-info">Borat, 23</p>
-        </div>
-        <div class="buddy-card">
-            <img src="{% static 'images/BORAT.jpeg' %}" alt="Johanna">
-            <p class="buddy-info">Borat, 23</p>
-        </div>
-        <div class="buddy-card">
-            <img src="{% static 'images/BORAT.jpeg' %}" alt="Johanna">
-            <p class="buddy-info">Borat, 23</p>
-        </div>
-        <div class="buddy-card">
-            <img src="{% static 'images/BORAT.jpeg' %}" alt="Johanna">
-            <p class="buddy-info">Borat, 23</p>
-        </div>
-        <div class="buddy-card">
-            <img src="{% static 'images/BORAT.jpeg' %}" alt="Johanna">
-            <p class="buddy-info">Borat, 23</p>
-        </div>
-        <div class="buddy-card">
-            <img src="{% static 'images/BORAT.jpeg' %}" alt="Johanna">
-            <p class="buddy-info">Borat, 23</p>
-        </div>
-        <div class="buddy-card">
-            <img src="{% static 'images/BORAT.jpeg' %}" alt="Johanna">
-            <p class="buddy-info">Borat, 23</p>
-        </div>
-        <div class="buddy-card">
-            <img src="{% static 'images/BORAT.jpeg' %}" alt="Johanna">
-            <p class="buddy-info">Borat, 23</p>
-        </div>
-        <div class="buddy-card">
-            <img src="{% static 'images/BORAT.jpeg' %}" alt="Johanna">
-            <p class="buddy-info">Borat, 23</p>
-        </div>
+
+    {% for user in buddies %}
+            <div class="buddy-card" data-buddy-id="{{ user.id }}">
+                <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{{ MEDIA_URL }}profile_pictures/avatar.jpg{% endif %}" alt="{{ user.username }}">
+                <p class="buddy-info">
+                    {{ user.username }}, {{ user.age }}
+                </p>
+            </div>
+        {% endfor %}
     </div>
 </div>
-
+<script src="{% static 'js/buddyup.js' %}"></script>
 </body>
 </html>

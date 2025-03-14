@@ -32,7 +32,7 @@ class RegistrationForm(UserCreationForm):
 
             # HS: Assign the bullet list to the password1 field's help_text
             self.fields["password1"].help_text = bullet_list
-        
+
         
     def clean_email(self):
         email = self.cleaned_data.get("email")
@@ -40,7 +40,7 @@ class RegistrationForm(UserCreationForm):
         # IZZAK: This is the equivalent of throwing an excpetion in java
             raise forms.ValidationError("Email must be a University of Glasgow student Email")
         return email
-    
+
 class ProfileUpdateForm(forms.ModelForm):
     clubs = forms.ModelMultipleChoiceField(
         queryset=SportsClub.objects.all(),

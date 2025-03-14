@@ -3,7 +3,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm 
 from django.contrib.auth.decorators import login_required 
 from .forms import RegistrationForm 
-from .models import CustomUser 
+from .models import CustomUser
 from django import forms
 from events_app.models import WorkoutEvent
 from .forms import ProfileUpdateForm
@@ -54,7 +54,7 @@ def login_view(request):
             if login_form.is_valid():
                 user = login_form.get_user()
                 login(request, user)
-                return redirect("home")  
+                return redirect("home")
 
             else:
                 return render(request, "users_app/login.html", {
