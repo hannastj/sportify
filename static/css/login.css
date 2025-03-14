@@ -76,7 +76,7 @@ html, body {
     display: flex;
     flex-direction: column;
     gap: 2rem; /* space between login & signup forms */
-    max-width: 400px; /* limit total width so forms are narrower */
+    max-width: 400px; /* limit for total width so forms are narrower */
 }
 
 /* EACH FORM BLOCK */
@@ -121,14 +121,6 @@ html, body {
     line-height: 1.3;    
 }
 
-/* CHECKBOX + REMEMBER ME */
-.remember-container {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-}
-
 /* BUTTONS */
 .btn {
     background: #4059AD;
@@ -154,26 +146,21 @@ html, body {
     background: #F4B942;
 }
 
-/* FORGOT PASSWORD LINK */
-.forgot-link {
-    margin-top: 0.25rem;
-    font-size: 0.8rem;
-    color: #000; /* black link as per screenshot */
-    text-decoration: none;
-}
-.forgot-link:hover {
-    text-decoration: underline;
-}
-
 /* SMALL FIELDS (NAME & AGE SIDE-BY-SIDE) */
 .small-fields {
     display: flex;
-    gap: 0.75rem;
+    justify-content: space-between;
+    width: 100%;
 }
 .small-fields .form-block {
-    flex: 1;
     width: 48%;
+}
 
+/* For the login error message */
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
 }
 
 /* HS: MEDIA QUERY - adjust for smaller screens */
