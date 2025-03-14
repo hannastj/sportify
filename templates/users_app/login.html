@@ -1,91 +1,79 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Sportify | Login / Sign Up</title>
-    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sportify | Login / Sign Up</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 <body>
-<div class="container">
-    <!-- LEFT SECTION -->
-    <div class="left-section">
+  <!-- Use a full-width container -->
+  <div class="container-fluid min-vh-100 d-flex p-0">
+    <div class="row flex-grow-1 m-0">
+
+      <!-- LEFT SECTION: SPORTIFY DISPLAY -->
+      <div class="col-md-8 left-section d-flex flex-column align-items-center justify-content-center">
         <h1>SPORTIFY</h1>
         <p class="subtitle">YOUR LIFE</p>
-    </div>
+      </div>
 
-    <!-- RIGHT SECTION -->
-    <div class="right-section">
+      <!-- RIGHT SECTION: LOGIN / SIGN UP FORMS -->
+      <div class="col-md-4 right-section d-flex flex-column justify-content-center">
         <div class="forms-container">
-
-            <!-- LOGIN FORM -->
-            <form method="POST" class="form-block" style=>
-                {% csrf_token %}
-                <!-- This hidden input tells your view you submitted the "login" form -->
-                <input type="hidden" name="login" value="true">
-
-                <div class="form-title">Email or Username</div>
-                {{ login_form.username }}
-
-                <div class="form-title">Password</div>
-                {{ login_form.password }}
-
-                {% if error_message %}
-                    <p style="color: red; margin-top: 0.5rem;">
-                        {{ error_message }}
-                    </p>
-                {% endif %}
-
-                <button class="btn" type="submit">LOGIN</button>
-            </form>
-
-            <!-- REGISTER FORM -->
-            <form method="POST" class="form-block" style=>
-                {% csrf_token %}
-                <!-- This hidden input tells your view you submitted the "register" form -->
-                <input type="hidden" name="register" value="true">
-
-                <!-- Name side by side (we'll use first_name and last_name from the RegistrationForm) -->
-                <div class="small-fields">
-                    <div class="form-block">
-                        <div class="form-title">First Name</div>
-                        {{ register_form.first_name }}
-                    </div>
-                    <div class="form-block">
-                        <div class="form-title">Last Name</div>
-                        {{ register_form.last_name }}
-                    </div>
+          <!-- LOGIN FORM -->
+          <form method="POST" class="form-block mb-4">
+            {% csrf_token %}
+            <input type="hidden" name="login" value="true">
+            <div class="form-title">Email or Username</div>
+            {{ login_form.username }}
+            <div class="form-title">Password</div>
+            {{ login_form.password }}
+            {% if error_message %}
+              <p class="error-message mt-2">{{ error_message }}</p>
+            {% endif %}
+            <button class="btn btn-primary mt-2" type="submit">LOGIN</button>
+          </form>
+          <!-- REGISTER FORM -->
+          <form method="POST" class="form-block">
+            {% csrf_token %}
+            <input type="hidden" name="register" value="true">
+            <div class="row mb-2">
+                <div class="col-6">
+                  <div class="form-title">First Name</div>
+                  {{ register_form.first_name }}
                 </div>
-
-                <div class="form-title">UofG Student Email</div>
-                {{ register_form.email }}
-
-                <div class="form-title">Username</div>
-                {{ register_form.username }}
-
-                <div class="form-title">Password</div>
-                {{ register_form.password1 }}
-
-                {% if register_form.password1.help_text %}
-                    <div class="help-text">
-                        {{ register_form.password1.help_text|safe }}
-                    </div>
-                {% endif %}
-
-                <div class="form-title">Re-enter Password</div>
-                {{ register_form.password2 }}
-
-                <!-- Gym is a ModelMultipleChoiceField with Checkboxes in your form -->
-                <div class="form-title">Gym</div>
-                {{ register_form.gym }}
-
-                <button class="btn signup-btn" type="submit">SIGN UP</button>
-            </form>
-
+                <div class="col-6">
+                  <div class="form-title">Last Name</div>
+                  {{ register_form.last_name }}
+                </div>
+              </div>
+            <div class="form-title">UofG Student Email</div>
+            {{ register_form.email }}
+            <div class="form-title">Username</div>
+            {{ register_form.username }}
+            <div class="form-title">Password</div>
+            {{ register_form.password1 }}
+            {% if register_form.password1.help_text %}
+              <div class="help-text">
+                {{ register_form.password1.help_text|safe }}
+              </div>
+            {% endif %}
+            <div class="form-title">Re-enter Password</div>
+            {{ register_form.password2 }}
+            <div class="form-title">Gym</div>
+            {{ register_form.gym }}
+            <button class="btn btn-warning mt-3 signup-btn" type="submit">SIGN UP</button>
+          </form>
         </div> <!-- .forms-container -->
-    </div> <!-- .right-section -->
-</div> <!-- .container -->
+      </div> <!-- .right-section -->
+    </div> <!-- .row -->
+  </div> <!-- .container-fluid -->
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
