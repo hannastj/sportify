@@ -24,14 +24,6 @@ def profile_view(request):
     }
     return render(request, 'users_app/profile.html', context)
 
-#Stuff for profile page will be here!!
-
-
-#---------------------- EDIT PROFILE ------------------------
-class ProfileUpdateForm(forms.ModelForm):
-    class Meta:
-        model = CustomUser
-        fields = ('profile_picture', 'age', 'bio', 'clubs')  # add any extra fields here
 
 #----------------------- VERIFICATION PROMPT  ----------------------------
 def verification_prompt_view(request):
