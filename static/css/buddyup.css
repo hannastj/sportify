@@ -7,18 +7,20 @@
 
 body {
     font-family: Arial, sans-serif;
-    background: #242F40;
+    background: #EEF2F1;
     color: #333;
 }
 
 /* TOP NAV BAR */
 .top-nav {
+    position: relative;      /* so we can set a higher z-index if needed */
+    z-index: 999;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #242F40              ;  /* Dark navy/blue */
+    background: #242F40;
     padding: 1rem 2rem;
-    height: 70px;          /* or a fixed height if you want exact size */
+    height: 70px;
 }
 
 .top-nav .nav-left a,
@@ -27,6 +29,7 @@ body {
     text-decoration: none;
     font-weight: bold;
     font-size: 1rem;
+    margin-right: 1rem; /* optional spacing */
 }
 
 .top-nav .nav-center h1 {
@@ -40,7 +43,7 @@ body {
 .search-row {
     display: flex;
     align-items: center;
-    justify-content: center; /* center the row content horizontally */
+    justify-content: center;
     padding: 1rem;
     background: #242F40;
     border-bottom: 2px solid #ccc;
@@ -48,7 +51,7 @@ body {
 }
 
 .search-input {
-    flex: 1; /* allow the input to grow */
+    flex: 1;
     max-width: 400px;
     padding: 0.5rem;
     font-size: 1rem;
@@ -63,16 +66,16 @@ body {
     font-weight: bold;
     cursor: pointer;
     transition: background 0.3s;
+    border-radius: 4px;
 }
 .filter-btn:hover {
-    background: #F4B942;
+    background: #e8ac2c; /* slightly darker orange on hover */
 }
 
 /* SCROLLABLE BUDDY GRID CONTAINER */
 .buddy-grid-container {
-    max-height: 70vh; /* or a fixed px height, e.g. 600px */
-    overflow-y: auto; /* enable vertical scroll */
-    margin: 1rem 2rem; /* spacing from sides */
+    overflow-y: auto;
+    margin: 1rem 2rem;
     scrollbar-color: #F4B942 #4059AD;
     scrollbar-width: auto;
 }
@@ -80,34 +83,55 @@ body {
 /* BUDDY GRID */
 .buddy-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 columns */
-    grid-gap: 1rem;
-    padding: 1rem 0;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1rem;
+    padding: 3rem 0;
+    max-height: 100vh;
+    overflow-y: auto;
+    margin: 1rem 2rem;
+    scrollbar-color: #F4B942 #4059AD;
+    scrollbar-width: auto;
 }
 
 .buddy-card {
-    position: relative; /* allow absolute positioning inside */
-    overflow: hidden;   /* ensures the overlay doesn't leak out */
-    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
     text-align: center;
     background: #EEF2F1; /* fallback if no image is loaded */
+    transition: transform 0.2s ease; /* optional hover effect */
+    aspect-ratio: 1/1;
+}
+
+.buddy-card:hover {
+    transform: scale(1.5);
+    z-index: 10; /* bring this card above others */
 }
 
 .buddy-card img {
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
+    object-fit: cover;
 }
 
 .buddy-info {
-    font-size: 2rem;
-    font-weight: initial;
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgb(64, 89, 173, 0.7); /* I want this to be transparent??? */
+    background: rgb(0, 156, 91);
     color: #EEF2F1;
-    padding: 3rem;
+    padding: 5rem;
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.buddy-card:hover .buddy-info {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
 }

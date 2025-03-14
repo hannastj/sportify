@@ -1,131 +1,18 @@
-/* RESET & BASIC STYLES */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* Carousel image */
+.carousel-item img {
+    max-height: 400px;
+    object-fit: cover;
+    width: 100%;
+  }
+
+/* Log out hover effect */
+.logout-hover {
+  background-color: #F4B942; /* Hover color */
+  transition: background-color 0.3s; /* Smooth transition */
+  border-radius: 5px; /* For roundness of the square edges*/
 }
 
+/* Adjusting background colour*/
 body {
-    font-family: Arial, sans-serif;
-    background: #EEF2F1;
-    color: #333;
-}
-
-/* NAVIGATION BAR */
-top.navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #242F40;  /* Dark navy/blue */
-    padding: 1rem 2rem;
-}
-
-.navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #242F40;   /* same color for both navs */
-    padding: 1rem 2rem;    /* same padding => same height */
-    height: 70px;          /* or a fixed height if you want exact size */
-}
-
-.navbar ul {
-    list-style: none;
-    display: flex;
-    gap: 2rem;
-}
-
-.navbar li a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1rem;
-}
-
-/* RIGHT NAV LOGOUT BUTTON */
-.logout-btn {
-    color: #EEF2F1;
-    background: #ccc;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    font-weight: bold;
-    transition: background 0.3s;
-}
-.logout-btn:hover {
-    background: #F4B942;
-}
-
-/* MAIN CAROUSEL SECTION */
-.carousel {
-    width: 100%;
-    height: 400px; /* Adjust to desired height */
-    background: #6B9AC4; /* fallback background color */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-}
-
-.carousel-placeholder {
-    width: 80%;
-    height: 80%;
-    background: #6B9AC4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.carousel-placeholder h2 {
-    font-size: 1.5rem;
-    color: #444;
-}
-
-/* BOTTOM CONTENT: TWO COLUMNS */
-.bottom-content {
-    display: flex;
-    gap: 2rem;
-    padding: 2rem;
-    /* Optional: background: #fff; or keep it transparent */
-}
-
-/* LEFT COLUMN: DESCRIPTION */
-.description-box {
-    flex: 1;
-    background: #EEF2F1;
-    padding: 1.5rem;
-    border-radius: 6px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-}
-.description-box h2 {
-    margin-bottom: 1rem;
-}
-.description-box p {
-    line-height: 1.6;
-}
-
-/* RIGHT COLUMN: SPORTS EVENT IMAGE */
-.event-image-box {
-    flex: 1;
-    background: #EEF2F1;
-    padding: 1.5rem;
-    border-radius: 6px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-}
-.event-image-box h2 {
-    margin-bottom: 1rem;
-}
-/* Placeholder area for event image */
-.event-img-placeholder {
-    width: 100%;
-    height: 250px;
-    border: 2px dashed #777;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #EEF2F1;
-}
-.event-img-placeholder p {
-    color: #555;
-}
-
+    background-color: #6B9AC4 !important;
+  }
