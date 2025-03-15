@@ -37,6 +37,7 @@ def event_feed_view(request):
     return render(request, 'events_app/event_feed.html')
 
 #---------------- CREATING AN EVENT ---------------------
+@login_required
 def create_event_view(request):
     if request.method == 'POST':
         form = WorkoutEventForm(request.POST)
@@ -44,7 +45,7 @@ def create_event_view(request):
             event = form.save(commit=False)
             event.host = request.user
             event.save()
-            return redirect('event_detail', event_id=event.id)
+            return redirect('events_app:events')
     else:
         form = WorkoutEventForm()
     return render(request, 'events_app/create_event.html', {'form': form})
