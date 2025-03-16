@@ -19,8 +19,7 @@ urlpatterns = [
     path('home/', home_view, name='home'),
     path('buddyup/', buddyup_view, name='buddyup'),
     path('profile/', profile_view, name='profile'),
-    path('events/', events_view, name= 'events'),
-#<!-- # <a href="{% url 'contact' %}">CONTACT US</a>     we will need a contact us page -->
+
 
     # REDIRECT PAGES
     path('verification/', verification_prompt_view, name='verification'),
