@@ -3,69 +3,120 @@
 <html>
 <head>
     <title>Edit Profile</title>
+    <link rel="stylesheet" href="{% static 'css/editprofile.css' %}">
 </head>
 <body>
     <h1>Edit Your Profile</h1>
 
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        
-        <div class="form-field">
-            {{ form.profile_picture.label_tag }}<br>
-            {{ form.profile_picture }}
-            {% for error in form.profile_picture.errors %}
-                <div style="color: red;">{{ error }}</div>
-            {% endfor %}
-        </div>
-
-        <div class="form-field">
-            {{ form.background_photo.label_tag }}<br>
-            {{ form.background_photo }}
-            {% for error in form.background_photo.errors %}
-                <div style="color: red;">{{ error }}</div>
-            {% endfor %}
-        </div>
-
-        <!-- Render the remaining fields (customize as needed) -->
-        <div class="form-field">
-            {{ form.first_name.label_tag }}<br>
-            {{ form.first_name }}
-            {% for error in form.first_name.errors %}
-                <div style="color: red;">{{ error }}</div>
-            {% endfor %}
-        </div>
-        <!-- Add additional fields similarly... -->
-
-        {% for field in form %}
-            {% if field.name not in "profile_picture background_photo first_name" %}
+     
+        <div class="edit_profile">
+            <!-- Left Column -->
+            <div class="left-col">
+                <h2>Photos</h2>
                 <div class="form-field">
-                    {{ field.label_tag }}<br>
-                    {{ field }}
-                    {% if field.name == "bio" %}
-                        <div id="char-counter">
-                            Characters left: <span id="char-count">250</span>
-                        </div>
-                    {% endif %}
-                    {% for error in field.errors %}
+                    {{ form.profile_picture.label_tag }}<br>
+                    {{ form.profile_picture }}
+                    {% for error in form.profile_picture.errors %}
                         <div style="color: red;">{{ error }}</div>
                     {% endfor %}
                 </div>
-            {% endif %}
-        {% endfor %}
+                <div class="form-field">
+                    {{ form.background_photo.label_tag }}<br>
+                    {{ form.background_photo }}
+                    {% for error in form.background_photo.errors %}
+                        <div style="color: red;">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Center Column -->
+            <div class="center-col">
+                <h2>Personal Details</h2>
+                <div class="form-field">
+                    {{ form.first_name.label_tag }}<br>
+                    {{ form.first_name }}
+                    {% for error in form.first_name.errors %}
+                        <div style="color: red;">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="form-field">
+                    {{ form.last_name.label_tag }}<br>
+                    {{ form.last_name }}
+                    {% for error in form.last_name.errors %}
+                        <div style="color: red;">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                {% for field in form %}
+                    {% if field.name not in "profile_picture background_photo first_name last_name clubs gym" %}
+                        <div class="form-field">
+                            {{ field.label_tag }}<br>
+                            {{ field }}
+                            {% if field.name == "bio" %}
+                                <div id="char-counter">
+                                    Characters left: <span id="char-count">250</span>
+                                </div>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div style="color: red;">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <!-- Right Column -->
+            <div class="right-col">
+                <h2>Gyms and Clubs</h2>
+                <div class="form-field">
+                    {{ form.gym.label_tag }}<br>
+                    {{ form.gym }}
+                    {% for error in form.gym.errors %}
+                        <div style="color: red;">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="form-field">
+                    {{ form.clubs.label_tag }}<br>
+                    <ul class="clubs-list">
+                        {% for club in form.clubs %}
+                            {% if forloop.counter <= 5 %}
+                                <li>{{ club }}</li>
+                            {% else %}
+                                <li class="hidden-club" style="display: none;">{{ club }}</li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if form.clubs|length > 5 %}
+                        <li>
+                            <a href="#" class="toggle-clubs" onclick="toggleItems(this, 'hidden-club'); return false;">
+                                See more
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                    {% for error in form.clubs.errors %}
+                        <div style="color: red;">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
 
         <button type="submit">Save Changes</button>
     </form>
 
-    <a href="{% url 'profile' %}">Back to Profile</a>
+    <a href="{% url 'profile' %}" style="color: rgb(255, 255, 255);">Back to Profile</a>
 
-    <!-- JavaScript for dynamic character count -->
+    <!-- Include external JS file -->
+    <script src="{% static 'js/editprofile.js' %}"></script>
+
+    <!-- Dynamic character count for bio -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         const bioField = document.getElementById('bio');
         const charCountDisplay = document.getElementById('char-count');
         const maxChars = 250;
         
-        // Update initial count
         charCountDisplay.textContent = maxChars - (bioField.value ? bioField.value.length : 0);
 
         bioField.addEventListener('input', function() {

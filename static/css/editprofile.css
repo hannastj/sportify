@@ -1,0 +1,48 @@
+.edit_profile {
+    display: flex;
+    gap: 20px;  /* Adjusts the spacing between columns */
+    align-items: flex-start; /* Aligns columns at the top */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #4059AD;
+    color: #000000;
+}
+
+
+/* Three columns of equal width */
+.left-col {
+    flex: 1;
+    background: #EEF2F1;
+    padding: 1rem;
+    border-radius: 6px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+
+.center-col{
+    flex: 1;
+    background: #EEF2F1;
+    padding: 1rem;
+    border-radius: 6px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.right-col {
+    flex: 1;
+    background: #EEF2F1;
+    padding: 1rem;
+    border-radius: 6px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);     
+}
+
+/* Basic styling for each form field */
+.form-field {
+    margin-bottom: 15px;
+}
+
+/* Styling for the submit button */
+button {
+    margin-top: 20px;
+}
