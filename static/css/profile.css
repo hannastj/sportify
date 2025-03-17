@@ -84,19 +84,20 @@ body {
     display: block;
 }
 
+.heading-container {
+    text-align: center;
+    margin-bottom: 20px; /* Adds space below the heading */
+  }
+  
 /* Name Box */
-.user-name-box {
-    position: absolute;
-    bottom: 0;
-    left: 20rem; /* place to the right of the profile image */
-    width: 15%;
-    background: #F4B942;
-    color: #fff;
-    padding: 1rem 2rem;
-    font-weight: bold;
-    font-size: 2rem;
-    border-radius: 10px;
-}
+.heading-container h2.center-heading {
+    text-align: center;
+    display: inline-block;
+    background-color: #F4B942;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: underline;
+  }
 
 /* PROFILE DESCRIPTION BAR */
 .profile-description-bar {

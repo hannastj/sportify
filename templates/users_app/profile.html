@@ -9,6 +9,10 @@
 {% block title %}My Profile - Sportify{% endblock %}
 
 {% block content %}
+  <!-- Heading Container with Centered Heading -->
+  <div class="heading-container">
+    <h2 class="center-heading">{{ user.username }}</h2>
+  </div>
 
 <!-- LARGE BACKGROUND / PROFILE HEADER -->
 <section class="profile-header">
@@ -31,11 +35,6 @@
         {% else %}
             <img src="{% static 'images/blank-profile-picture.jpg' %}" alt="Default Pic">
         {% endif %}
-    </div>
-
-    <!-- Overlapping name box -->
-    <div class="user-name-box">
-        <p>{{ user.username }}</p>
     </div>
 </section>
 
