@@ -19,13 +19,12 @@ urlpatterns = [
     path('buddyup/', buddyup_view, name='buddyup'),
     path('profile/', profile_view, name='profile'),
 
-
     # REDIRECT PAGES
-    path('verification/', verification_prompt_view, name='verification'),
     path('logout/', logout_view, name='logout'),
-    path('social/buddylist/', buddy_list_view, name='buddyup'),
+    path('buddylist/', buddy_list_view, name='buddyup'),
     path('profile/edit/', edit_profile_view, name='edit_profile'),
     path('buddy/<int:user_id>/', buddy_profile_view, name='buddy_profile'),
+    path('ajax/buddy-search/', buddyup_view, name='buddy_search'),
 ]
 
 if settings.DEBUG:

@@ -30,24 +30,23 @@
 }
 .buddy-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
-    position: relative;
     overflow: visible;
 }
 .buddy-card {
     position: relative;
     overflow: hidden;
-    border-radius: 20px; /* radius on corners */
-    text-align: center;
+    border-radius: 20px;
+    transform-origin: center center;
     transition: transform 0.5s ease;
-    aspect-ratio: 1/1;
 }
 .buddy-card img {
     width: 100%;
     height: 100%;
-    display: block;
     object-fit: cover;
+    display: block;
+    overflow: hidden;
 }
 .buddy-info {
     position: absolute;
@@ -55,17 +54,33 @@
     left: 0;
     right: 0;
     bottom: 0;
+    flex-direction: column;
+    justify-content: center;
     color: #EEF2F1;
     display: flex;
     align-items: center;
-    justify-content: center;
     text-align: center;
     font-style: oblique;
     opacity: 0;                    /* hidden by default */
-    transition: transform 0.5s ease, opacity 0.5s ease;
+    transition: transform 0.3s ease, opacity 0.5s ease;
 }
 .buddy-card:hover .buddy-info {
     transform: translateY(0);
     opacity: 0.7;
     pointer-events: auto;
+    border-radius: 20px;
+    z-index: 10;
+}
+
+.buddy-request-btn {
+    margin-top: 0.5rem; /* some spacing */
+    background-color: #F4B942;
+    color: #242F40;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.buddy-request-btn:hover {
+    background-color: #e0a62f; /* a slightly darker shade on hover */
 }
