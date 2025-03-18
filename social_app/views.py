@@ -39,27 +39,20 @@ def buddy_requests_list_view(request):
     return render(request, 'social_app/buddy_requests.html', {'incoming': incoming, 'outgoing': outgoing})
 
 #---------------- BUDDY SEARCH ---------------------
-def search_buddy_view(request):
-    # We'll assume you pass the query as a GET param named 'q'
+def buddy_search_view(request):
     query = request.GET.get('q', '')
     UserModel = get_user_model()
-
-    # Filter users by username (case-insensitive)
-    # e.g., if query = 'kerr', matches 'Kerr', 'kerrigan', etc.
     buddies = UserModel.objects.filter(username__icontains=query)
-
-    # Build a list of dicts to return as JSON
     results = []
+
     for buddy in buddies:
         results.append({
-            'id': buddy.id,
-            'username': buddy.username,
+            'id': buddy.user.id,
+            'username': buddy.user.username,
             'age': buddy.age if hasattr(buddy, 'age') else None,
-            # or any other fields you want
         })
 
     return JsonResponse({'results': results})
-
 
 #---------------- BUDDY PROFILE VIEW ---------------------
 def buddy_profile_view(request, user_id):

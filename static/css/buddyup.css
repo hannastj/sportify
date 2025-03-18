@@ -1,46 +1,12 @@
-/* RESET & BASIC STYLES */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-body {
-    font-family: Arial, sans-serif;
-    background: #242F40;
-    color: #242F40;
-}
-.top-nav {
-    position: relative;      /* so we can set a higher z-index if needed */
-    z-index: 999;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #242F40;
-    padding: 1rem 2rem;
-    height: 70px;
-}
-.top-nav .nav-left a,
-.top-nav .nav-right a {
-    color: #EEF2F1;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1rem;
-    margin-right: 1rem; /* optional spacing */
-}
-.top-nav .nav-center h1 {
-    color: #EEF2F1;
-    font-size: 1.5rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
 .search-row {
+    position: absolute;
+    top: 8px;        /* place it near top */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    border-radius: 50px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    background: #242F40;
-    border-bottom: 2px solid #ccc;
-    gap: 1rem;
 }
 .search-input {
     flex: 1;
@@ -50,7 +16,7 @@ body {
     border: 1px solid #ccc;
 }
 .filter-btn {
-    background: #F4B942; /* orange color for filters button */
+    background: #F4B942;
     border: none;
     color: #EEF2F1;
     padding: 0.5rem 1rem;
@@ -59,16 +25,9 @@ body {
     transition: background 0.3s;
     border-radius: 4px;
 }
-.filter-btn:hover {
-    background: #F4B942; /* slightly darker orange on hover */
-}
-
-/* SCROLLABLE BUDDY GRID CONTAINER */
 .buddy-grid-container {
     margin: 2rem;
 }
-
-/* BUDDY GRID */
 .buddy-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -76,8 +35,6 @@ body {
     position: relative;
     overflow: visible;
 }
-
-/* BUDDY CARD */
 .buddy-card {
     position: relative;
     overflow: hidden;
@@ -86,15 +43,12 @@ body {
     transition: transform 0.5s ease;
     aspect-ratio: 1/1;
 }
-
-/* IMAGE INSIDE BUDDY CARD */
 .buddy-card img {
     width: 100%;
     height: 100%;
     display: block;
     object-fit: cover;
 }
-
 .buddy-info {
     position: absolute;
     top: 0;
@@ -106,11 +60,10 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 1rem;
+    font-style: oblique;
     opacity: 0;                    /* hidden by default */
     transition: transform 0.5s ease, opacity 0.5s ease;
 }
-
 .buddy-card:hover .buddy-info {
     transform: translateY(0);
     opacity: 0.7;
