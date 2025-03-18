@@ -1,0 +1,11 @@
+/* Log out hover effect */
+.logout-hover {
+    background-color: #F4B942; /* Hover color */
+    transition: background-color 0.3s; /* Smooth transition */
+    border-radius: 5px; /* For roundness of the square edges*/
+  }
+
+/* Font */
+body {
+    font-family: "Montserrat", sans-serif;
+  }
