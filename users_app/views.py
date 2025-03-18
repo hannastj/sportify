@@ -7,10 +7,23 @@ from .models import CustomUser
 from django import forms
 from events_app.models import WorkoutEvent
 from .forms import ProfileUpdateForm
+from django.utils import timezone
+from django.db.models import Q
 
 #----------------------- HOME PAGE  ----------------------------
 def home_view(request):
-    return render(request, 'users_app/home.html')
+    next_event = None
+    if request.user.is_authenticated:
+        now = timezone.now()
+        # Retrieve events where the user is the host or a participant,
+        # and the event's start time is in the future.
+        upcoming_events = WorkoutEvent.objects.filter(
+            Q(host=request.user) | Q(participants=request.user),
+            start_time__gte=now
+        ).order_by('start_time')
+        if upcoming_events.exists():
+            next_event = upcoming_events.first()
+    return render(request, 'users_app/home.html', {'next_event': next_event})
 
 #----------------------- PROFILE PAGE  ----------------------------
 @login_required
@@ -24,14 +37,6 @@ def profile_view(request):
     }
     return render(request, 'users_app/profile.html', context)
 
-#Stuff for profile page will be here!!
-
-
-#---------------------- EDIT PROFILE ------------------------
-class ProfileUpdateForm(forms.ModelForm):
-    class Meta:
-        model = CustomUser
-        fields = ('profile_picture', 'age', 'bio', 'clubs')  # add any extra fields here
 
 #----------------------- VERIFICATION PROMPT  ----------------------------
 def verification_prompt_view(request):

@@ -1,12 +1,16 @@
 from django.urls import path
-from events_app import views
+from . import views
 
 app_name = 'events_app'
 
 urlpatterns = [
+    path('', views.events_view, name='events'),
+    path('create/', views.create_event_view, name='create_event'), 
     path('search-events/', views.search_events_view, name='search_events'),
-    path('events/', views.events_view, name='events'),
-    path('events/create/', views.create_event_view, name='create_event'),
-    path('events/<int:event_id>/join/', views.join_event_view, name='join_event'),
-    path('events/<int:event_id>/leave/', views.leave_event_view, name='leave_event'),
+    path('<int:event_id>/join/', views.join_event_view, name='join_event'), 
+    path('<int:event_id>/leave/', views.leave_event_view, name='leave_event'), 
+    path('my/', views.my_events_view, name='my_events'),
+    path('<int:event_id>/delete/', views.delete_event_view, name='delete_event'),
+    path('public/', views.public_events_view, name='public_events'),
+    path('private/', views.private_events_view, name='private_events'),
 ]

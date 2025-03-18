@@ -41,18 +41,20 @@ class RegistrationForm(UserCreationForm):
             raise forms.ValidationError("Email must be a University of Glasgow student Email")
         return email
 
-class ProfileUpdateForm(forms.ModelForm):
-    clubs = forms.ModelMultipleChoiceField(
-        queryset=SportsClub.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=False
-    )
-    gym = forms.ModelMultipleChoiceField(
-        queryset=Gym.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=False
-    )
+    
+class ProfileUpdateForm(forms.ModelForm): 
+    first_name = forms.CharField(max_length=30, required=True, help_text="Required.")
+    last_name = forms.CharField(max_length=30, required=True, help_text="Required.")
+
+    clubs = forms.ModelMultipleChoiceField(queryset=SportsClub.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)
+    
+    gym = forms.ModelMultipleChoiceField(queryset=Gym.objects.all(), widget=forms.CheckboxSelectMultiple, required=True, help_text="Required.")
+
+    bio = forms.CharField(widget=forms.Textarea(attrs={'maxlength': '250', 'id': 'bio' }), required=False)
+
+    background_photo = forms.ImageField(required=False, help_text="Optional: Upload a background photo")
+
 
     class Meta:
         model = CustomUser
-        fields = ('profile_picture', 'age', 'bio', 'clubs', 'last_name', 'gym')
+        fields = ('profile_picture', 'background_photo', 'age', 'bio', 'clubs', 'gym', 'first_name', 'last_name')

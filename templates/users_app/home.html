@@ -5,6 +5,10 @@
   Sportify Home
 {% endblock %}
 
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
 {% block content %}
 <!-- CAROUSEL -->
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -20,13 +24,13 @@
   <!-- Carousel Items -->
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="{% static 'images/Carousel1.jpg' %}" class="d-block w-100" alt="Carousel Image 1">
+      <img src="{% static 'images/Carousel3.jpg' %}" class="d-block w-100" alt="Carousel Image 1">
     </div>
     <div class="carousel-item">
       <img src="{% static 'images/Carousel2.jpg' %}" class="d-block w-100" alt="Carousel Image 2">
     </div>
     <div class="carousel-item">
-      <img src="{% static 'images/Carousel3.jpg' %}" class="d-block w-100" alt="Carousel Image 3">
+      <img src="{% static 'images/Carousel1.jpg' %}" class="d-block w-100" alt="Carousel Image 3">
     </div>
   </div>
   <!-- Carousel Controls -->
@@ -43,6 +47,7 @@
 <!-- BOTTOM CONTENT: TWO COLUMNS -->
 <div class="container my-5">
   <div class="row">
+
     <!-- LEFT COLUMN: DESCRIPTION -->
     <div class="col-md-6">
        <div class="p-4 bg-light rounded shadow-sm">
@@ -54,25 +59,36 @@
            </p>
        </div>
     </div>
-    <!-- RIGHT COLUMN: NEXT EVENT -->
-    <div class="col-md-6">
-       <div class="p-4 bg-light rounded shadow-sm">
-           <h2>YOUR NEXT EVENT</h2>
-           <p>Displays the next upcoming event for the user.</p>
-       </div>
+
+<!-- RIGHT COLUMN: NEXT EVENT -->
+<div class="col-md-6">
+  {% if next_event %}
+    <a href="{% url 'events_app:my_events' %}" class="next-event-link text-decoration-none text-dark">
+      <div class="p-4 bg-light rounded shadow-sm">
+        <h2>YOUR NEXT EVENT</h2>
+        <h4>{{ next_event.title }}</h4>
+        <p>
+          {{ next_event.start_time|date:"M d, Y H:i" }} - 
+          {{ next_event.end_time|date:"H:i" }}
+        </p>
+        <p><strong>Location:</strong> {{ next_event.location }}</p>
+      </div>
+    </a>
+  {% else %}
+    <div class="p-4 bg-light rounded shadow-sm">
+      <h2>YOUR NEXT EVENT</h2>
+      <p>You have no upcoming events.</p>
     </div>
-  </div>
+  {% endif %}
 </div>
 {% endblock %}
 
 {% block extra_scripts %}
-<!-- If you have page-specific JS or jQuery code, place it here. -->
-<script>
-  $(document).ready(function() {
-    $('#carouselExampleIndicators').on('slide.bs.carousel', function (e) {
-      console.log("Carousel slide transition started");
-    });
-  });
-</script>
+
+<!-- Loading jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <!-- Loading the JS file -->
+<script src="{% static 'js/home_hover.js' %}"></script>
+
 {% endblock %}
 

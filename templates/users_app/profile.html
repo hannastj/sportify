@@ -1,38 +1,32 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>User Profile</title>
-    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
-</head>
-<body>
 
-<!-- TOP NAV BAR (same size as other pages) -->
-<nav class="navbar">
-    <div class="nav-left">
-        <a href="#">CONTACT US</a> 
-    </div>
-    <div class="nav-center">
-        <h1>NAVIGATION BAR</h1>
-    </div>
-    <div class="nav-right">
-        <a href="{% url 'events' %}">EVENTS</a>
-        <a href="{% url 'home' %}">HOME</a>
-    </div>
-</nav>
+{% block extra_head %}
+  <!-- Profile page CSS only -->
+  <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block title %}My Profile - Sportify{% endblock %}
+
+{% block content %}
 
 <!-- LARGE BACKGROUND / PROFILE HEADER -->
 <section class="profile-header">
     <!-- Background image (inline style for demo, or move to CSS) -->
-    <div class="bg-picture" style="background-color: grey;">
+    <!-- Circular container for the profile image -->
+    <div class="background-image"
+        style="
+        {% if user.background_photo %}
+            background-image: url('{{ user.background_photo.url }}');
+        {% else %}
+            background-color: grey;
+        {% endif %}
+        ">
     </div>
     
-
     <!-- Circular container for the profile image -->
     <div class="profile-image">
         {% if user.profile_picture %}
-            <!-- If the user uploaded a pic, display it -->
             <img src="{{ user.profile_picture.url }}" alt="Profile Pic">
         {% else %}
             <img src="{% static 'images/blank-profile-picture.jpg' %}" alt="Default Pic">
@@ -41,7 +35,7 @@
 
     <!-- Overlapping name box -->
     <div class="user-name-box">
-        <p>{{ user.username }}{% if user.age %} ({{ user.age }}){% endif %}</p>
+        <p>{{ user.username }}</p>
     </div>
 </section>
 
@@ -58,49 +52,100 @@
 
 <!-- MAIN CONTENT: 3 COLUMNS -->
 <div class="profile-content">
+
     <!-- LEFT COLUMN: Age, Gyms, Sports Club, Buddy List -->
     <div class="left-col">
-        <h3>AGE</h3>
-        <p>{{ user.age|default:"Not specified" }}</p>
-        <h3>GYMS</h3>
-        <p>
-            {% for gym in user.gym.all %}
-                {{ gym.name }}{% if not forloop.last %}, {% endif %}
-            {% endfor %}
-        </p>
+        <!-- Row with AGE + Edit Profile on the same line -->
+        <div class="title-edit-row">
+            <h3> 
+                <span>Profile Details</span> 
+                <a href="{% url 'edit_profile' %}" style="font-size: small;">Edit Profile</a> 
+            </h3>
+        </div>
+
+        <div>
+            <h3>
+                AGE
+            </h3>
+        </div>
+    <!-- User's age on its own line -->
+    <p>{{ user.age|default:"Not specified" }}</p>
+
+        <!-- SPORTS CLUB -->
         <h3>SPORTS CLUB</h3>
-        <p>
-            {% for club in user.clubs.all %}
-                {{ club.name }}{% if not forloop.last %}, {% endif %}
-            {% empty %}
-                None selected
-            {% endfor %}
-        </p>
+        <ul class="list-group">
+        {% with clubs=user.clubs.all %}
+            {% if clubs|length > 5 %}
+                {% for club in clubs|slice:":5" %}
+                    <li class="list-group-item">{{ club.name }}</li>
+                {% endfor %}
+                <!-- Hidden clubs (beyond the first 5) -->
+                {% for club in clubs|slice:"5:" %}
+                    <li class="list-group-item hidden-club" style="display: none;">{{ club.name }}</li>
+                {% endfor %}
+                <!-- Toggle link -->
+                <li class="list-group-item">
+                    <a href="#" 
+                    class="toggle-clubs"
+                    onclick="toggleItems(this, 'hidden-club'); return false;">
+                    See more
+                    </a>
+                </li>
+            {% else %}
+                {% for club in clubs %}
+                    <li class="list-group-item">{{ club.name }}</li>
+                {% empty %}
+                    <li class="list-group-item">None selected</li>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        </ul>
+
+        <!-- BUDDY LIST -->
         <h3>BUDDY LIST</h3>
-        <p>
-            {% for buddy in user.buddies.all %}
-                {{ buddy.username }}{% if not forloop.last %}, {% endif %}
-            {% empty %}
-                No buddies yet
-            {% endfor %}
-        </p>
+        <ul class="list-group">
+        {% with buddies=user.buddies.all %}
+            {% if buddies|length > 5 %}
+                {% for buddy in buddies|slice:":5" %}
+                    <li class="list-group-item">{{ buddy.username }}</li>
+                {% endfor %}
+                <!-- Hidden buddies (beyond the first 5) -->
+                {% for buddy in buddies|slice:"5:" %}
+                    <li class="list-group-item hidden-buddy" style="display: none;">{{ buddy.username }}</li>
+                {% endfor %}
+                <!-- Toggle link -->
+                <li class="list-group-item">
+                    <a href="#"
+                    class="toggle-buddies"
+                    onclick="toggleItems(this, 'hidden-buddy'); return false;">
+                    See more
+                    </a>
+                </li>
+            {% else %}
+                {% for buddy in buddies %}
+                    <li class="list-group-item">{{ buddy.username }}</li>
+                {% empty %}
+                    <li class="list-group-item">No buddies yet</li>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        </ul>
     </div>
 
     <!-- CENTER COLUMN: Create Event / My Events -->
     <div class="center-col">
         <!-- Tabs Row -->
         <div class="tabs-row">
-            <button class="tab-btn active" data-tab="create-event">Create Event</button>
-            <button class="tab-btn" data-tab="my-events">My Events</button>
+            <button class="tab-btn active" data-tab="my-events">My Events</button>
+            <button class="tab-btn" data-tab="create-event">Create Event</button>
         </div>
 
         <!-- Tab Content Wrapper -->
         <div class="tab-content-area">
             <!-- CREATE EVENT CONTENT -->
-            <div class="tab-content active" id="create-event">
+            <div class="tab-content" id="create-event">
                 <h2>Create Event</h2>
                 <p>Form or fields for creating an event go here.</p>
-                <!-- Example form (replace with real Django form) -->
                 <form method="POST">
                     {% csrf_token %}
                     <!-- your event fields, e.g. title, date, location... -->
@@ -109,7 +154,7 @@
             </div>
 
             <!-- MY EVENTS CONTENT -->
-            <div class="tab-content" id="my-events">
+            <div class="tab-content active" id="my-events">
                 <h2>My Events</h2>
                 
                 <div class="events-section">
@@ -140,33 +185,9 @@
             </div>
         </div>
     </div>
+      
+{% endblock %}
 
-    <!-- RIGHT COLUMN: Settings + Upload New Profile Pic -->
-    <div class="right-col">
-        <h2>Edit Profile</h2>
-
-        <!-- Separate link to edit profile -->
-        <a href="{% url 'edit_profile' %}">Edit Profile</a>
-
-    </div>
-</div>
-
-<!-- Script for Tab Switching (same as before) -->
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const tabButtons = document.querySelectorAll('.tab-btn');
-        const tabContents = document.querySelectorAll('.tab-content');
-        tabButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                tabButtons.forEach(b => b.classList.remove('active'));
-                tabContents.forEach(tc => tc.classList.remove('active'));
-                btn.classList.add('active');
-                const targetId = btn.getAttribute('data-tab');
-                document.getElementById(targetId).classList.add('active');
-            });
-        });
-    });
-</script>
-
-</body>
-</html>
+{% block extra_scripts %}
+  <script src="{% static 'js/profile.js' %}"></script>
+{% endblock %}

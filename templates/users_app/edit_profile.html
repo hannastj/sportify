@@ -9,11 +9,70 @@
 
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
+        
+        <div class="form-field">
+            {{ form.profile_picture.label_tag }}<br>
+            {{ form.profile_picture }}
+            {% for error in form.profile_picture.errors %}
+                <div style="color: red;">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-field">
+            {{ form.background_photo.label_tag }}<br>
+            {{ form.background_photo }}
+            {% for error in form.background_photo.errors %}
+                <div style="color: red;">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <!-- Render the remaining fields (customize as needed) -->
+        <div class="form-field">
+            {{ form.first_name.label_tag }}<br>
+            {{ form.first_name }}
+            {% for error in form.first_name.errors %}
+                <div style="color: red;">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <!-- Add additional fields similarly... -->
+
+        {% for field in form %}
+            {% if field.name not in "profile_picture background_photo first_name" %}
+                <div class="form-field">
+                    {{ field.label_tag }}<br>
+                    {{ field }}
+                    {% if field.name == "bio" %}
+                        <div id="char-counter">
+                            Characters left: <span id="char-count">250</span>
+                        </div>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <div style="color: red;">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endfor %}
+
         <button type="submit">Save Changes</button>
     </form>
 
-    <!-- Optionally, add a link back to the profile page -->
     <a href="{% url 'profile' %}">Back to Profile</a>
+
+    <!-- JavaScript for dynamic character count -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const bioField = document.getElementById('bio');
+        const charCountDisplay = document.getElementById('char-count');
+        const maxChars = 250;
+        
+        // Update initial count
+        charCountDisplay.textContent = maxChars - (bioField.value ? bioField.value.length : 0);
+
+        bioField.addEventListener('input', function() {
+          const remaining = maxChars - this.value.length;
+          charCountDisplay.textContent = remaining >= 0 ? remaining : 0;
+        });
+      });
+    </script>
 </body>
 </html>

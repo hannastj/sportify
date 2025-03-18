@@ -1,107 +1,130 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Events Page</title>
-    <link rel="stylesheet" href="{%static 'css/events.css' %}">
-</head>
-<body>
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/events.css' %}">
+<div class="row">
 
-<!-- TOP NAV BAR (Same size as your other pages) -->
-<nav class="navbar">
-    <div class="nav-left">
-        <a href="#">CONTACT</a>
-    </div>
-    <div class="nav-center">
-        <h1>NAVIGATION BAR</h1>
-    </div>
-    <div class="nav-right">
-        <a href="#">PROFILE</a>
-    </div>
-</nav>
+<!-- Sidebar -->
+<aside class="col-md-3 mb-4 ps-4 pe-4">
+  <div class="list-group">
+    <a href="{% url 'events_app:create_event' %}" 
+       class="list-group-item add-event-btn text-center my-2 py-3">
+       + Add Event
+    </a>
+    <a href="{% url 'events_app:private_events' %}" 
+       class="list-group-item list-group-item-action rounded my-2 py-3 text-center {% if request.resolver_match.url_name == 'private_events' %}active{% endif %}">
+       Private
+    </a>
+    <a href="{% url 'events_app:public_events' %}" 
+      class="list-group-item list-group-item-action rounded my-2 py-3 text-center {% if request.resolver_match.url_name == 'public_events' %}active{% endif %}">
+      Public
+    </a>
+    <a href="{% url 'events_app:my_events' %}" 
+      class="list-group-item list-group-item-action rounded my-2 py-3 text-center {% if request.resolver_match.url_name == 'my_events' %}active{% endif %}">
+       My Events
+    </a>
+  </div>
+</aside>
 
-<!-- MAIN CONTAINER SPLIT: LEFT SIDEBAR & RIGHT CONTENT -->
-<div class="main-container">
+  <!-- Main Content Area -->
+  <section class="col-md-9">
+    <!-- Search Bar -->
+    <form method="GET" action="{% url 'events_app:search_events' %}" class="mb-3">
+      <div class="input-group">
+        <input type="text" name="q" class="form-control" placeholder="Search events...">
+        <button class="btn btn-outline-secondary" type="submit">Search</button>
+      </div>
+    </form>
 
-    <!-- LEFT SIDEBAR -->
-    <aside class="left-sidebar">
-        <button class="sidebar-btn">+ ADD EVENT</button>
-        <button class="sidebar-btn">PRIVATE</button>
-        <button class="sidebar-btn">PUBLIC</button>
-        <button class="sidebar-btn">MY EVENTS</button>
-    </aside>
+    {% if search %}
+      <div class="mb-3">
+        <h2>Search Results for "{{ q }}"</h2>
+      </div>
+    {% endif %}
 
-    <!-- RIGHT CONTENT AREA -->
-    <section class="right-content">
+    <!-- Events List -->
+    <div class="list-group events-list">
+      {% for event in events %}
+        <div class="list-group-item mb-3">
+          <div class="row align-items-center">
+            
+            <!-- 1) PROFILE PICTURE + USERNAME -->
+            <div class="col-md-2 text-center">
+              {% if event.host.profile_picture %}
+                <img src="{{ event.host.profile_picture.url }}" 
+                     alt="{{ event.host.username }}" 
+                     class="img-fluid rounded-circle mb-2">
+              {% else %}
+                <img src="https://via.placeholder.com/80" 
+                     alt="{{ event.host.username }}" 
+                     class="img-fluid rounded-circle mb-2">
+              {% endif %}
+              <p class="mb-0">{{ event.host.username }}</p>
+            </div>
+    
 
-        <!-- SEARCH BAR & FILTERS -->
-        <div class="search-filter-row">
-            <input type="text" class="search-input" placeholder="Search...">
-            <button class="filter-btn">FILTERS</button>
+            <!-- 2) TITLE, DATE/TIME, LOCATION -->
+            <div class="col-md-3">
+              <h5 class="mb-1">{{ event.title }}</h5>
+              <p class="mb-1">
+                {{ event.start_time|date:"M d, Y H:i" }} - 
+                {{ event.end_time|date:"H:i" }}
+              </p>
+              <p class="mb-1">
+                <strong>Location: </strong> {{ event.location }}
+              </p>
+            </div>
+
+            <!-- 3) DESCRIPTION, THEN PARTICIPANTS -->
+            <div class="col-md-4">
+              <p>{{ event.description|truncatewords:25 }}</p>
+              <p class="mb-1">
+                <strong>Participants:</strong>
+                {% if event.participants.all %}
+                  {% for participant in event.participants.all %}
+                    {{ participant.username }}{% if not forloop.last %}, {% endif %}
+                  {% endfor %}
+                {% else %}
+                  None
+                {% endif %}
+              </p>
+            </div>
+    
+            <!-- 4) ACTION BUTTONS -->
+            <div class="col-md-3 text-center">
+              {% if event.host == user %}
+                <!-- The user is the host - show Delete button -->
+                <a href="{% url 'events_app:delete_event' event.id %}" class="btn btn-danger mb-2">
+                  Delete Event
+                </a>
+              {% else %}
+                <!-- Otherwise, show Join/Leave logic -->
+                {% if user in event.participants.all %}
+                  <a href="{% url 'events_app:leave_event' event.id %}" class="btn btn-warning mb-2">
+                    Leave Event
+                  </a>
+                {% else %}
+                  <a href="{% url 'events_app:join_event' event.id %}" class="btn btn-primary mb-2">
+                    Join Event
+                  </a>
+                {% endif %}
+              {% endif %}
+            </div>
+    
+          </div>
         </div>
-
-        <!-- EVENTS LIST (SCROLLABLE IF YOU HAVE MANY EVENTS) -->
-        <div class="events-list">
-            <!-- EVENT ROW 1 -->
-            <div class="event-row">
-                <div class="buddy-info-col">
-                    <img src="https://via.placeholder.com/120x120" alt="Leyla" class="buddy-pic">
-                    <p class="buddy-name">Leyla</p>
-                </div>
-                <div class="event-details-col">
-                    <div class="detail-box">DATE</div>
-                    <div class="detail-box">TIME</div>
-                    <div class="detail-box">SPORT</div>
-                    <div class="detail-box">LOCATION</div>
-                    <div class="detail-box">ATTENDEES</div>
-                </div>
-                <div class="join-col">
-                    <button class="join-btn">REQUEST TO JOIN</button>
-                </div>
-            </div>
-
-            <!-- EVENT ROW 2 -->
-            <div class="event-row">
-                <div class="buddy-info-col">
-                    <img src="https://via.placeholder.com/120x120" alt="Adam" class="buddy-pic">
-                    <p class="buddy-name">Adam</p>
-                </div>
-                <div class="event-details-col">
-                    <div class="detail-box">DATE</div>
-                    <div class="detail-box">TIME</div>
-                    <div class="detail-box">SPORT</div>
-                    <div class="detail-box">LOCATION</div>
-                    <div class="detail-box">ATTENDEES</div>
-                </div>
-                <div class="join-col">
-                    <button class="join-btn">REQUEST TO JOIN</button>
-                </div>
-            </div>
-
-            <!-- EVENT ROW 3 -->
-            <div class="event-row">
-                <div class="buddy-info-col">
-                    <img src="https://via.placeholder.com/120x120" alt="Claire" class="buddy-pic">
-                    <p class="buddy-name">Claire</p>
-                </div>
-                <div class="event-details-col">
-                    <div class="detail-box">DATE</div>
-                    <div class="detail-box">TIME</div>
-                    <div class="detail-box">SPORT</div>
-                    <div class="detail-box">LOCATION</div>
-                    <div class="detail-box">ATTENDEES</div>
-                </div>
-                <div class="join-col">
-                    <button class="join-btn">REQUEST TO JOIN</button>
-                </div>
-            </div>
-
-            <!-- Add more .event-row as needed -->
+      {% empty %}
+        <div class="list-group-item">
+          <p>No events found.</p>
         </div>
-    </section>
-
+      {% endfor %}
+    </div>
+  </section>
 </div>
 
-</body>
-</html>
+<!-- Loading jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <!-- Loading the JS file -->
+<script src="{% static 'js/events_hover.js' %}"></script>
+
+{% endblock %}
