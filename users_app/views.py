@@ -9,6 +9,7 @@ from events_app.models import WorkoutEvent
 from .forms import ProfileUpdateForm
 from django.utils import timezone
 from django.db.models import Q
+from events_app.forms import WorkoutEventForm
 
 #----------------------- HOME PAGE  ----------------------------
 def home_view(request):
@@ -28,12 +29,24 @@ def home_view(request):
 #----------------------- PROFILE PAGE  ----------------------------
 @login_required
 def profile_view(request):
+    if request.method == "POST" and 'create_event' in request.POST:
+        event_form = WorkoutEventForm(request.POST)
+        if event_form.is_valid():
+            new_event = event_form.save(commit=False)
+            new_event.host = request.user  # Set the current user as the host
+            new_event.save()
+            # Optionally handle many-to-many fields here
+            return redirect('profile')
+    else:
+        event_form = WorkoutEventForm()
+
     hosted_events = WorkoutEvent.objects.filter(host=request.user)
     participated_events = request.user.participated_events.all()
     context = {
         'user': request.user,
         'hosted_events': hosted_events,
         'participated_events': participated_events,
+        'event_form': event_form,
     }
     return render(request, 'users_app/profile.html', context)
 

@@ -29,7 +29,6 @@ class CustomUser(AbstractUser):
     age = models.PositiveIntegerField(null=True, blank=True)
     bio = models.TextField(blank=True, null=True)
     clubs = models.ManyToManyField(SportsClub, blank=True)
-    background_photo = models.ImageField(upload_to='backgrounds/', blank=True, null=True)
 
      # HANNA added attribute: buddies (friendship links)
     buddies = models.ManyToManyField(

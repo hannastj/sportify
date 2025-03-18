@@ -52,9 +52,6 @@ class ProfileUpdateForm(forms.ModelForm):
 
     bio = forms.CharField(widget=forms.Textarea(attrs={'maxlength': '250', 'id': 'bio' }), required=False)
 
-    background_photo = forms.ImageField(required=False, help_text="Optional: Upload a background photo")
-
-
     class Meta:
         model = CustomUser
-        fields = ('profile_picture', 'background_photo', 'age', 'bio', 'clubs', 'gym', 'first_name', 'last_name')
+        fields = ('profile_picture', 'first_name', 'last_name', 'age', 'bio', 'clubs', 'gym')
