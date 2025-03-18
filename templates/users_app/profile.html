@@ -9,26 +9,10 @@
 {% block title %}My Profile - Sportify{% endblock %}
 
 {% block content %}
-  <!-- Heading Container with Centered Heading -->
-  <div class="heading-container">
-    <h2 class="center-heading">{{ user.username }}</h2>
-  </div>
-
 <!-- LARGE BACKGROUND / PROFILE HEADER -->
 <section class="profile-header">
-    <!-- Background image (inline style for demo, or move to CSS) -->
-    <!-- Circular container for the profile image -->
-    <div class="background-image"
-        style="
-        {% if user.background_photo %}
-            background-image: url('{{ user.background_photo.url }}');
-        {% else %}
-            background-color: grey;
-        {% endif %}
-        ">
-    </div>
     
-    <!-- Circular container for the profile image -->
+    <!-- Profile Image -->
     <div class="profile-image">
         {% if user.profile_picture %}
             <img src="{{ user.profile_picture.url }}" alt="Profile Pic">
@@ -36,6 +20,16 @@
             <img src="{% static 'images/blank-profile-picture.jpg' %}" alt="Default Pic">
         {% endif %}
     </div>
+
+    <!-- Username -->
+    <div class="username-heading">
+        {{ user.username }}
+    </div>
+
+    <div class="users-name">
+        {{ user.first_name }} {{ user.last_name }}
+    </div>
+
 </section>
 
 <!-- PROFILE DESCRIPTION BAR -->
@@ -47,91 +41,79 @@
             No bio.
         {% endif %}
     </h2>
+    
 </section>
 
 <!-- MAIN CONTENT: 3 COLUMNS -->
 <div class="profile-content">
-
-    <!-- LEFT COLUMN: Age, Gyms, Sports Club, Buddy List -->
+    <!-- LEFT COLUMN: Profile Details, Clubs, Buddy List -->
     <div class="left-col">
-        <!-- Row with AGE + Edit Profile on the same line -->
         <div class="title-edit-row">
-            <h3> 
-                <span>Profile Details</span> 
-                <a href="{% url 'edit_profile' %}" style="font-size: small;">Edit Profile</a> 
+            <h3>
+                <span>Profile Details</span>
+                <a href="{% url 'edit_profile' %}" style="font-size: small;">Edit Profile</a>
             </h3>
         </div>
 
         <div>
-            <h3>
-                AGE
-            </h3>
+            <h3>AGE</h3>
         </div>
-    <!-- User's age on its own line -->
-    <p>{{ user.age|default:"Not specified" }}</p>
+        <p>{{ user.age|default:"Not specified" }}</p>
 
         <!-- SPORTS CLUB -->
         <h3>SPORTS CLUB</h3>
         <ul class="list-group">
-        {% with clubs=user.clubs.all %}
-            {% if clubs|length > 5 %}
-                {% for club in clubs|slice:":5" %}
-                    <li class="list-group-item">{{ club.name }}</li>
-                {% endfor %}
-                <!-- Hidden clubs (beyond the first 5) -->
-                {% for club in clubs|slice:"5:" %}
-                    <li class="list-group-item hidden-club" style="display: none;">{{ club.name }}</li>
-                {% endfor %}
-                <!-- Toggle link -->
-                <li class="list-group-item">
-                    <a href="#" 
-                    class="toggle-clubs"
-                    onclick="toggleItems(this, 'hidden-club'); return false;">
-                    See more
-                    </a>
-                </li>
-            {% else %}
-                {% for club in clubs %}
-                    <li class="list-group-item">{{ club.name }}</li>
-                {% empty %}
-                    <li class="list-group-item">None selected</li>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+            {% with clubs=user.clubs.all %}
+                {% if clubs|length > 5 %}
+                    {% for club in clubs|slice:":5" %}
+                        <li class="list-group-item">{{ club.name }}</li>
+                    {% endfor %}
+                    {% for club in clubs|slice:"5:" %}
+                        <li class="list-group-item hidden-club" style="display: none;">{{ club.name }}</li>
+                    {% endfor %}
+                    <li class="list-group-item">
+                        <a href="#" class="toggle-clubs" onclick="toggleItems(this, 'hidden-club'); return false;">
+                        See more
+                        </a>
+                    </li>
+                {% else %}
+                    {% for club in clubs %}
+                        <li class="list-group-item">{{ club.name }}</li>
+                    {% empty %}
+                        <li class="list-group-item">None selected</li>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
         </ul>
 
         <!-- BUDDY LIST -->
         <h3>BUDDY LIST</h3>
         <ul class="list-group">
-        {% with buddies=user.buddies.all %}
-            {% if buddies|length > 5 %}
-                {% for buddy in buddies|slice:":5" %}
-                    <li class="list-group-item">{{ buddy.username }}</li>
-                {% endfor %}
-                <!-- Hidden buddies (beyond the first 5) -->
-                {% for buddy in buddies|slice:"5:" %}
-                    <li class="list-group-item hidden-buddy" style="display: none;">{{ buddy.username }}</li>
-                {% endfor %}
-                <!-- Toggle link -->
-                <li class="list-group-item">
-                    <a href="#"
-                    class="toggle-buddies"
-                    onclick="toggleItems(this, 'hidden-buddy'); return false;">
-                    See more
-                    </a>
-                </li>
-            {% else %}
-                {% for buddy in buddies %}
-                    <li class="list-group-item">{{ buddy.username }}</li>
-                {% empty %}
-                    <li class="list-group-item">No buddies yet</li>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+            {% with buddies=user.buddies.all %}
+                {% if buddies|length > 5 %}
+                    {% for buddy in buddies|slice:":5" %}
+                        <li class="list-group-item">{{ buddy.username }}</li>
+                    {% endfor %}
+                    {% for buddy in buddies|slice:"5:" %}
+                        <li class="list-group-item hidden-buddy" style="display: none;">{{ buddy.username }}</li>
+                    {% endfor %}
+                    <li class="list-group-item">
+                        <a href="#" class="toggle-buddies" onclick="toggleItems(this, 'hidden-buddy'); return false;">
+                        See more
+                        </a>
+                    </li>
+                {% else %}
+                    {% for buddy in buddies %}
+                        <li class="list-group-item">{{ buddy.username }}</li>
+                    {% empty %}
+                        <li class="list-group-item">No buddies yet</li>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
         </ul>
     </div>
 
-    <!-- CENTER COLUMN: Create Event / My Events -->
+    <!-- CENTER COLUMN: Events -->
     <div class="center-col">
         <!-- Tabs Row -->
         <div class="tabs-row">
@@ -144,38 +126,39 @@
             <!-- CREATE EVENT CONTENT -->
             <div class="tab-content" id="create-event">
                 <h2>Create Event</h2>
-                <p>Form or fields for creating an event go here.</p>
                 <form method="POST">
                     {% csrf_token %}
-                    <!-- your event fields, e.g. title, date, location... -->
-                    <button type="submit" class="create-event-btn">Submit Event</button>
+                    {{ event_form.as_p }}
+                    <button type="submit" name="create_event" class="create-event-btn">Submit Event</button>
                 </form>
             </div>
 
             <!-- MY EVENTS CONTENT -->
             <div class="tab-content active" id="my-events">
-                <h2>My Events</h2>
-                
-                <div class="events-section">
-                    <h3>Hosted Events</h3>
+                <!-- Hosted Events Section with Scroll -->
+                    <h3>Hosting Events</h3>
+                <div class="events-section scrollable-events">
                     {% for event in hosted_events %}
                         <div class="event-item">
-                            <strong>{{ event.title }}</strong><br>
-                            <span>{{ event.start_time|date:"M d, Y H:i" }}</span><br>
-                            <span>{{ event.location }}</span>
+                            <strong>Title: {{ event.title }}</strong><br>
+                            <span>Start Time: {{ event.start_time|date:"M d, Y H:i" }}</span><br>
+                            <span>End Time: {{ event.end_time|date:"M d, Y H:i" }}</span><br>
+                            <span>Location: {{ event.location }}</span><br>
                         </div>
                     {% empty %}
                         <div class="event-item">No hosted events found.</div>
                     {% endfor %}
                 </div>
-                
-                <div class="events-section">
-                    <h3>Participated Events</h3>
+
+                <!-- Participated Events Section with Scroll -->
+                <h3>Participating Events</h3>
+                <div class="events-section scrollable-events">
                     {% for event in participated_events %}
                         <div class="event-item">
-                            <strong>{{ event.title }}</strong><br>
-                            <span>{{ event.start_time|date:"M d, Y H:i" }}</span><br>
-                            <span>{{ event.location }}</span>
+                            <strong>Title: {{ event.title }}</strong><br>
+                            <span>Start Time: {{ event.start_time|date:"M d, Y H:i" }}</span><br>
+                            <span>End Time: {{ event.end_time|date:"M d, Y H:i" }}</span><br>
+                            <span>Location: {{ event.location }}</span><br>
                         </div>
                     {% empty %}
                         <div class="event-item">No participated events found.</div>
@@ -184,7 +167,12 @@
             </div>
         </div>
     </div>
-      
+
+    <!-- (Optional) RIGHT COLUMN -->
+    <!-- <div class="right-col">
+        <h2>Additional Info</h2>
+    </div> -->
+</div>
 {% endblock %}
 
 {% block extra_scripts %}
