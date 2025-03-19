@@ -2,8 +2,8 @@
 {% load static %}
 
 {% block extra_head %}
-  <!-- Profile page CSS only -->
-  <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<!-- Profile page CSS only -->
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
 {% endblock %}
 
 {% block title %}My Profile - Sportify{% endblock %}
@@ -11,13 +11,13 @@
 {% block content %}
 <!-- LARGE BACKGROUND / PROFILE HEADER -->
 <section class="profile-header">
-    
+
     <!-- Profile Image -->
     <div class="profile-image">
         {% if user.profile_picture %}
-            <img src="{{ user.profile_picture.url }}" alt="Profile Pic">
+        <img src="{{ user.profile_picture.url }}" alt="Profile Pic">
         {% else %}
-            <img src="{% static 'images/blank-profile-picture.jpg' %}" alt="Default Pic">
+        <img src="{% static 'images/blank-profile-picture.jpg' %}" alt="Default Pic">
         {% endif %}
     </div>
 
@@ -36,24 +36,39 @@
 <section class="profile-description-bar">
     <h2>
         {% if user.bio %}
-            {{ user.bio }}
+        {{ user.bio }}
         {% else %}
-            No bio.
+        No bio.
         {% endif %}
     </h2>
-    
+
 </section>
 
 <!-- MAIN CONTENT: 3 COLUMNS -->
 <div class="profile-content">
     <!-- LEFT COLUMN: Profile Details, Clubs, Buddy List -->
     <div class="left-col">
+
+        {# Only show the "Edit Profile" link if this is the logged-in user's own profile #}
+        {% if user.id == request.user.id %}
         <div class="title-edit-row">
             <h3>
                 <span>Profile Details</span>
                 <a href="{% url 'edit_profile' %}" style="font-size: small;">Edit Profile</a>
             </h3>
         </div>
+        {% else %}
+        <div class="title-edit-row">
+            <h3>
+                <span>Profile Details</span>
+            </h3>
+        </div>
+        <form method="POST" action="{% url 'social_app:send_buddy_request' %}">
+            {% csrf_token %}
+            <input type="hidden" name="buddy_id" value="{{ user.id }}">
+            <button type="submit" class="btn btn-primary">Add Buddy</button>
+        </form>
+        {% endif %}
 
         <div>
             <h3>AGE</h3>
@@ -64,25 +79,25 @@
         <h3>SPORTS CLUB</h3>
         <ul class="list-group">
             {% with clubs=user.clubs.all %}
-                {% if clubs|length > 5 %}
-                    {% for club in clubs|slice:":5" %}
-                        <li class="list-group-item">{{ club.name }}</li>
-                    {% endfor %}
-                    {% for club in clubs|slice:"5:" %}
-                        <li class="list-group-item hidden-club" style="display: none;">{{ club.name }}</li>
-                    {% endfor %}
-                    <li class="list-group-item">
-                        <a href="#" class="toggle-clubs" onclick="toggleItems(this, 'hidden-club'); return false;">
-                        See more
-                        </a>
-                    </li>
-                {% else %}
-                    {% for club in clubs %}
-                        <li class="list-group-item">{{ club.name }}</li>
-                    {% empty %}
-                        <li class="list-group-item">None selected</li>
-                    {% endfor %}
-                {% endif %}
+            {% if clubs|length > 5 %}
+            {% for club in clubs|slice:":5" %}
+            <li class="list-group-item">{{ club.name }}</li>
+            {% endfor %}
+            {% for club in clubs|slice:"5:" %}
+            <li class="list-group-item hidden-club" style="display: none;">{{ club.name }}</li>
+            {% endfor %}
+            <li class="list-group-item">
+                <a href="#" class="toggle-clubs" onclick="toggleItems(this, 'hidden-club'); return false;">
+                    See more
+                </a>
+            </li>
+            {% else %}
+            {% for club in clubs %}
+            <li class="list-group-item">{{ club.name }}</li>
+            {% empty %}
+            <li class="list-group-item">None selected</li>
+            {% endfor %}
+            {% endif %}
             {% endwith %}
         </ul>
 
@@ -90,40 +105,39 @@
         <h3>BUDDY LIST</h3>
         <ul class="list-group">
             {% with buddies=user.buddies.all %}
-                {% if buddies|length > 5 %}
-                    {% for buddy in buddies|slice:":5" %}
-                        <li class="list-group-item">{{ buddy.username }}</li>
-                    {% endfor %}
-                    {% for buddy in buddies|slice:"5:" %}
-                        <li class="list-group-item hidden-buddy" style="display: none;">{{ buddy.username }}</li>
-                    {% endfor %}
-                    <li class="list-group-item">
-                        <a href="#" class="toggle-buddies" onclick="toggleItems(this, 'hidden-buddy'); return false;">
-                        See more
-                        </a>
-                    </li>
-                {% else %}
-                    {% for buddy in buddies %}
-                        <li class="list-group-item">{{ buddy.username }}</li>
-                    {% empty %}
-                        <li class="list-group-item">No buddies yet</li>
-                    {% endfor %}
-                {% endif %}
+            {% if buddies|length > 5 %}
+            {% for buddy in buddies|slice:":5" %}
+            <li class="list-group-item">{{ buddy.username }}</li>
+            {% endfor %}
+            {% for buddy in buddies|slice:"5:" %}
+            <li class="list-group-item hidden-buddy" style="display: none;">{{ buddy.username }}</li>
+            {% endfor %}
+            <li class="list-group-item">
+                <a href="#" class="toggle-buddies" onclick="toggleItems(this, 'hidden-buddy'); return false;">
+                    See more
+                </a>
+            </li>
+            {% else %}
+            {% for buddy in buddies %}
+            <li class="list-group-item">{{ buddy.username }}</li>
+            {% empty %}
+            <li class="list-group-item">No buddies yet</li>
+            {% endfor %}
+            {% endif %}
             {% endwith %}
         </ul>
     </div>
 
-    <!-- CENTER COLUMN: Events -->
+    <!-- CENTER COLUMN -->
     <div class="center-col">
-        <!-- Tabs Row -->
+        {% if user.id == request.user.id %}
+
         <div class="tabs-row">
             <button class="tab-btn active" data-tab="my-events">My Events</button>
             <button class="tab-btn" data-tab="create-event">Create Event</button>
         </div>
 
-        <!-- Tab Content Wrapper -->
         <div class="tab-content-area">
-            <!-- CREATE EVENT CONTENT -->
             <div class="tab-content" id="create-event">
                 <h2>Create Event</h2>
                 <form method="POST">
@@ -133,48 +147,71 @@
                 </form>
             </div>
 
-            <!-- MY EVENTS CONTENT -->
             <div class="tab-content active" id="my-events">
-                <!-- Hosted Events Section with Scroll -->
-                    <h3>Hosting Events</h3>
+                <h3>Hosting Events</h3>
                 <div class="events-section scrollable-events">
                     {% for event in hosted_events %}
-                        <div class="event-item">
-                            <strong>Title: {{ event.title }}</strong><br>
-                            <span>Start Time: {{ event.start_time|date:"M d, Y H:i" }}</span><br>
-                            <span>End Time: {{ event.end_time|date:"M d, Y H:i" }}</span><br>
-                            <span>Location: {{ event.location }}</span><br>
-                        </div>
+                    <div class="event-item">
+                        <strong>Title: {{ event.title }}</strong><br>
+                        <span>Start Time: {{ event.start_time|date:"M d, Y H:i" }}</span><br>
+                        <span>End Time: {{ event.end_time|date:"M d, Y H:i" }}</span><br>
+                        <span>Location: {{ event.location }}</span><br>
+                    </div>
                     {% empty %}
-                        <div class="event-item">No hosted events found.</div>
+                    <div class="event-item">No hosted events found.</div>
                     {% endfor %}
                 </div>
 
-                <!-- Participated Events Section with Scroll -->
                 <h3>Participating Events</h3>
                 <div class="events-section scrollable-events">
                     {% for event in participated_events %}
-                        <div class="event-item">
-                            <strong>Title: {{ event.title }}</strong><br>
-                            <span>Start Time: {{ event.start_time|date:"M d, Y H:i" }}</span><br>
-                            <span>End Time: {{ event.end_time|date:"M d, Y H:i" }}</span><br>
-                            <span>Location: {{ event.location }}</span><br>
-                        </div>
+                    <div class="event-item">
+                        <strong>Title: {{ event.title }}</strong><br>
+                        <span>Start Time: {{ event.start_time|date:"M d, Y H:i" }}</span><br>
+                        <span>End Time: {{ event.end_time|date:"M d, Y H:i" }}</span><br>
+                        <span>Location: {{ event.location }}</span><br>
+                    </div>
                     {% empty %}
-                        <div class="event-item">No participated events found.</div>
+                    <div class="event-item">No participated events found.</div>
                     {% endfor %}
                 </div>
             </div>
         </div>
+        {% else %}
+        <!-- SHOW "USER's EVENTS" IF VIEWING ANOTHER USER -->
+        <h3>{{ user.username }}'s Hosted Events</h3>
+        <div class="events-section scrollable-events">
+            {% for event in hosted_events %}
+            <div class="event-item">
+                <strong>Title: {{ event.title }}</strong><br>
+                <span>Start Time: {{ event.start_time|date:"M d, Y H:i" }}</span><br>
+                <span>End Time: {{ event.end_time|date:"M d, Y H:i" }}</span><br>
+                <span>Location: {{ event.location }}</span><br>
+            </div>
+            {% empty %}
+            <div class="event-item">No hosted events found.</div>
+            {% endfor %}
+        </div>
+
+        <h3>{{ user.username }}'s Participating Events</h3>
+        <div class="events-section scrollable-events">
+            {% for event in participated_events %}
+            <div class="event-item">
+                <strong>Title: {{ event.title }}</strong><br>
+                <span>Start Time: {{ event.start_time|date:"M d, Y H:i" }}</span><br>
+                <span>End Time: {{ event.end_time|date:"M d, Y H:i" }}</span><br>
+                <span>Location: {{ event.location }}</span><br>
+            </div>
+            {% empty %}
+            <div class="event-item">No participated events found.</div>
+            {% endfor %}
+        </div>
+        {% endif %}
     </div>
 
-    <!-- (Optional) RIGHT COLUMN -->
-    <!-- <div class="right-col">
-        <h2>Additional Info</h2>
-    </div> -->
 </div>
 {% endblock %}
 
 {% block extra_scripts %}
-  <script src="{% static 'js/profile.js' %}"></script>
+<script src="{% static 'js/profile.js' %}"></script>
 {% endblock %}
