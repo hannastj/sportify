@@ -42,6 +42,10 @@
       <label for="{{ form.end_time.id_for_label }}" class="form-label">End Time</label>
       {{ form.end_time }}
     </div>
+    <div class="mb-3">
+      <label for="{{ form.is_public.id_for_label }}" class="form-label">Make event public?</label>
+      {{ form.is_public }}
+    </div>
     <button type="submit" class="btn btn-success">Create Event</button>
   </form>
 </div>
