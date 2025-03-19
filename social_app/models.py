@@ -4,6 +4,7 @@ from django.conf import settings
 #-------------------BUDDY REQUEST---------------------------
 class BuddyRequest(models.Model):
     # Users can be a...
+    id = models.AutoField(primary_key=True)
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='sent_requests', on_delete=models.CASCADE)
     receiver = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='received_requests', on_delete=models.CASCADE)
 

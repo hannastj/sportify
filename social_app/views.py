@@ -12,7 +12,7 @@ from django.db.models import Q
 from django.views.decorators.http import require_GET, require_POST
 
 
-#----------------------- BUDDYUP PAGE  ----------------------------
+#----------------------- BUDDYUP PAGE ----------------------------
 def buddyup_view(request):
     return render(request, 'social_app/buddyup.html')
 
@@ -38,18 +38,24 @@ def send_buddy_request_view(request):
 #---------------- ACCEPT OR DECLINE BUDDY REQUEST ---------------------
 @login_required
 @require_POST
-def respond_buddy_request_view(request, request_id):
-    # request_id is the BuddyRequest's primary key
-    buddy_req = get_object_or_404(BuddyRequest, id=request_id, receiver=request.user)
+def respond_buddy_request_view(request: object, request_id: int) -> JsonResponse:
+
+    print(request_id)
+    buddy_req = get_object_or_404(BuddyRequest, id=request_id)
     action = request.POST.get('action')  # "accept" or "reject"
 
     if action == 'accept':
-        buddy_req.accept()
+        buddy_req.status = 'accepted'
+        buddy_req.sender.buddies.add(buddy_req.receiver)
+        buddy_req.receiver.buddies.add(buddy_req.sender)
+        buddy_req.save()
+
     elif action == 'reject':
         buddy_req.status = 'rejected'
-    buddy_req.save()
+        buddy_req.save()
 
     return JsonResponse({'message': f"Buddy request {action}ed", 'request_id': request_id})
+
 
 #---------------- PENDING BUDDY REQUESTS ---------------------
 def buddy_requests_list_view(request):
@@ -83,15 +89,26 @@ def buddy_search_view(request):
 
 #---------------- BUDDY PROFILE VIEW ---------------------
 def buddy_profile_view(request, user_id):
-    UserModel = get_user_model()
-    buddy = get_object_or_404(UserModel, pk=user_id)
+    buddy = get_object_or_404(CustomUser, pk=user_id)
     hosted_events = WorkoutEvent.objects.filter(host=buddy)
     participated_events = WorkoutEvent.objects.filter(participants=buddy)
 
+    # Existing buddy_req logic (if any)
+    buddy_req = BuddyRequest.objects.filter(
+        Q(sender=buddy, receiver=request.user) |
+        Q(sender=request.user, receiver=buddy)
+    ).first()
+
+    # NEW: all incoming requests for 'buddy' if you want to show them on buddy’s profile
+    # If user == buddy, we can show the requests for the same user
+    buddy_incoming_requests = BuddyRequest.objects.filter(receiver=buddy, status='pending')
+
     return render(request, 'users_app/profile.html', {
         'user': buddy,
-        'hosted_events' : hosted_events,
-        'participated_events': participated_events
+        'hosted_events': hosted_events,
+        'participated_events': participated_events,
+        'buddy_req': buddy_req,                # existing single buddy_req logic
+        'buddy_incoming_requests': buddy_incoming_requests,  # new
     })
 
 #---------------- BUDDY LISTING  ---------------------
