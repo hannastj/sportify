@@ -17,9 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     .then(data => {
                         const infoEl = card.querySelector('.buddy-info');
                         infoEl.textContent =
-                            data.username + "\n" +
-                            (data.age !== null ? data.age : "Age not available") + "\n" +
-                            data.bio.replace(/\n/g, " ");
+                            data.username
 
                         //SELECT RANDOM COLOUR UPON HOVER
                         infoEl.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];

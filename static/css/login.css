@@ -10,6 +10,7 @@
     color: #333;
   }
   
+
   /* LEFT SECTION: GRADIENT BACKGROUND & TITLE */
   .left-section {
     /* Bootstrap grid sets width, so we remove width here */
@@ -125,7 +126,7 @@
   }
   
   /* LOGIN ERROR MESSAGE */
-  .error-message {
+  .error-messages {
     color: red;
     font-size: 0.9rem;
     margin-top: 0.5rem;

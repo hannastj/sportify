@@ -10,6 +10,8 @@ from .forms import ProfileUpdateForm
 from django.utils import timezone
 from django.db.models import Q
 from events_app.forms import WorkoutEventForm
+from django.http import JsonResponse
+
 
 #----------------------- HOME PAGE  ----------------------------
 def home_view(request):
@@ -49,11 +51,6 @@ def profile_view(request):
         'event_form': event_form,
     }
     return render(request, 'users_app/profile.html', context)
-
-
-#----------------------- VERIFICATION PROMPT  ----------------------------
-def verification_prompt_view(request):
-    return render(request, 'users_app/verification_prompt.html')
 
 #----------------------- LOGIN/SIGNUP PAGE --------------------------
 def login_view(request):
@@ -103,3 +100,5 @@ def edit_profile_view(request):
         form = ProfileUpdateForm(instance=request.user)
 
     return render(request, 'users_app/edit_profile.html', {'form': form})
+
+

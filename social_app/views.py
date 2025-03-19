@@ -96,9 +96,12 @@ def buddy_profile_view(request, user_id):
 
 #---------------- BUDDY LISTING  ---------------------
 def buddy_list_view(request):
-    buddies = CustomUser.objects.all()
-    return render(request,
-    'social_app/buddyup.html', {'buddies': buddies})
+    buddies = CustomUser.objects.filter(is_active=True)\
+        .exclude(is_staff=True)\
+        .exclude(is_superuser=True)\
+        .exclude(id=request.user.id)
+    return render(request, 'social_app/buddyup.html', {'buddies': buddies})
+
 
 #---------------- BUDDY LISTING DETAIL (AJAX) ---------------------
 def buddy_details_ajax(request, buddy_id):
@@ -108,8 +111,6 @@ def buddy_details_ajax(request, buddy_id):
         raise Http404("Buddy not found")
     data = {
         'username': buddy.username,
-        'age': buddy.age,
-        'bio': buddy.bio
     }
     return JsonResponse(data)
 

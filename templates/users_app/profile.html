@@ -36,7 +36,7 @@
 <section class="profile-description-bar">
     <h2>
         {% if user.bio %}
-        {{ user.bio }}
+        {{ user.bio|linebreaksbr }}
         {% else %}
         No bio.
         {% endif %}
