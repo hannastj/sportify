@@ -1,4 +1,14 @@
 {% extends 'base.html' %}
+
+{% load static %}
+
+{% block extra_head %}
+  <!-- Create Event page CSS -->
+  <link rel="stylesheet" href="{% static 'css/create_event.css' %}">
+{% endblock %}
+
+{% block title %}Create Event - Sportify{% endblock %}
+
 {% block content %}
 <div class="container">
   <h1 class="mt-4 mb-4">Create a New Event</h1>
