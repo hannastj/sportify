@@ -41,7 +41,7 @@ def profile_view(request):
         event_form = WorkoutEventForm()
 
     hosted_events = WorkoutEvent.objects.filter(host=request.user)
-    participated_events = request.user.participated_events.all()
+    participated_events = request.user.participated_events.exclude(host=request.user)
     context = {
         'user': request.user,
         'hosted_events': hosted_events,

@@ -45,7 +45,7 @@
     <!-- Events List -->
     <div class="list-group events-list">
       {% for event in events %}
-        <div class="list-group-item mb-3">
+        <div id="event-item-{{ event.id }}" class="list-group-item mb-3">
           <div class="row align-items-center">
             
             <!-- 1) PROFILE PICTURE + USERNAME -->

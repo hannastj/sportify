@@ -51,11 +51,17 @@ function leaveEvent(eventId) {
     .then(response => response.json())
     .then(data => {
         if (data.status === 'left') {
-            // Update the button for this event
-            const button = document.getElementById(`join-leave-btn-${eventId}`);
-            button.innerText = 'Join Event';
-            button.setAttribute('data-action', 'join');
-            button.className = 'btn btn-primary mb-2';
+            // Check if the event container exists
+            const eventElement = document.getElementById(`event-item-${eventId}`);
+            if (eventElement) {
+                eventElement.remove();  // Remove the event from the DOM immediately
+            } else {
+                // Fallback: update the button if container not found
+                const button = document.getElementById(`join-leave-btn-${eventId}`);
+                button.innerText = 'Join Event';
+                button.setAttribute('data-action', 'join');
+                button.className = 'btn btn-primary mb-2';
+            }
         }
     })
     .catch(error => console.error('Error leaving event:', error));
