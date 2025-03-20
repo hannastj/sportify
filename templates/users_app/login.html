@@ -41,16 +41,18 @@
           <form method="POST" class="form-block">
             {% csrf_token %}
             <input type="hidden" name="register" value="true">
+
+            <!-- Continue with the rest of your form fields -->
             <div class="row mb-2">
-                <div class="col-6">
-                  <div class="form-title">First Name</div>
-                  {{ register_form.first_name }}
-                </div>
-                <div class="col-6">
-                  <div class="form-title">Last Name</div>
-                  {{ register_form.last_name }}
-                </div>
+              <div class="col-6">
+                <div class="form-title">First Name</div>
+                {{ register_form.first_name }}
               </div>
+              <div class="col-6">
+                <div class="form-title">Last Name</div>
+                {{ register_form.last_name }}
+              </div>
+            </div>
             <div class="form-title">UofG Student Email</div>
             {{ register_form.email }}
             <div class="form-title">Username</div>
@@ -66,7 +68,18 @@
             {{ register_form.password2 }}
             <div class="form-title">Gym</div>
             {{ register_form.gym }}
-            <button class="btn btn-warning mt-3 signup-btn" type="submit">SIGN UP</button>
+
+            <!-- Display registration errors here -->
+            {% if register_form.errors %}
+            <div class="error-messages">
+              {% for field, errors in register_form.errors.items %}
+                <p>{{ field }}: {{ errors|join:", " }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          
+          <button class="btn btn-warning mt-3 signup-btn" type="submit">SIGN UP</button>
           </form>
         </div> <!-- .forms-container -->
       </div> <!-- .right-section -->
@@ -75,5 +88,10 @@
 
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>
+
+
+

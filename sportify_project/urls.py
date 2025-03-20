@@ -5,7 +5,7 @@ from events_app.views import events_view
 from social_app.views import buddyup_view, buddy_list_view, buddy_profile_view
 from django.conf import settings
 from django.conf.urls.static import static
-from users_app.views import login_view, home_view, profile_view, verification_prompt_view, logout_view, edit_profile_view
+from users_app.views import login_view, home_view, profile_view, logout_view, edit_profile_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),

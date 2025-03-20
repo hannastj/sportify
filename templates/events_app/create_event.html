@@ -1,4 +1,14 @@
 {% extends 'base.html' %}
+
+{% load static %}
+
+{% block extra_head %}
+  <!-- Create Event page CSS -->
+  <link rel="stylesheet" href="{% static 'css/create_event.css' %}">
+{% endblock %}
+
+{% block title %}Create Event - Sportify{% endblock %}
+
 {% block content %}
 <div class="container">
   <h1 class="mt-4 mb-4">Create a New Event</h1>
@@ -41,6 +51,10 @@
     <div class="mb-3">
       <label for="{{ form.end_time.id_for_label }}" class="form-label">End Time</label>
       {{ form.end_time }}
+    </div>
+    <div class="mb-3">
+      <label for="{{ form.is_public.id_for_label }}" class="form-label">Make event public?</label>
+      {{ form.is_public }}
     </div>
     <button type="submit" class="btn btn-success">Create Event</button>
   </form>

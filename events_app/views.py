@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect, get_object_or_404
+from django.http import JsonResponse, HttpResponseRedirect
+from django.views.decorators.http import require_POST
 from .models import WorkoutEvent
 from .forms import WorkoutEventForm
 from django.contrib.auth.decorators import login_required
@@ -21,20 +23,24 @@ def search_events_view(request):
         ).distinct()
     else:
         events = WorkoutEvent.objects.none()
-    # Optionally, you can add a context variable to indicate a search is active.
+
     context = {'events': events, 'q': q, 'search': True}
     return render(request, 'events_app/events.html', context)
 
 #---------------- JOINING OR LEAVING AN EVENT ---------------------
+@login_required
+@require_POST
 def join_event_view(request, event_id):
     event = get_object_or_404(WorkoutEvent, id=event_id)
     event.participants.add(request.user)
-    return redirect('event_detail', event_id=event.id)
+    return JsonResponse({'status': 'joined', 'event_id': event.id})
 
+@login_required
+@require_POST
 def leave_event_view(request, event_id):
     event = get_object_or_404(WorkoutEvent, id=event_id)
     event.participants.remove(request.user)
-    return redirect('event_detail', event_id=event.id)
+    return JsonResponse({'status': 'left', 'event_id': event.id})
 
 #---------------- BROWSING AN EVENT ---------------------
 from django.utils import timezone
@@ -91,8 +97,14 @@ def public_events_view(request):
     })
 
 #---------------- PRIVATE EVENTS ---------------------
+@login_required
 def private_events_view(request):
-    events = WorkoutEvent.objects.filter(is_public=False)
+    # Return only private events where the host is the logged-in user or one of their buddies.
+    events = WorkoutEvent.objects.filter(
+        is_public=False
+    ).filter(
+        Q(host=request.user) | Q(host__in=request.user.buddies.all())
+    )
     return render(request, 'events_app/events.html', {
         'events': events,
         'active_tab': 'private'

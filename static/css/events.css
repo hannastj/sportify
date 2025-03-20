@@ -53,11 +53,13 @@ body {
   /* Leave buttons */
   .btn-warning {
     background-color: #9f5c03 !important;
+    color: #fff;
     border: none;
   }
   
   /* Delete buttons */
   .btn-danger {
-    background-color: #9f5c03 !important;
+    background-color: #242F40 !important;
+    color: #fff;
     border: none;
   }

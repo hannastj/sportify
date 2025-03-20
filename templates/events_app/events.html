@@ -45,7 +45,7 @@
     <!-- Events List -->
     <div class="list-group events-list">
       {% for event in events %}
-        <div class="list-group-item mb-3">
+        <div id="event-item-{{ event.id }}" class="list-group-item mb-3">
           <div class="row align-items-center">
             
             <!-- 1) PROFILE PICTURE + USERNAME -->
@@ -77,7 +77,7 @@
 
             <!-- 3) DESCRIPTION, THEN PARTICIPANTS -->
             <div class="col-md-4">
-              <p>{{ event.description|truncatewords:25 }}</p>
+              <p>{{ event.description|truncatewords:50 }}</p>
               <p class="mb-1">
                 <strong>Participants:</strong>
                 {% if event.participants.all %}
@@ -100,13 +100,13 @@
               {% else %}
                 <!-- Otherwise, show Join/Leave logic -->
                 {% if user in event.participants.all %}
-                  <a href="{% url 'events_app:leave_event' event.id %}" class="btn btn-warning mb-2">
+                  <button id="join-leave-btn-{{ event.id }}" type="button" data-event-id="{{ event.id }}" data-action="leave" class="btn btn-warning mb-2">
                     Leave Event
-                  </a>
+                  </button>
                 {% else %}
-                  <a href="{% url 'events_app:join_event' event.id %}" class="btn btn-primary mb-2">
+                  <button id="join-leave-btn-{{ event.id }}" type="button" data-event-id="{{ event.id }}" data-action="join" class="btn btn-primary mb-2">
                     Join Event
-                  </a>
+                  </button>
                 {% endif %}
               {% endif %}
             </div>
@@ -124,7 +124,8 @@
 
 <!-- Loading jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
- <!-- Loading the JS file -->
+ <!-- Loading JS files -->
 <script src="{% static 'js/events_hover.js' %}"></script>
+<script src="{% static 'js/events.js' %}"></script>
 
 {% endblock %}

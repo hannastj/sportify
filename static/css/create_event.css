@@ -1,0 +1,11 @@
+body {
+    background: #4059AD;
+    color: #fff;
+  }
+
+  .btn-success {
+    background-color: #F4B942 !important;
+    color: #000000;
+    border: none;
+  }
+

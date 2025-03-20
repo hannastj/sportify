@@ -43,7 +43,7 @@ class BuddyRequest(models.Model):
         current_user = self.user
         buddy = get_object_or_404(CustomUser, pk=user_id)
 
-    # Remove each other from the buddy lists
+        # Remove each other from the buddy lists
         current_user.buddies.remove(buddy)
         buddy.buddies.remove(current_user)
         message = f"You are no longer buddies with {buddy.username}."

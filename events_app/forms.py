@@ -16,6 +16,13 @@ class WorkoutEventForm(forms.ModelForm):
         label='End Time'
     )
 
+    # This creates a checkbox for the boolean field.
+    is_public = forms.BooleanField(
+        label="Make event public?",
+        required=False,  # Not required means unchecked (False) is acceptable.
+        initial=False   # Defaults to False, meaning the event is private by default.
+    )
+
     class Meta:
         model = WorkoutEvent
         fields = [
@@ -24,15 +31,15 @@ class WorkoutEventForm(forms.ModelForm):
             'location',
             'start_time',
             'end_time',
+            'is_public',
         ]
 
-    def clean(self):
-        cleaned_data = super().clean()
-        start = cleaned_data.get('start_time')
-        end = cleaned_data.get('end_time')
+    def clean_description(self):
+        
+        description = self.cleaned_data.get('description', '')
+        word_limit = 50
+        words = description.split()
 
-        # Ensuring end_time is after start_time
-        if start and end and end <= start:
-            raise forms.ValidationError("End time must be after start time.")
-
-        return cleaned_data
+        if len(words) > word_limit:
+            raise forms.ValidationError(f"Description cannot exceed {word_limit} words.")
+        return description
