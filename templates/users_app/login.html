@@ -73,7 +73,7 @@
             {% if register_form.errors %}
             <div class="error-messages">
               {% for field, errors in register_form.errors.items %}
-                <p>{{ field }}: {{ errors|join:", " }}</p>
+                <p>{{ field.label }}: {{ errors }}</p>
               {% endfor %}
             </div>
           {% endif %}
