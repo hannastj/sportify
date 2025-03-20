@@ -35,7 +35,7 @@ def send_buddy_request_view(request):
     # Redirect or return JSON
     return JsonResponse({'message': 'Buddy request sent', 'buddy_id': buddy_id})
 
-#---------------- ACCEPT OR DECLINE BUDDY REQUEST ---------------------
+#---------------- ACCEPT OR DECLINE A REQUEST ---------------------
 @login_required
 @require_POST
 def respond_buddy_request_view(request: object, request_id: int) -> JsonResponse:
@@ -55,8 +55,6 @@ def respond_buddy_request_view(request: object, request_id: int) -> JsonResponse
         buddy_req.save()
 
     return buddy_profile_view(request, request.user.id, f"Buddy ({buddy_req.sender}) request {action}ed")
-    # return JsonResponse({'message': f"Buddy request {action}ed", 'request_id': request_id})
-
 
 #---------------- PENDING BUDDY REQUESTS ---------------------
 def buddy_requests_list_view(request):
@@ -93,7 +91,12 @@ def buddy_profile_view(request, user_id, message=None):
     buddy = get_object_or_404(CustomUser, pk=user_id)
     hosted_events = WorkoutEvent.objects.filter(host=buddy)
     participated_events = WorkoutEvent.objects.filter(participants=buddy)
-    buddy_incoming_requests = BuddyRequest.objects.filter(receiver=request.user, status='pending')
+
+    # Only show incoming buddy requests if the logged-in user is the profile owner.
+    if request.user == buddy:
+        buddy_incoming_requests = BuddyRequest.objects.filter(receiver=request.user, status='pending')
+    else:
+        buddy_incoming_requests = None
 
     return render(request, 'users_app/profile.html', {
         'user': buddy,
@@ -111,6 +114,25 @@ def buddy_list_view(request):
         .exclude(id=request.user.id)
     return render(request, 'social_app/buddyup.html', {'buddies': buddies})
 
+
+#---------------- UNFRIEND A BUDDY ---------------------
+@login_required
+def unfriend_view(request, buddy_id):
+    buddy = get_object_or_404(CustomUser, pk=buddy_id) #REMOVE BUDDY
+    buddy_req = BuddyRequest.objects.filter( #LOCATE ACCEPTED BUDDY REQUEST
+        Q(sender=request.user, receiver=buddy) | Q(sender=buddy, receiver=request.user),
+        status='accepted'
+    ).first()
+
+    if buddy_req:
+        message = buddy_req.unfriend(request.user) #CALL THE UNFRIEND METHOD IN BuddyRequest model
+    else:
+        request.user.buddies.remove(buddy)# IF NO ACCEPTED BUDDY REQUEST, REMOVE BUDDY
+        buddy.buddies.remove(request.user)
+        message = f"You are no longer buddies with {buddy.username}."
+
+    request.user.refresh_from_db()  #REFRESH USER DATABASE
+    return buddy_profile_view(request, request.user.id, message) #RE-RENDER THE PROFILE PAGE
 
 #---------------- BUDDY LISTING DETAIL (AJAX) ---------------------
 def buddy_details_ajax(request, buddy_id):

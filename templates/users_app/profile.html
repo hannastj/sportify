@@ -59,6 +59,7 @@
         {% if buddy_req %}
         {% if buddy_req.status == 'pending' %}
         {% if buddy_req.receiver.id == request.user.id and buddy_req.sender.id != request.user.id %}
+
         <!-- I'm the receiver. Accept or Decline. -->
         <p>{{ buddy_req.sender.username }} wants to be your buddy (pending).</p>
         <form method="POST" action="{% url 'social_app:respond_buddy_request_view' %}">
@@ -142,17 +143,41 @@
             {% with buddies=user.buddies.all %}
             {% if buddies|length > 5 %}
             {% for buddy in buddies|slice:":5" %}
-            <li class="list-group-item">{{ buddy.username }}</li>
+            <li class="list-group-item">
+                {{ buddy.username }}
+                {% if user.id == request.user.id %}
+                <form action="{% url 'social_app:unfriend' buddy.id %}" method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-outline-secondary">Remove</button>
+                </form>
+                {% endif %}
+            </li>
             {% endfor %}
             {% for buddy in buddies|slice:"5:" %}
-            <li class="list-group-item hidden-buddy" style="display: none;">{{ buddy.username }}</li>
+            <li class="list-group-item hidden-buddy" style="display: none;">
+                {{ buddy.username }}
+                {% if user.id == request.user.id %}
+                <form action="{% url 'social_app:unfriend' buddy.id %}" method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-outline-secondary">Remove</button>
+                </form>
+                {% endif %}
+            </li>
             {% endfor %}
             <li class="list-group-item">
                 <a href="#" class="toggle-buddies" onclick="toggleItems(this, 'hidden-buddy'); return false;">See more</a>
             </li>
             {% else %}
             {% for buddy in buddies %}
-            <li class="list-group-item">{{ buddy.username }}</li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ buddy.username }}
+                {% if user.id == request.user.id %}
+                <form action="{% url 'social_app:unfriend' buddy.id %}" method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-secondary">Remove</button>
+                </form>
+                {% endif %}
+            </li>
             {% empty %}
             <li class="list-group-item">No buddies yet</li>
             {% endfor %}
@@ -161,11 +186,12 @@
         </ul>
 
 
+
         <h3>BUDDY REQUESTS</h3>
         <ul class="list-group">
             {% for buddy_req in buddy_incoming_requests %}
-            <li class="list-group-item">
-                <strong>{{ buddy_req.sender.username }}</strong> wants to be your buddy
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>{{ buddy_req.sender.username }}</strong> Wants to be your buddy!
                 <form method="POST"
                       action="{% url 'social_app:respond_buddy_request' buddy_req.id %}">
                     {% csrf_token %}

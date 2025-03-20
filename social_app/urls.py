@@ -18,4 +18,5 @@ urlpatterns = [
     path('buddy-requests/', views.buddy_requests_list_view, name='buddy_requests'),
     path('buddy-requests/send/', send_buddy_request_view, name='send_buddy_request'),
     path('buddy-requests/respond_buddy_request/<int:request_id>/', respond_buddy_request_view, name='respond_buddy_request'),
+    path('unfriend/<int:buddy_id>/', views.unfriend_view, name='unfriend'),
 ]

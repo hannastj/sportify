@@ -199,35 +199,3 @@ body {
 .right-col h2 {
     margin-bottom: 1rem;
 }
-
-/* ============================================= */
-/* NEW: ACCEPT / DECLINE BUTTONS, ETC.           */
-/* ============================================= */
-
-.btn {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    border: none;
-    margin: 0.5rem 0;
-    transition: background 0.3s ease, transform 0.2s ease;
-}
-.btn:hover {
-    transform: scale(1.05);
-}
-.btn-success {
-    background: #28a745;
-    color: #fff;
-}
-.btn-success:hover {
-    background: #218838;
-}
-.btn-danger {
-    background: #dc3545;
-    color: #fff;
-}
-.btn-danger:hover {
-    background: #c82333;
-}

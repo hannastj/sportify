@@ -1,7 +1,6 @@
 from django.db import models
 from django.conf import settings
 from django.shortcuts import get_object_or_404, redirect
-
 from users_app.models import CustomUser
 
 
@@ -28,7 +27,7 @@ class BuddyRequest(models.Model):
     
         # HANNA new method: When a request is accepted, users are added as buddies
     def accept(self):
-        # Mark the request as accepted and update both users' buddy lists
+        # Mark the request as accepted and` update both users' buddy lists
         self.status = 'accepted'
         self.save()
         # Add each other as buddies
@@ -39,12 +38,26 @@ class BuddyRequest(models.Model):
         self.status = 'rejected'
         self.save()
 
-    def unfriend(self, user_id):
-        current_user = self.user
-        buddy = get_object_or_404(CustomUser, pk=user_id)
 
-        # Remove each other from the buddy lists
+    def unfriend(self, current_user):
+        """
+        Remove the buddy relationship between the current user and the other party,
+        and delete any accepted BuddyRequest records between them.
+        """
+        # Determine which user is the buddy.
+        if current_user == self.sender:
+            buddy = self.receiver
+        elif current_user == self.receiver:
+            buddy = self.sender
+        else:
+            raise ValueError("Current user is not associated with this buddy request.")
+
+        # Remove the buddy relationship from both sides.
         current_user.buddies.remove(buddy)
         buddy.buddies.remove(current_user)
-        message = f"You are no longer buddies with {buddy.username}."
-        return redirect('buddy_list')
+
+        # Clean up any accepted BuddyRequest records between these two users.
+        BuddyRequest.objects.filter(sender=current_user, receiver=buddy, status='accepted').delete()
+        BuddyRequest.objects.filter(sender=buddy, receiver=current_user, status='accepted').delete()
+
+        return f"You are no longer buddies with {buddy.username}."
