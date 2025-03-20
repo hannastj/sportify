@@ -45,7 +45,9 @@
     <!-- Events List -->
     <div class="list-group events-list">
       {% for event in events %}
-        <div id="event-item-{{ event.id }}" class="list-group-item mb-3">
+      <div id="event-item-{{ event.id }}" 
+          class="list-group-item mb-3" 
+          data-remove-on-leave="{% if active_tab == 'my' %}true{% else %}false{% endif %}">
           <div class="row align-items-center">
             
             <!-- 1) PROFILE PICTURE + USERNAME -->

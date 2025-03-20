@@ -41,32 +41,38 @@ function joinEvent(eventId) {
 // AJAX function for leaving an event
 function leaveEvent(eventId) {
     fetch(`/events/${eventId}/leave/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrftoken,
-            'X-Requested-With': 'XMLHttpRequest'
-        }
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken,
+        'X-Requested-With': 'XMLHttpRequest'
+      }
     })
     .then(response => response.json())
     .then(data => {
-        if (data.status === 'left') {
-            // Check if the event container exists
-            const eventElement = document.getElementById(`event-item-${eventId}`);
-            if (eventElement) {
-                eventElement.remove();  // Remove the event from the DOM immediately
-            } else {
-                // Fallback: update the button if container not found
-                const button = document.getElementById(`join-leave-btn-${eventId}`);
-                button.innerText = 'Join Event';
-                button.setAttribute('data-action', 'join');
-                button.className = 'btn btn-primary mb-2';
-            }
+      if (data.status === 'left') {
+        // Find the container for this event
+        const eventElement = document.getElementById(`event-item-${eventId}`);
+        if (!eventElement) return;
+  
+        // Check if we should remove this event from the DOM
+        const removeOnLeave = eventElement.getAttribute('data-remove-on-leave');
+        if (removeOnLeave === 'true') {
+          // Remove the entire event container (My Events tab)
+          eventElement.remove();
+        } else {
+          // Just update the button (Public/Private tab)
+          const button = document.getElementById(`join-leave-btn-${eventId}`);
+          if (button) {
+            button.innerText = 'Join Event';
+            button.setAttribute('data-action', 'join');
+            button.className = 'btn btn-primary mb-2';
+          }
         }
+      }
     })
     .catch(error => console.error('Error leaving event:', error));
-}
-
+  }
 // Attach event listeners once the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Select all buttons whose id starts with "join-leave-btn-"

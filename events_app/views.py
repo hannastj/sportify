@@ -9,7 +9,8 @@ from django.db.models import Q
 
 #----------------------- EVENTS PAGE  ----------------------------
 def events_view(request):
-    return render(request, 'events_app/events.html')
+    events = WorkoutEvent.objects.filter(is_public=True)
+    return render(request, 'events_app/events.html', {'events': events})
 
 #---------------- EVENT SEARCH FILTER ---------------------
 def search_events_view(request):
@@ -42,14 +43,6 @@ def leave_event_view(request, event_id):
     event.participants.remove(request.user)
     return JsonResponse({'status': 'left', 'event_id': event.id})
 
-#---------------- BROWSING AN EVENT ---------------------
-from django.utils import timezone
-
-def event_feed_view(request):
-    now = timezone.now()
-    events = WorkoutEvent.objects.filter(start_time__gte=now).order_by('start_time')
-    return render(request, 'events_app/event_feed.html')
-
 #---------------- CREATING AN EVENT ---------------------
 @login_required
 def create_event_view(request):
@@ -78,7 +71,10 @@ def my_events_view(request):
     events = (hosted_events | participated_events).distinct()
     
     context = {'events': events}
-    return render(request, 'events_app/events.html', context)
+    return render(request, 'events_app/events.html', {
+        'events': events,
+        'active_tab': 'my'
+    })
 
 #---------------- DELETE AN EVENT ---------------------
 @login_required
