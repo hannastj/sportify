@@ -9,6 +9,7 @@
 {% block title %}My Profile - Sportify{% endblock %}
 
 {% block content %}
+
 <!-- LARGE BACKGROUND / PROFILE HEADER -->
 <section class="profile-header">
 
@@ -160,20 +161,13 @@
         </ul>
 
 
-        <h3>Pending Buddy Requests</h3>
+        <h3>BUDDY REQUESTS</h3>
         <ul class="list-group">
-            {% for buddy_req in buddy_request %}
+            {% for buddy_req in buddy_incoming_requests %}
             <li class="list-group-item">
                 <strong>{{ buddy_req.sender.username }}</strong> wants to be your buddy
                 <form method="POST"
-                      action="{% url 'social_app:respond_buddy_request' buddy_req.id %}"
-
-
-                      class="respond-buddy-form"
-                      data-request-id="{{ buddy_req.id }}">
-
-
-
+                      action="{% url 'social_app:respond_buddy_request' buddy_req.id %}">
                     {% csrf_token %}
                     <button type="submit" name="action" value="accept" class="btn btn-success">Accept</button>
                     <button type="submit" name="action" value="reject" class="btn btn-danger">Decline</button>

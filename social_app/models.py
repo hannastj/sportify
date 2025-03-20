@@ -1,5 +1,9 @@
 from django.db import models
 from django.conf import settings
+from django.shortcuts import get_object_or_404, redirect
+
+from users_app.models import CustomUser
+
 
 #-------------------BUDDY REQUEST---------------------------
 class BuddyRequest(models.Model):
@@ -27,7 +31,20 @@ class BuddyRequest(models.Model):
         # Mark the request as accepted and update both users' buddy lists
         self.status = 'accepted'
         self.save()
-
         # Add each other as buddies
         self.sender.buddies.add(self.receiver)
         self.receiver.buddies.add(self.sender)
+
+    def decline(self):
+        self.status = 'rejected'
+        self.save()
+
+    def unfriend(self, user_id):
+        current_user = self.user
+        buddy = get_object_or_404(CustomUser, pk=user_id)
+
+    # Remove each other from the buddy lists
+        current_user.buddies.remove(buddy)
+        buddy.buddies.remove(current_user)
+        message = f"You are no longer buddies with {buddy.username}."
+        return redirect('buddy_list')

@@ -49,7 +49,7 @@ def profile_view(request):
         'hosted_events': hosted_events,
         'participated_events': participated_events,
         'event_form': event_form,
-        'buddy_request': BuddyRequest.objects.filter(status="pending", receiver=request.user.id),
+        'buddy_incoming_requests': BuddyRequest.objects.filter(status="pending", receiver=request.user.id),
         }
 
     print(BuddyRequest.objects.all().first().id)

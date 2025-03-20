@@ -54,7 +54,8 @@ def respond_buddy_request_view(request: object, request_id: int) -> JsonResponse
         buddy_req.status = 'rejected'
         buddy_req.save()
 
-    return JsonResponse({'message': f"Buddy request {action}ed", 'request_id': request_id})
+    return buddy_profile_view(request, request.user.id, f"Buddy ({buddy_req.sender}) request {action}ed")
+    # return JsonResponse({'message': f"Buddy request {action}ed", 'request_id': request_id})
 
 
 #---------------- PENDING BUDDY REQUESTS ---------------------
@@ -88,27 +89,18 @@ def buddy_search_view(request):
     return JsonResponse({'users': user_list})
 
 #---------------- BUDDY PROFILE VIEW ---------------------
-def buddy_profile_view(request, user_id):
+def buddy_profile_view(request, user_id, message=None):
     buddy = get_object_or_404(CustomUser, pk=user_id)
     hosted_events = WorkoutEvent.objects.filter(host=buddy)
     participated_events = WorkoutEvent.objects.filter(participants=buddy)
-
-    # Existing buddy_req logic (if any)
-    buddy_req = BuddyRequest.objects.filter(
-        Q(sender=buddy, receiver=request.user) |
-        Q(sender=request.user, receiver=buddy)
-    ).first()
-
-    # NEW: all incoming requests for 'buddy' if you want to show them on buddy’s profile
-    # If user == buddy, we can show the requests for the same user
-    buddy_incoming_requests = BuddyRequest.objects.filter(receiver=buddy, status='pending')
+    buddy_incoming_requests = BuddyRequest.objects.filter(receiver=request.user, status='pending')
 
     return render(request, 'users_app/profile.html', {
         'user': buddy,
         'hosted_events': hosted_events,
         'participated_events': participated_events,
-        'buddy_req': buddy_req,                # existing single buddy_req logic
-        'buddy_incoming_requests': buddy_incoming_requests,  # new
+        'message':message,
+        'buddy_incoming_requests': buddy_incoming_requests,
     })
 
 #---------------- BUDDY LISTING  ---------------------
