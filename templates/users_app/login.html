@@ -71,12 +71,18 @@
 
             <!-- Display registration errors here -->
             {% if register_form.errors %}
-            <div class="error-messages">
-              {% for field, errors in register_form.errors.items %}
-                <p>{{ field.label }}: {{ errors }}</p>
-              {% endfor %}
-            </div>
-          {% endif %}
+              <div class="error-messages">
+                {% for field in register_form %}
+                  {% for error in field.errors %}
+                  <p><span class="error-label">{{ field.label }}:</span> {{ error }}</p>
+                  {% endfor %}
+                {% endfor %}
+                {% for error in register_form.non_field_errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+
 
           
           <button class="btn btn-warning mt-3 signup-btn" type="submit">SIGN UP</button>
@@ -89,7 +95,7 @@
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  <script src="{% static 'js/main.js' %}"></script>
+  <script src="{% static 'js/login.js' %}"></script>
 </body>
 </html>
 

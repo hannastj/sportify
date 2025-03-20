@@ -127,8 +127,13 @@
   
   /* LOGIN ERROR MESSAGE */
   .error-messages {
-    color: red;
+    color: rgb(0, 0, 0);
     font-size: 0.9rem;
     margin-top: 0.5rem;
   }
   
+  .error-label {
+    font-weight: bold !important;
+    color: red; 
+    text-decoration: underline;
+}
