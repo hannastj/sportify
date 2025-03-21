@@ -8,11 +8,13 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
 #----------------------- EVENTS PAGE  ----------------------------
+@login_required
 def events_view(request):
     events = WorkoutEvent.objects.filter(is_public=True)
     return render(request, 'events_app/events.html', {'events': events})
 
 #---------------- EVENT SEARCH FUNCTION ---------------------
+@login_required
 def search_events_view(request):
     q = request.GET.get('q', '')
     if q:
@@ -85,6 +87,7 @@ def delete_event_view(request, event_id):
     return redirect('events_app:my_events')
 
 #---------------- PUBLIC EVENTS ---------------------
+@login_required
 def public_events_view(request):
     events = WorkoutEvent.objects.filter(is_public=True)
     return render(request, 'events_app/events.html', {

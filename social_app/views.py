@@ -10,6 +10,7 @@ from django.db.models import Q
 from django.views.decorators.http import require_GET, require_POST
 
 #----------------------- BUDDYUP PAGE ----------------------------
+@login_required
 def buddyup_view(request):
     return render(request, 'social_app/buddyup.html')
 
@@ -57,12 +58,14 @@ def respond_buddy_request_view(request: object, request_id: int) -> JsonResponse
     return buddy_profile_view(request, request.user.id, f"Buddy ({buddy_req.sender}) request {action}ed")
 
 #---------------- PENDING BUDDY REQUESTS ---------------------
+@login_required
 def buddy_requests_list_view(request):
     incoming = models.BuddyRequest.objects.filter(receiver=request.user, status='pending')
     outgoing = models.BuddyRequest.objects.filter(sender=request.user, status='pending')
     return render(request, 'social_app/buddy_requests.html', {'incoming': incoming, 'outgoing': outgoing})
 
 #---------------- BUDDY SEARCH ---------------------
+@login_required
 @require_GET
 def buddy_search_view(request):
     query = request.GET.get('q', '').strip()
@@ -86,6 +89,7 @@ def buddy_search_view(request):
     return JsonResponse({'users': user_list})
 
 #---------------- BUDDY PROFILE VIEW ---------------------
+@login_required
 def buddy_profile_view(request, user_id, message=None):
     buddy = get_object_or_404(CustomUser, pk=user_id)
     hosted_events = WorkoutEvent.objects.filter(host=buddy)
@@ -112,6 +116,7 @@ def buddy_profile_view(request, user_id, message=None):
     })
 
 #---------------- BUDDY LISTING  ---------------------
+@login_required
 def buddy_list_view(request):
     buddies = CustomUser.objects.filter(is_active=True)\
         .exclude(is_staff=True)\
@@ -140,6 +145,7 @@ def unfriend_view(request, buddy_id):
     return buddy_profile_view(request, request.user.id, message) #RE-RENDER THE PROFILE PAGE
 
 #---------------- BUDDY LISTING DETAIL (AJAX) ---------------------
+@login_required
 def buddy_details_ajax(request, buddy_id):
     try:
         buddy = CustomUser.objects.get(pk=buddy_id)

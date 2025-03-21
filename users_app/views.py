@@ -47,6 +47,7 @@ def login_view(request):
     })
 
 #----------------------- HOME PAGE  ----------------------------
+@login_required
 def home_view(request):
     next_event = None
     if request.user.is_authenticated:
