@@ -55,13 +55,13 @@ function leaveEvent(eventId) {
         const eventElement = document.getElementById(`event-item-${eventId}`);
         if (!eventElement) return;
   
-        // Check if we should remove this event from the DOM
+        // Check if this event should be removed from the DOM
         const removeOnLeave = eventElement.getAttribute('data-remove-on-leave');
         if (removeOnLeave === 'true') {
           // Remove the entire event container (My Events tab)
           eventElement.remove();
         } else {
-          // Just update the button (Public/Private tab)
+          // Just update the button (Public/Private tabs)
           const button = document.getElementById(`join-leave-btn-${eventId}`);
           if (button) {
             button.innerText = 'Join Event';
@@ -75,7 +75,7 @@ function leaveEvent(eventId) {
   }
 // Attach event listeners once the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', function() {
-    // Select all buttons whose id starts with "join-leave-btn-"
+    // Select all buttons where the id starts with "join-leave-btn-"
     const buttons = document.querySelectorAll('[id^="join-leave-btn-"]');
     buttons.forEach(button => {
         button.addEventListener('click', function() {

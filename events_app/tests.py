@@ -81,7 +81,7 @@ class WorkoutEventViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         # Check for the expected message in the rendered HTML
         self.assertContains(response, "No events found.")
-        # Verify that the context variable 'events' is an empty list
+        # Verify that context variable 'events' is an empty list
         self.assertQuerysetEqual(response.context['events'], [])
 
     def test_main_view_with_events(self):
@@ -112,6 +112,6 @@ class WorkoutEventViewTests(TestCase):
         # Check that the titles of the created events are contained in the response
         self.assertContains(response, event1.title)
         self.assertContains(response, event2.title)
-        # Confirm that the context variable 'events' has exactly 2 items
+        # Confirm that context variable 'events' has exactly 2 items
         self.assertEqual(len(response.context['events']), 2)
 

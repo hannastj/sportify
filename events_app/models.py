@@ -16,7 +16,7 @@ class WorkoutEvent(models.Model):
     participants = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="participated_events")
 
     def clean(self):
-        # Ensure that the start time is before the end time.
+        # Ensure that the start time is before the end time
         super().clean() 
         if self.start_time >= self.end_time:
             raise ValidationError("Start time must be before end time.")

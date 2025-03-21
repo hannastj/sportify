@@ -1,8 +1,10 @@
+/* Background & Font */
 body {
     background: #4059AD;
     color: #fff;
   }
 
+  /* Change colour for create event button */
   .btn-success {
     background-color: #F4B942 !important;
     color: #000000;

@@ -12,7 +12,7 @@ def events_view(request):
     events = WorkoutEvent.objects.filter(is_public=True)
     return render(request, 'events_app/events.html', {'events': events})
 
-#---------------- EVENT SEARCH FILTER ---------------------
+#---------------- EVENT SEARCH FUNCTION ---------------------
 def search_events_view(request):
     q = request.GET.get('q', '')
     if q:
@@ -95,7 +95,7 @@ def public_events_view(request):
 #---------------- PRIVATE EVENTS ---------------------
 @login_required
 def private_events_view(request):
-    # Return only private events where the host is the logged-in user or one of their buddies.
+    # Return only private events where the host is the logged-in user or one of their buddies
     events = WorkoutEvent.objects.filter(
         is_public=False
     ).filter(

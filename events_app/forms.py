@@ -16,11 +16,11 @@ class WorkoutEventForm(forms.ModelForm):
         label='End Time'
     )
 
-    # This creates a checkbox for the boolean field.
+    # Checkbox for the isPublic boolean field
     is_public = forms.BooleanField(
         label="Make event public?",
-        required=False,  # Not required means unchecked (False) is acceptable.
-        initial=False   # Defaults to False, meaning the event is private by default.
+        required=False, 
+        initial=False   # The event is private by default
     )
 
     class Meta:

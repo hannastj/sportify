@@ -134,11 +134,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-AUTH_USER_MODEL = "users_app.CustomUser" #IZZAK: Django by default uses its built-in User model. Since we have added attributes, we must tell Django to use it
+AUTH_USER_MODEL = "users_app.CustomUser" # Model with extra attributes on top of Django's standard user model
 
-LOGIN_REDIRECT_URL = "home" #IZZAK: Redirect after login
-LOGOUT_REDIRECT_URL = "login" #IZZAK: Redirect after logout
-LOGIN_URL = "login" #IZZAK: If users need to be logged in, send them to the login page
+LOGIN_REDIRECT_URL = "home" # Redirect after login
+LOGOUT_REDIRECT_URL = "login" # Redirect after logout
+LOGIN_URL = "login" # If users need to be logged in, send them to the login page
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

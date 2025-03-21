@@ -77,7 +77,7 @@
               </p>
             </div>
 
-            <!-- 3) DESCRIPTION, THEN PARTICIPANTS -->
+            <!-- 3) DESCRIPTION, PARTICIPANTS -->
             <div class="col-md-4">
               <p>{{ event.description|truncatewords:50 }}</p>
               <p class="mb-1">
@@ -100,7 +100,7 @@
                   Delete Event
                 </a>
               {% else %}
-                <!-- Otherwise, show Join/Leave logic -->
+                <!-- Otherwise, show Join/Leave buttons -->
                 {% if user in event.participants.all %}
                   <button id="join-leave-btn-{{ event.id }}" type="button" data-event-id="{{ event.id }}" data-action="leave" class="btn btn-warning mb-2">
                     Leave Event
