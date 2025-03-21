@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     //-------------------------------------------------------------------------------
-    //SEARCH BUDDY
+    //SEARCH BUDDY CARD LOGIC
     const buddySearchForm = document.getElementById('buddySearchForm');
     const searchInput = document.getElementById('searchQuery');
     const buddyGrid = document.getElementById('buddyGrid');
@@ -51,32 +51,33 @@ document.addEventListener("DOMContentLoaded", function() {
     buddySearchForm.addEventListener('submit', function (e) {
         e.preventDefault();
 
+        //CALL SEARCH
         const query = searchInput.value.trim();
-        // Call the search endpoint
         fetch(`/social/ajax/buddy-search/?q=${encodeURIComponent(query)}`)
             .then(response => response.json())
             .then(data => {
-                // Clear the existing buddy grid
+
+                //CLEAR EXISTING BUDDY GRID
                 buddyGrid.innerHTML = '';
 
-                // Build new cards from the JSON
+                //RE-BUILD NEW BUDDY CARD VIA JSON
                 data.users.forEach(user => {
                     const cardDiv = document.createElement('div');
                     cardDiv.classList.add('buddy-card');
                     cardDiv.dataset.buddyId = user.id;
 
-                    // Set up card with consistent markup (only username shown initially)
+                    //RE-SET BUDDY CARD INFO TO ONLY SHOW USERNAME
                     cardDiv.innerHTML = `
                     <img src="/media/profile_pictures/avatar.jpg" alt="${user.username}">
                     <p class="buddy-info">${user.username}</p>
                     <button class="buddy-request-btn">Request</button>`;
 
-                    // Hover event: scale up and update info with just the username
+                    //RE-SET SCALE UPON HOVER
                     cardDiv.addEventListener('mouseover', function () {
                         cardDiv.style.transform = 'scale(1.3)';
                         cardDiv.style.zIndex = "9999";
 
-                        // Fetch buddy details on hover, but only use the username
+                        //RE-FETCH BUDDY DETAILS UPON HOVER & SELECT RANDOM COLOUR AGAIN
                         fetch(`/social/ajax/buddy-details/${user.id}/`)
                             .then(r => r.json())
                             .then(d => {
@@ -92,45 +93,12 @@ document.addEventListener("DOMContentLoaded", function() {
                         cardDiv.style.transform = 'scale(1)';
                         cardDiv.style.zIndex = '0';
                     });
-
-                    cardDiv.addEventListener('click', function () {
-                        window.location.href = `/buddy/${user.id}/`;
-                    });
-
-                    // Attach the buddy request button event listener inside the loop
-                    const requestBtn = cardDiv.querySelector('.buddy-request-btn');
-                    if (requestBtn) {
-                        requestBtn.addEventListener('click', function(e) {
-                            e.stopPropagation(); // Prevent the card's click event
-                            sendBuddyRequest(user.id);
-                        });
-                    }
-
                     buddyGrid.appendChild(cardDiv);
                 });
             });
 
-        function sendBuddyRequest(buddyId) {
-            // We need the CSRF token if Django’s CSRF is enabled
-            const csrftoken = getCookie('csrftoken');
-
-            fetch('/social/ajax/send-buddy-request/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-CSRFToken': csrftoken,
-                },
-                body: `buddy_id=${encodeURIComponent(buddyId)}`
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log("Buddy request response:", data);
-                    alert("Buddy request sent to user " + data.buddy_id);
-                })
-                .catch(error => console.error("Error sending buddy request:", error));
-        }
-
-        // Helper function for CSRF
+        //-------------------------------------------------------------------------------
+        //HELPER FUNCTION FOR CSRF
         function getCookie(name) {
             let cookieValue = null;
             if (document.cookie && document.cookie !== '') {
@@ -147,4 +115,3 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
-

@@ -1,16 +1,15 @@
 {% extends "base.html" %}
 {% load static %}
-
 {% block title %}
 Buddy-up
 {% endblock %}
-
 {% block extra_head %}
 <link rel="stylesheet" href="{% static 'css/buddyup.css' %}">
 {% endblock %}
-
 {% block content %}
-<!-- Search Bar -->
+
+
+<!-- SEARCH BAR -->
 <form id="buddySearchForm" class="mb-3">
     <div class="input-group">
         <input type="text" id="searchQuery" class="search-input" placeholder="Search...">
@@ -23,9 +22,10 @@ Buddy-up
     <div class="buddy-grid" id="buddyGrid">
         {% for user in buddies %}
         <div class="buddy-card" data-buddy-id="{{ user.id }}">
+
+            <!-- SETS A DEFAULT AVATAR IMAGE WHEN A USER CREATES A PROFILE AND UPDATES WHEN THE USER UPLOADS A PROFILE PICTURE -->
             <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{{ MEDIA_URL }}profile_pictures/avatar.jpg{% endif %}" alt="{{ user.username }}">
             <p class="buddy-info">{{ user.username }}</p>
-            <button class="buddy-request-btn">Send Buddy Request</button>
         </div>
         {% endfor %}
     </div>

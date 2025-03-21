@@ -1,7 +1,5 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect,get_object_or_404,render
-from django.contrib.auth.models import User
-
 from events_app.models import WorkoutEvent
 from social_app import models
 from social_app.models import BuddyRequest
@@ -10,7 +8,6 @@ from django.http import JsonResponse, Http404, HttpResponseBadRequest
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.views.decorators.http import require_GET, require_POST
-
 
 #----------------------- BUDDYUP PAGE ----------------------------
 def buddyup_view(request):
@@ -26,14 +23,16 @@ def send_buddy_request_view(request):
 
     UserModel = get_user_model()
     receiver = get_object_or_404(UserModel, pk=buddy_id)
-    # Create or get an existing request
+
+    #GET EXISTING REQUEST
     BuddyRequest.objects.get_or_create(
         sender=request.user,
         receiver=receiver,
         defaults={'status': 'pending'}
     )
-    # Redirect or return JSON
-    return JsonResponse({'message': 'Buddy request sent', 'buddy_id': buddy_id})
+
+    #RETURN UPDATED PROFILE VIEW WITH JSON MESSAGE
+    return buddy_profile_view(request, buddy_id, "Buddy request sent")
 
 #---------------- ACCEPT OR DECLINE A REQUEST ---------------------
 @login_required
@@ -42,7 +41,7 @@ def respond_buddy_request_view(request: object, request_id: int) -> JsonResponse
 
     print(request_id)
     buddy_req = get_object_or_404(BuddyRequest, id=request_id)
-    action = request.POST.get('action')  # "accept" or "reject"
+    action = request.POST.get('action')  #ACCEPT OR REJECT
 
     if action == 'accept':
         buddy_req.status = 'accepted'
@@ -54,6 +53,7 @@ def respond_buddy_request_view(request: object, request_id: int) -> JsonResponse
         buddy_req.status = 'rejected'
         buddy_req.save()
 
+    #RETURN UPDATED PROFILE VIEW WITH JSON MESSAGE
     return buddy_profile_view(request, request.user.id, f"Buddy ({buddy_req.sender}) request {action}ed")
 
 #---------------- PENDING BUDDY REQUESTS ---------------------
@@ -83,7 +83,6 @@ def buddy_search_view(request):
             'age': buddy.age if hasattr(buddy, 'age') else None,
             'bio': buddy.bio if hasattr(buddy, 'bio') else '',
         })
-
     return JsonResponse({'users': user_list})
 
 #---------------- BUDDY PROFILE VIEW ---------------------
@@ -92,18 +91,24 @@ def buddy_profile_view(request, user_id, message=None):
     hosted_events = WorkoutEvent.objects.filter(host=buddy)
     participated_events = WorkoutEvent.objects.filter(participants=buddy)
 
-    # Only show incoming buddy requests if the logged-in user is the profile owner.
     if request.user == buddy:
+        #When viewing your own profile, show your incoming buddy requests
         buddy_incoming_requests = BuddyRequest.objects.filter(receiver=request.user, status='pending')
+        buddy_req = None
     else:
         buddy_incoming_requests = None
+        #When viewing someone else's profile, check if there's an existing buddy request
+        buddy_req = BuddyRequest.objects.filter(
+            Q(sender=request.user, receiver=buddy) | Q(sender=buddy, receiver=request.user)
+        ).first()
 
     return render(request, 'users_app/profile.html', {
         'user': buddy,
         'hosted_events': hosted_events,
         'participated_events': participated_events,
-        'message':message,
+        'message': message,
         'buddy_incoming_requests': buddy_incoming_requests,
+        'buddy_req': buddy_req,
     })
 
 #---------------- BUDDY LISTING  ---------------------

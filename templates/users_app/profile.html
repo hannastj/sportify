@@ -58,16 +58,16 @@
         {% if buddy_req %}
             {% if buddy_req.status == 'pending' %}
                 {% if buddy_req.receiver.id == request.user.id and buddy_req.sender.id != request.user.id %}
-                <!-- Received buddy request: Provide Accept/Decline options -->
-                <p>{{ buddy_req.sender.username }} wants to be your buddy (pending).</p>
+                <p>{{ buddy_req.sender.username }} wants to be your buddy (pending).</p>  <!--I AM THE RECEIVER SO I MUST ACCEPT/ DECLINE -->
+
                 <form method="POST" action="{% url 'social_app:respond_buddy_request_view' %}">
                     {% csrf_token %}
                     <button type="submit" name="action" value="accept" class="btn btn-success">Accept</button>
                     <button type="submit" name="action" value="reject" class="btn btn-danger">Decline</button>
                 </form>
+
                 {% elif buddy_req.sender.id == request.user.id %}
-                <!-- Sent buddy request: Inform that it's pending -->
-                <p>Buddy request pending. Waiting for {{ buddy_req.receiver.username }} to accept.</p>
+                <p>Buddy request pending. Waiting for {{ buddy_req.receiver.username }} to accept.</p>  <!--I AM THE SENDER SO I MUST WAIT  -->
                 {% endif %}
             {% elif buddy_req.status == 'accepted' %}
                 <p>You are already buddies.</p>
@@ -75,25 +75,27 @@
                 <p>Request was rejected.</p>
             {% endif %}
         {% else %}
-        <!-- No buddy requests available -->
         {% endif %}
         {% else %}
-        <!-- Viewing someone else's profile -->
+
+
+        <!--VIEWING SOMEONE ELSE'S PROFILE -->
         <div class="title-edit-row">
             <h3><span>Profile Details</span></h3>
         </div>
         {% if not buddy_req %}
-        <!-- Show "Add Buddy" button if no request exists -->
-        <form method="POST" action="{% url 'social_app:send_buddy_request' %}">
+        <form method="POST" action="{% url 'social_app:send_buddy_request' %}" class="buddy-request-form">  <!-- IF NO REQUESTS SHOW "Add Buddy" BUTTON -->
             {% csrf_token %}
             <input type="hidden" name="buddy_id" value="{{ user.id }}">
             <button type="submit" class="btn btn-primary">Add Buddy</button>
         </form>
+
         {% else %}
             {% if buddy_req.status == 'pending' %}
                 {% if buddy_req.sender.id == request.user.id %}
-                <p>Buddy request pending. Waiting for {{ buddy_req.receiver.username }} to accept.</p>
-                {% endif %}
+                <p>Buddy request pending. Waiting for {{ buddy_req.receiver.username }} to accept.</p> <!--I AM THE SENDER SO I MUST WAIT  -->
+                {% elif buddy_req.receiver.id == request.user.id %}
+            {% endif %}
             {% elif buddy_req.status == 'accepted' %}
                 <p>You are already buddies.</p>
             {% elif buddy_req.status == 'rejected' %}

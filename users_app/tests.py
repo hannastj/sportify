@@ -123,7 +123,7 @@ class CustomUserModelTests(TestCase):
         )
         self.assertEqual(str(user), user.username)
 
-#----------------------- Home Page/ Nav Bar  --------------------------
+#----------------------- Home Page/ Nav Bar View Test --------------------------
 
 class NavBarViewTests(TestCase):
 
@@ -145,7 +145,7 @@ class NavBarViewTests(TestCase):
         self.assertContains(response, reverse('events_app:public_events'))
         self.assertContains(response, reverse('users_app:logout'))
 
-#----------------------- Profile Edit Page/ Profile Page  --------------------------
+#----------------------- Profile Edit Page/ Profile Page View Test --------------------------
 
 def generate_test_image():
     # Create a 1x1 red pixel image
@@ -216,7 +216,7 @@ class EditProfileTest(TestCase):
         self.assertTrue(self.user.profile_picture.name.endswith(".jpg"))
 
 
-#----------------------- Logout  --------------------------
+#----------------------- Logout View Test --------------------------
 class UserLogoutTests(TestCase):
 
     def setUp(self):
