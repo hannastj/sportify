@@ -75,9 +75,14 @@ def profile_view(request):
     else:
         event_form = WorkoutEventForm()
 
-    # Ensuring that the list of hosting and participating events are correct
-    hosted_events = WorkoutEvent.objects.filter(host=request.user)
-    participated_events = request.user.participated_events.exclude(host=request.user)
+    # Filter events so that only upcoming ones are included
+    hosted_events = WorkoutEvent.objects.filter(
+        host=request.user, 
+        start_time__gte=timezone.now()
+    )
+    participated_events = request.user.participated_events.filter(
+        start_time__gte=timezone.now()
+    ).exclude(host=request.user)
     context = {
         'user': request.user,
         'hosted_events': hosted_events,
