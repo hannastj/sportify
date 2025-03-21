@@ -31,9 +31,7 @@ DEBUG = os.environ.get('DJANGO_DEBUG', 'True') != 'False'
 
 
 ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    'sportify',
+
      'uofgsportify.pythonanywhere.com'
 ]
 
