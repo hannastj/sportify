@@ -1,0 +1,10 @@
+asgiref==3.8.1
+coverage==7.7.0
+deprecation==2.1.0
+Django==5.0
+django-email-verification==0.3.3
+pillow==11.1.0
+sqlparse==0.5.3
+typing_extensions==4.12.2
+tzdata==2025.1
+validators==0.34.0
