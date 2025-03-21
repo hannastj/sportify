@@ -1,139 +1,167 @@
 /* RESET & BASIC STYLES */
+/* Reset default margins, padding, and set border sizing for consistency */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  html, body {
-    height: 100%;
-    font-family: Arial, sans-serif;
-    color: #333;
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  /* LEFT SECTION: GRADIENT BACKGROUND & TITLE */
-  .left-section {
-    /* Bootstrap grid sets width, so we remove width here */
-    background: linear-gradient(
-        to right,
-        #242F40 0%,
-        #242F40 25%,
-        #4059AD 25%,
-        #4059AD 50%,
-        #6B9AC4 50%,
-        #6B9AC4 75%,
-        #97D8C4 75%,
-        #97D8C4 100%
-    );
-    min-height: 100vh;
-    padding: 3rem;
-    text-align: center;
-  }
-  .left-section h1 {
-    font-size: 10rem; 
-    font-weight: 750; 
-    color: #EEF2F1;
-    margin-bottom: 0;
-  }
-  .left-section p.subtitle {
-    font-size: 4rem;
-    color: #EEF2F1;
-    font-weight: bold;
-  }
-  
-  /* RIGHT SECTION: GRADIENT BACKGROUND */
-  .right-section {
-    /* Width is handled by Bootstrap's grid, so no fixed width here */
-    background: linear-gradient(
-      to left,
-      #F4B942 10%,
-      #EEF2F1 50%
-    );
-    min-height: 100vh;
-    padding: 2rem;
-  }
-  
-  /* FORMS CONTAINER */
-  .forms-container {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    max-width: 400px;
-  }
-  
-  /* EACH FORM BLOCK */
-  .form-block {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-  }
+/* Set height for html and body to enable full viewport height usage, and apply basic font and color styles */
+html, body {
+  height: 100%;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
 
-  .form-block input[type="text"],
-  .form-block input[type="email"],
-  .form-block input[type="password"],
-  .form-block input[type="number"],
-  .form-block select {
-      width: 100%;
-      height: 2.2rem;
-      box-sizing: border-box;
-      padding: 0.5rem;
-      font-size: 0.9rem;
-      border: 1px solid #333;
-      outline: none;
-  }
-  /* FORM HEADERS (FIELD TITLES) */
-  .form-title {
-    font-size: 1rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-  
-  /* PASSWORD HELP TEXT */
-  .help-text {
-    font-size: 0.85rem;
-    color: #666;
-    margin-top: 0.5rem;
-  }
-  .help-text ul {
-    margin-left: 1.2rem;
-  }
-  .help-text li {
-    line-height: 1.3;
-  }
-  
-  /* BUTTONS */
-  .btn {
-    background: #4059AD;
-    color: #fff;
-    border: none;
-    padding: 0.5rem 1.5rem;
-    cursor: pointer;
-    font-size: 0.9rem;
-    border-radius: 3px;
-    margin-top: 0.25rem;
-  }
-  .btn:hover {
-    background: #1f4c8b;
-  }
-  .signup-btn {
-    background: #F4B942;
-    color: #000;
-    border: none;
-    margin-top: 0.25rem;
-  }
-  .signup-btn:hover {
-    background: #CF9D38;
-  }
-  
-  /* LOGIN ERROR MESSAGE */
-  .error-messages {
-    color: rgb(0, 0, 0);
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-  }
-  
-  .error-label {
-    font-weight: bold !important;
-    color: red; 
-    text-decoration: underline;
+/* LEFT SECTION: GRADIENT BACKGROUND & TITLE */
+/* The left section uses a multi-stop linear gradient to create a segmented background */
+.left-section {
+  /* The Bootstrap grid determines the width, so no width is set here */
+  background: linear-gradient(
+      to right,
+      #242F40 0%,
+      #242F40 25%,
+      #4059AD 25%,
+      #4059AD 50%,
+      #6B9AC4 50%,
+      #6B9AC4 75%,
+      #97D8C4 75%,
+      #97D8C4 100%
+  );
+  min-height: 100vh; /* Ensures the section fills at least the full viewport height */
+  padding: 3rem;
+  text-align: center;
+}
+
+/* Large title styling for the left section */
+.left-section h1 {
+  font-size: 10rem; 
+  font-weight: 750; 
+  color: #EEF2F1;
+  margin-bottom: 0;
+}
+
+/* Subtitle styling under the title */
+.left-section p.subtitle {
+  font-size: 4rem;
+  color: #EEF2F1;
+  font-weight: bold;
+}
+
+/* RIGHT SECTION: GRADIENT BACKGROUND */
+/* The right section also uses a gradient background, this time a two-color gradient */
+.right-section {
+  /* Width is determined by Bootstrap's grid system */
+  background: linear-gradient(
+    to left,
+    #F4B942 10%,
+    #EEF2F1 50%
+  );
+  min-height: 100vh; /* Fills the full viewport height */
+  padding: 2rem;
+}
+
+/* FORMS CONTAINER */
+/* Container for grouping the login and registration forms with spacing between them */
+.forms-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem; /* Space between the forms */
+  max-width: 400px; /* Limits the container width for better readability */
+}
+
+/* EACH FORM BLOCK */
+/* Style for each form block to stack the elements vertically with minimal spacing */
+.form-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem; /* Small gap between individual form elements */
+}
+
+/* INPUT FIELDS & SELECT DROPDOWN */
+.form-block input[type="text"],
+.form-block input[type="email"],
+.form-block input[type="password"],
+.form-block input[type="number"],
+.form-block select {
+  width: 100%;
+  height: 2.2rem;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  border: 1px solid #333;
+  outline: none; /* Removes default focus outline; consider adding a custom focus style for accessibility */
+}
+
+/* FORM HEADERS (FIELD TITLES) */
+/* Small, bold labels for each form field */
+.form-title {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+/* PASSWORD HELP TEXT */
+/* Smaller text with a softer color for additional information, such as password requirements */
+.help-text {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+/* Indent list items within the help text for clarity */
+.help-text ul {
+  margin-left: 1.2rem;
+}
+
+/* Improve line spacing for list items */
+.help-text li {
+  line-height: 1.3;
+}
+
+/* BUTTONS */
+/* Base button style used across the forms */
+.btn {
+  background: #4059AD;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  border-radius: 3px;
+  margin-top: 0.25rem;
+}
+
+/* Darker background on hover for better feedback */
+.btn:hover {
+  background: #1f4c8b;
+}
+
+/* Specific style for the sign-up button, with a different background and text color */
+.signup-btn {
+  background: #F4B942;
+  color: #000;
+  border: none;
+  margin-top: 0.25rem;
+}
+
+/* Darker hover state for sign-up button */
+.signup-btn:hover {
+  background: #CF9D38;
+}
+
+/* LOGIN ERROR MESSAGE */
+/* Styling for any error messages on the login form */
+.error-messages {
+  color: rgb(0, 0, 0);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+/* ERROR LABEL */
+/* Specific style for error labels to emphasize errors (bold, red, and underlined) */
+.error-label {
+  font-weight: bold !important;
+  color: red; 
+  text-decoration: underline;
 }

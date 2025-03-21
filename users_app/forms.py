@@ -3,13 +3,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import password_validation
 from .models import CustomUser, Gym, SportsClub
 
+# This is the form for when users sign up to our website. We only include the required attributes here
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(label = "Email", help_text="Must be a University of Glasgow Student Email")
-    gym = forms.ModelMultipleChoiceField(label = "Gym",
-        queryset=Gym.objects.all(), 
-        widget=forms.CheckboxSelectMultiple(), 
-        required=True
-    )
+    gym = forms.ModelMultipleChoiceField(label = "Gym", queryset=Gym.objects.all(), widget=forms.CheckboxSelectMultiple(), required=True)
     first_name = forms.CharField(label = "First Name", max_length=30, required=True, help_text="Required.")
     last_name = forms.CharField(label = "Last Name", max_length=30, required=True, help_text="Required.")
     
@@ -20,12 +17,12 @@ class RegistrationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
-        # Set custom labels for username and password fields
+        # Custom labels for username and password fields for error messages
         self.fields['username'].label = "Username"
         self.fields['password1'].label = "Password"
         self.fields['password2'].label = "Re-enter Password"
         
-        # Customize the password help text with bullet list
+        # Password help text with bullet list
         help_texts = password_validation.password_validators_help_texts()
         bullet_list = "<ul>"
         for text in help_texts:
@@ -38,25 +35,15 @@ class RegistrationForm(UserCreationForm):
         if not email.endswith("@student.gla.ac.uk"):
             raise forms.ValidationError("Email must be a University of Glasgow student Email")
         return email
-    
+
+
+# This is the form for when users want to edit their profile. They cannot leave the required attributes blank
 class ProfileUpdateForm(forms.ModelForm):
     first_name = forms.CharField(max_length=30, required=True, help_text="Required.")
     last_name = forms.CharField(max_length=30, required=True, help_text="Required.")
-    clubs = forms.ModelMultipleChoiceField(
-        queryset=SportsClub.objects.all(), 
-        widget=forms.CheckboxSelectMultiple, 
-        required=False
-    )
-    gym = forms.ModelMultipleChoiceField(
-        queryset=Gym.objects.all(), 
-        widget=forms.CheckboxSelectMultiple, 
-        required=True, 
-        help_text="Required."
-    )
-    bio = forms.CharField(
-        widget=forms.Textarea(attrs={'maxlength': '250', 'id': 'bio'}), 
-        required=False
-    )
+    clubs = forms.ModelMultipleChoiceField(queryset=SportsClub.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)
+    gym = forms.ModelMultipleChoiceField(queryset=Gym.objects.all(), widget=forms.CheckboxSelectMultiple, required=True, help_text="Required.")
+    bio = forms.CharField(widget=forms.Textarea(attrs={'maxlength': '250', 'id': 'bio'}), required=False)
     
     class Meta:
         model = CustomUser

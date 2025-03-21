@@ -1,4 +1,5 @@
 /* RESET & BASIC STYLES */
+/* Reset margins, paddings, and box sizing for consistency across browsers */
 * {
     margin: 0;
     padding: 0;
@@ -6,11 +7,12 @@
 }
 
 body {
-    background: #4059AD;
-    color: #333;
+    background: #4059AD; /* Main background color */
+    color: #333;        /* Default text color */
 }
 
 /* PROFILE HEADER */
+/* Container for the profile header section */
 .profile-header {
     display: flex;
     flex-direction: column;
@@ -19,32 +21,37 @@ body {
 }
 
 /* PROFILE IMAGE */
+/* Container for the circular profile image */
 .profile-image {
     width: 350px;
     height: 350px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 4px solid #F4B942;
-    background-color: grey;
-    margin-bottom: 1rem; /* Space between image and username */
+    border-radius: 50%;         /* Makes the image circular */
+    overflow: hidden;           /* Ensures any overflow is hidden (for a perfect circle) */
+    border: 4px solid #F4B942;  /* Decorative border around the image */
+    background-color: grey;     /* Fallback background color */
+    margin-bottom: 1rem;        /* Space between image and username */
 }
 
+/* Ensure the image covers the entire container */
 .profile-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover;          /* Keeps aspect ratio and covers the container */
 }
 
 /* USERNAME HEADING */
+/* Style for the prominent username display */
 .username-heading {
     text-align: center;
     background: #F4B942;
     padding: 10px 10px;
     border-radius: 5px;
     font-size: 2rem;
-    text-transform: uppercase;
+    text-transform: uppercase;  /* Transforms text to uppercase */
 }
 
+/* USERS NAME */
+/* Additional styling for displaying the full name */
 .users-name {
     text-align: center;
     background: #F4B942;
@@ -53,16 +60,16 @@ body {
     font-size: 1rem;
     text-transform: uppercase;
     text-decoration: underline;
-    margin-top: 2px;
+    margin-top: 2px;           /* Slight gap between username and full name */
 }
 
-
 /* PROFILE DESCRIPTION BAR */
+/* Banner for profile bio or description */
 .profile-description-bar {
     background: #4059AD;
     padding: 0rem;
     text-align: center;
-    margin-top: -10px;
+    margin-top: -10px;         /* Slight overlap effect with previous section */
 }
 
 .profile-description-bar h2 {
@@ -70,17 +77,20 @@ body {
     font-size: 2rem;
     padding: 1rem 1rem;
     font-weight: lighter;
+    /* Adds subtle shadows above and below the text for depth */
     box-shadow: 0 1px 3px rgb(0, 17, 116, 0.5), 0 -1px 3px rgb(0, 17, 116, 0.5);
 }
 
 /* MAIN CONTENT: 3 COLUMNS */
+/* Container for the columns layout */
 .profile-content {
     display: flex;
     padding: 2rem;
-    gap: 1rem;
+    gap: 1rem;   /* Space between columns */
 }
 
 /* LEFT COLUMN */
+/* Left-side column for profile details */
 .left-col {
     flex: 1;
     background: #EEF2F1;
@@ -96,6 +106,7 @@ body {
 }
 
 /* CENTER COLUMN */
+/* Center column for main content such as events */
 .center-col {
     flex: 2;
     display: flex;
@@ -104,13 +115,15 @@ body {
 }
 
 /* TABS ROW */
+/* Row containing the tab buttons */
 .tabs-row {
     display: flex;
     background: #EEF2F1;
     border-radius: 6px;
-    overflow: hidden;
+    overflow: hidden;  /* Ensures child elements don't spill outside rounded borders */
 }
 
+/* Tab button styles */
 .tab-btn {
     flex: 1;
     padding: 0.75rem;
@@ -119,7 +132,7 @@ body {
     cursor: pointer;
     font-weight: bold;
     text-transform: uppercase;
-    transition: background 0.3s;
+    transition: background 0.3s; /* Smooth transition on hover */
     outline: none;
     text-align: center;
     color: #fff;
@@ -135,6 +148,7 @@ body {
 }
 
 /* TAB CONTENT AREA */
+/* Container for content corresponding to each tab */
 .tab-content-area {
     background: #EEF2F1;
     flex: 1;
@@ -145,15 +159,18 @@ body {
     flex-direction: column;
 }
 
+/* Hide all tab content by default */
 .tab-content {
     display: none;
 }
 
+/* Show active tab content */
 .tab-content.active {
     display: block;
 }
 
 /* EVENT ITEM */
+/* Styling for each event item */
 .event-item {
     background: #fff;
     border: 1px solid #ddd;
@@ -164,38 +181,28 @@ body {
 }
 
 /* SCROLLABLE EVENTS SECTION */
+/* Container for events with a fixed height and scrollable content */
 .scrollable-events {
-    height: 250px; /* Approximately 2.5 event items */
+    height: 250px;           /* Approximately 2.5 event items; adjust as needed */
     overflow-y: auto;
-    scroll-behavior: smooth;
+    scroll-behavior: smooth;  /* Smooth scrolling effect */
+    scrollbar-color: #F4B942 #e0e0e0; /* Firefox: thumb and track colors */
+    scrollbar-width: thin;   /* Firefox: thin scrollbar */
 }
 
-/* Custom Scrollbar Styling (Optional) */
+
+/* Custom Scrollbar Styling for Webkit browsers */
+/* These styles are applied to browsers that use the Webkit engine */
 .scrollable-events::-webkit-scrollbar {
     width: 8px;
 }
+
 .scrollable-events::-webkit-scrollbar-track {
     background: #e0e0e0;
 }
+
 .scrollable-events::-webkit-scrollbar-thumb {
     background-color: #F4B942;
     border-radius: 4px;
     border: 1px solid #e0e0e0;
-}
-.scrollable-events {
-    scrollbar-color: #F4B942 #e0e0e0;
-    scrollbar-width: thin;
-}
-
-/* RIGHT COLUMN (Optional) */
-.right-col {
-    flex: 1;
-    background: #EEF2F1;
-    padding: 1rem;
-    border-radius: 6px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-}
-
-.right-col h2 {
-    margin-bottom: 1rem;
 }

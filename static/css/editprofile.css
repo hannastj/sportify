@@ -1,49 +1,55 @@
 /* Centering the heading with a background color */
+/* Container to center the heading and add bottom spacing */
 .heading-container {
-    text-align: center;
-    margin-bottom: 20px; /* Adds space below the heading */
-  }
-  
-  .heading-container h1.center-heading {
-    text-align: center;
-    display: inline-block;
-    background-color: #F4B942;
-    padding: 10px 20px;
-    border-radius: 4px;
-    text-decoration: underline;
-  }
-  
-  /* Existing styles for the page */
-  .edit_profile {
-    display: flex;
-    gap: 20px;  /* Adjusts the spacing between columns */
-    align-items: flex-start; /* Aligns columns at the top */
-  }
-  
-  body {
-    font-family: Arial, sans-serif;
-    background: #4059AD;
-    color: #000000;
-  }
-  
-  /* Three columns of equal width */
-  .left-col,
-  .center-col,
-  .right-col {
-    flex: 1;
-    background: #EEF2F1;
-    padding: 1rem;
-    border-radius: 6px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Basic styling for each form field */
-  .form-field {
-    margin-bottom: 15px;
-  }
-  
-  /* Styling for the submit button */
-  button {
-    margin-top: 20px;
-  }
-  
+  text-align: center;
+  margin-bottom: 20px; /* Adds space below the heading */
+}
+
+/* Styles for the centered heading itself */
+.heading-container h1.center-heading {
+  text-align: center;
+  display: inline-block; /* Allows the background to wrap only the heading text */
+  background-color: #F4B942;
+  padding: 10px 20px;    /* Adds space inside the background */
+  border-radius: 4px;    /* Rounds the corners of the background */
+  text-decoration: underline;
+}
+
+/* Container for the edit profile form layout */
+/* This container uses flexbox to display columns side by side */
+.edit_profile {
+  display: flex;
+  gap: 20px;  /* Adjusts the spacing between columns */
+  align-items: flex-start; /* Aligns columns at the top */
+}
+
+/* Global body styles: setting font, background, and text color */
+body {
+  font-family: Arial, sans-serif;
+  background: #4059AD;
+  color: #000000;
+}
+
+/* Three columns of equal width */
+/* These rules apply to the left, center, and right columns in the edit profile form */
+.left-col,
+.center-col,
+.right-col {
+  flex: 1; /* Each column takes up an equal portion of the available space */
+  background: #EEF2F1;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Basic styling for each form field */
+/* Applies margin below each form field for spacing */
+.form-field {
+  margin-bottom: 15px;
+}
+
+/* Styling for the submit button */
+/* Adds top margin to separate the button from form fields */
+button {
+  margin-top: 20px;
+}

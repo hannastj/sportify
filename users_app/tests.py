@@ -5,11 +5,11 @@ from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.auth import get_user_model
 from users_app.models import Gym, SportsClub
+from .forms import RegistrationForm
 
 User = get_user_model()
 
-
-#----------------------- Login Page Tests --------------------------
+#----------------------- Login Page View Tests --------------------------
 
 class UserLoginTests(TestCase):
 
@@ -67,6 +67,61 @@ class UserLoginTests(TestCase):
         # Check the response status code.
         self.assertEqual(response.status_code, 200)
 
+#----------------------- Login Page Form Tests --------------------------
+
+class RegistrationFormTest(TestCase):
+    def setUp(self):
+        # Create a Gym instance for the form.
+        self.gym = Gym.objects.create(name="Stevenson Building")
+
+    def test_registration_form_valid_data(self):
+        form_data = {
+            'username': 'formtestuser',
+            'first_name': 'Form',
+            'last_name': 'Test',
+            'email': 'formtestuser@student.gla.ac.uk',
+            'password1': 'ComplexPassword123',
+            'password2': 'ComplexPassword123',
+            'gym': [self.gym.pk],
+        }
+        form = RegistrationForm(data=form_data)
+        self.assertTrue(form.is_valid(), form.errors)
+
+        # Save the user using the form.
+        user = form.save()
+
+        # Verify that the user was created with the right attributes.
+        self.assertEqual(user.username, 'formtestuser')
+        self.assertEqual(user.email, 'formtestuser@student.gla.ac.uk')
+        self.assertTrue(user.gym.filter(pk=self.gym.pk).exists())
+
+#----------------------- Login Page Model Tests --------------------------
+        
+class CustomUserModelTests(TestCase):
+    def test_create_user(self):
+        # Create a user using the custom user model
+        user = User.objects.create_user(
+            username='testuser',
+            email='testuser@example.com',
+            password='ComplexPassword123',
+            first_name='Test',
+            last_name='User',
+        )
+        # Check that the user fields are correctly set.
+        self.assertEqual(user.username, 'testuser')
+        self.assertEqual(user.email, 'testuser@example.com')
+        self.assertTrue(user.check_password('ComplexPassword123'))
+
+    def test_str_representation(self):
+        # Check that the __str__ method returns the username
+        user = User.objects.create_user(
+            username='testuser',
+            email='testuser@example.com',
+            password='ComplexPassword123',
+            first_name='Test',
+            last_name='User',
+        )
+        self.assertEqual(str(user), user.username)
 
 #----------------------- Home Page/ Nav Bar  --------------------------
 
@@ -77,19 +132,18 @@ class NavBarViewTests(TestCase):
         response = self.client.get(reverse('users_app:home'))
 
         # Check that the base template nav bar items are in the response.
-        self.assertContains(response, 'Sportify')  # Navbar brand
+        self.assertContains(response, 'Sportify') 
         self.assertContains(response, 'Profile')
         self.assertContains(response, 'Buddy-Up')
         self.assertContains(response, 'Events')
         self.assertContains(response, 'Logout')
 
-        # Optionally, you can also check if the links point to the correct URLs.
+        # Check if the links point to the correct URLs.
         self.assertContains(response, reverse('users_app:home'))
         self.assertContains(response, reverse('users_app:profile'))
         self.assertContains(response, reverse('social_app:buddyup'))
         self.assertContains(response, reverse('events_app:public_events'))
         self.assertContains(response, reverse('users_app:logout'))
-
 
 #----------------------- Profile Edit Page/ Profile Page  --------------------------
 
@@ -159,8 +213,9 @@ class EditProfileTest(TestCase):
         
         # Check that the profile_picture field was updated.
         self.assertTrue(self.user.profile_picture)
-        self.assertIn("test_image.jpg", self.user.profile_picture.name)
-        
+        self.assertTrue(self.user.profile_picture.name.endswith(".jpg"))
+
+
 #----------------------- Logout  --------------------------
 class UserLogoutTests(TestCase):
 

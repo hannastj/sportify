@@ -2,17 +2,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout 
 from django.contrib.auth.forms import AuthenticationForm 
 from django.contrib.auth.decorators import login_required
-
 from social_app.models import BuddyRequest
 from .forms import RegistrationForm 
-from .models import CustomUser
-from django import forms
 from events_app.models import WorkoutEvent
 from .forms import ProfileUpdateForm
 from django.utils import timezone
 from django.db.models import Q
 from events_app.forms import WorkoutEventForm
-from django.http import JsonResponse
 from django.contrib import messages
 
 
@@ -75,11 +71,11 @@ def profile_view(request):
             new_event = event_form.save(commit=False)
             new_event.host = request.user  # Set the current user as the host
             new_event.save()
-            # Optionally handle many-to-many fields here
             return redirect('profile')
     else:
         event_form = WorkoutEventForm()
 
+    # Ensuring that the list of hosting and participating events are correct
     hosted_events = WorkoutEvent.objects.filter(host=request.user)
     participated_events = request.user.participated_events.exclude(host=request.user)
     context = {
@@ -90,7 +86,7 @@ def profile_view(request):
         'buddy_incoming_requests': BuddyRequest.objects.filter(status="pending", receiver=request.user.id),
         }
 
-    print(BuddyRequest.objects.all().first().id)
+    
     return render(request, 'users_app/profile.html', context)
 
 #----------------------- EDIT PROFILE --------------------------
@@ -100,8 +96,8 @@ def edit_profile_view(request):
     if request.method == 'POST':
         form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
-            form.save()  # This updates the user's fields, M2Ms, and saves the image
-            return redirect('profile')  # Or wherever you want them to go
+            form.save()  
+            return redirect('profile')  
     else:
         form = ProfileUpdateForm(instance=request.user)
 

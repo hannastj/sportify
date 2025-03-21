@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_head %}
-<!-- Profile page CSS only -->
+<!-- Load profile-specific CSS -->
 <link rel="stylesheet" href="{% static 'css/profile.css' %}">
 {% endblock %}
 
@@ -10,11 +10,10 @@
 
 {% block content %}
 
-<!-- LARGE BACKGROUND / PROFILE HEADER -->
-<section class="profile-header">
-
+<!-- PROFILE HEADER: Large background area displaying profile image and names -->
+<section class="profile-header">  <!-- profile-header: overall styling for header area -->
     <!-- Profile Image -->
-    <div class="profile-image">
+    <div class="profile-image">  <!-- profile-image: container for profile picture -->
         {% if user.profile_picture %}
         <img src="{{ user.profile_picture.url }}" alt="Profile Pic">
         {% else %}
@@ -22,18 +21,19 @@
         {% endif %}
     </div>
 
-    <!-- Username -->
-    <div class="username-heading">
+    <!-- Username displayed prominently -->
+    <div class="username-heading">  <!-- username-heading: styles the username text -->
         {{ user.username }}
     </div>
 
-    <div class="users-name">
+    <!-- Full name -->
+    <div class="users-name">  <!-- users-name: shows user's first and last name -->
         {{ user.first_name }} {{ user.last_name }}
     </div>
 </section>
 
-<!-- PROFILE DESCRIPTION BAR -->
-<section class="profile-description-bar">
+<!-- PROFILE DESCRIPTION: Displays the user's bio or a default message -->
+<section class="profile-description-bar">  <!-- profile-description-bar: banner for bio -->
     <h2>
         {% if user.bio %}
         {{ user.bio|linebreaksbr }}
@@ -43,150 +43,144 @@
     </h2>
 </section>
 
-<!-- MAIN CONTENT: 3 COLUMNS -->
-<div class="profile-content">
+<!-- MAIN CONTENT: Divides the page into columns for details, events, etc. -->
+<div class="profile-content">  <!-- profile-content: container for all profile sections -->
     <!-- LEFT COLUMN: Profile Details, Clubs, Buddy List -->
-    <div class="left-col">
-
+    <div class="left-col">  <!-- left-col: left-side column with profile info -->
         {% if user.id == request.user.id %}
-        <!-- 1) VIEWING MY OWN PROFILE -->
-        <div class="title-edit-row">
+        <!-- Own Profile: Show edit option and buddy request responses -->
+        <div class="title-edit-row">  <!-- title-edit-row: header row with title and edit link -->
             <h3>
                 <span>Profile Details</span>
                 <a href="{% url 'edit_profile' %}" style="font-size: small;">Edit Profile</a>
             </h3>
         </div>
         {% if buddy_req %}
-        {% if buddy_req.status == 'pending' %}
-        {% if buddy_req.receiver.id == request.user.id and buddy_req.sender.id != request.user.id %}
-
-        <!-- I'm the receiver. Accept or Decline. -->
-        <p>{{ buddy_req.sender.username }} wants to be your buddy (pending).</p>
-        <form method="POST" action="{% url 'social_app:respond_buddy_request_view' %}">
-            {% csrf_token %}
-            <button type="submit" name="action" value="accept" class="btn btn-success">Accept</button>
-            <button type="submit" name="action" value="reject" class="btn btn-danger">Decline</button>
-        </form>
-
-        {% elif buddy_req.sender.id == request.user.id %}
-        <!-- I am the sender, so I'm waiting for them to accept. -->
-        <p>Buddy request pending. Waiting for {{ buddy_req.receiver.username }} to accept.</p>
-        {% endif %}
-        {% elif buddy_req.status == 'accepted' %}
-        <p>You are already buddies.</p>
-        {% elif buddy_req.status == 'rejected' %}
-        <p>Request was rejected.</p>
+            {% if buddy_req.status == 'pending' %}
+                {% if buddy_req.receiver.id == request.user.id and buddy_req.sender.id != request.user.id %}
+                <!-- Received buddy request: Provide Accept/Decline options -->
+                <p>{{ buddy_req.sender.username }} wants to be your buddy (pending).</p>
+                <form method="POST" action="{% url 'social_app:respond_buddy_request_view' %}">
+                    {% csrf_token %}
+                    <button type="submit" name="action" value="accept" class="btn btn-success">Accept</button>
+                    <button type="submit" name="action" value="reject" class="btn btn-danger">Decline</button>
+                </form>
+                {% elif buddy_req.sender.id == request.user.id %}
+                <!-- Sent buddy request: Inform that it's pending -->
+                <p>Buddy request pending. Waiting for {{ buddy_req.receiver.username }} to accept.</p>
+                {% endif %}
+            {% elif buddy_req.status == 'accepted' %}
+                <p>You are already buddies.</p>
+            {% elif buddy_req.status == 'rejected' %}
+                <p>Request was rejected.</p>
+            {% endif %}
+        {% else %}
+        <!-- No buddy requests available -->
         {% endif %}
         {% else %}
-        <!-- No buddy_req at all => no pending requests to me. -->
-        {% endif %}
-
-        {% else %}
-        <!-- 2) VIEWING SOMEONE ELSE'S PROFILE -->
+        <!-- Viewing someone else's profile -->
         <div class="title-edit-row">
             <h3><span>Profile Details</span></h3>
         </div>
         {% if not buddy_req %}
-        <!-- No request => show "Add Buddy" button -->
+        <!-- Show "Add Buddy" button if no request exists -->
         <form method="POST" action="{% url 'social_app:send_buddy_request' %}">
             {% csrf_token %}
             <input type="hidden" name="buddy_id" value="{{ user.id }}">
             <button type="submit" class="btn btn-primary">Add Buddy</button>
         </form>
         {% else %}
-        {% if buddy_req.status == 'pending' %}
-        {% if buddy_req.sender.id == request.user.id %}
-        <!-- I'm the sender, so waiting for them to accept. -->
-        <p>Buddy request pending. Waiting for {{ buddy_req.receiver.username }} to accept.</p>
-        {% elif buddy_req.receiver.id == request.user.id %}
-        {% endif %}
-        {% elif buddy_req.status == 'accepted' %}
-        <p>You are already buddies.</p>
-        {% elif buddy_req.status == 'rejected' %}
-        <p>Request was rejected.</p>
-        {% endif %}
+            {% if buddy_req.status == 'pending' %}
+                {% if buddy_req.sender.id == request.user.id %}
+                <p>Buddy request pending. Waiting for {{ buddy_req.receiver.username }} to accept.</p>
+                {% endif %}
+            {% elif buddy_req.status == 'accepted' %}
+                <p>You are already buddies.</p>
+            {% elif buddy_req.status == 'rejected' %}
+                <p>Request was rejected.</p>
+            {% endif %}
         {% endif %}
         {% endif %}
 
+        <!-- User's age -->
         <div>
             <h3>AGE</h3>
         </div>
         <p>{{ user.age|default:"Not specified" }}</p>
 
-        <!-- SPORTS CLUB -->
+        <!-- SPORTS CLUB: List of clubs the user belongs to -->
         <h3>SPORTS CLUB</h3>
-        <ul class="list-group">
+        <ul class="list-group">  <!-- list-group: Bootstrap styled list -->
             {% with clubs=user.clubs.all %}
             {% if clubs|length > 5 %}
-            {% for club in clubs|slice:":5" %}
-            <li class="list-group-item">{{ club.name }}</li>
-            {% endfor %}
-            {% for club in clubs|slice:"5:" %}
-            <li class="list-group-item hidden-club" style="display: none;">{{ club.name }}</li>
-            {% endfor %}
-            <li class="list-group-item">
-                <a href="#" class="toggle-clubs" onclick="toggleItems(this, 'hidden-club'); return false;">See more</a>
-            </li>
+                {% for club in clubs|slice:":5" %}
+                <li class="list-group-item">{{ club.name }}</li>
+                {% endfor %}
+                {% for club in clubs|slice:"5:" %}
+                <li class="list-group-item hidden-club" style="display: none;">{{ club.name }}</li>
+                {% endfor %}
+                <li class="list-group-item">
+                    <a href="#" class="toggle-clubs" onclick="toggleItems(this, 'hidden-club'); return false;">See more</a>
+                </li>
             {% else %}
-            {% for club in clubs %}
-            <li class="list-group-item">{{ club.name }}</li>
-            {% empty %}
-            <li class="list-group-item">None selected</li>
-            {% endfor %}
+                {% for club in clubs %}
+                <li class="list-group-item">{{ club.name }}</li>
+                {% empty %}
+                <li class="list-group-item">None selected</li>
+                {% endfor %}
             {% endif %}
             {% endwith %}
         </ul>
 
-        <!-- BUDDY LIST -->
+        <!-- BUDDY LIST: Display current buddies with remove option if it's your own profile -->
         <h3>BUDDY LIST</h3>
         <ul class="list-group">
             {% with buddies=user.buddies.all %}
             {% if buddies|length > 5 %}
-            {% for buddy in buddies|slice:":5" %}
-            <li class="list-group-item">
-                {{ buddy.username }}
-                {% if user.id == request.user.id %}
-                <form action="{% url 'social_app:unfriend' buddy.id %}" method="POST" style="display: inline;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn-outline-secondary">Remove</button>
-                </form>
-                {% endif %}
-            </li>
-            {% endfor %}
-            {% for buddy in buddies|slice:"5:" %}
-            <li class="list-group-item hidden-buddy" style="display: none;">
-                {{ buddy.username }}
-                {% if user.id == request.user.id %}
-                <form action="{% url 'social_app:unfriend' buddy.id %}" method="POST" style="display: inline;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn-outline-secondary">Remove</button>
-                </form>
-                {% endif %}
-            </li>
-            {% endfor %}
-            <li class="list-group-item">
-                <a href="#" class="toggle-buddies" onclick="toggleItems(this, 'hidden-buddy'); return false;">See more</a>
-            </li>
+                {% for buddy in buddies|slice:":5" %}
+                <li class="list-group-item">
+                    {{ buddy.username }}
+                    {% if user.id == request.user.id %}
+                    <form action="{% url 'social_app:unfriend' buddy.id %}" method="POST" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-outline-secondary">Remove</button>
+                    </form>
+                    {% endif %}
+                </li>
+                {% endfor %}
+                {% for buddy in buddies|slice:"5:" %}
+                <li class="list-group-item hidden-buddy" style="display: none;">
+                    {{ buddy.username }}
+                    {% if user.id == request.user.id %}
+                    <form action="{% url 'social_app:unfriend' buddy.id %}" method="POST" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-outline-secondary">Remove</button>
+                    </form>
+                    {% endif %}
+                </li>
+                {% endfor %}
+                <li class="list-group-item">
+                    <a href="#" class="toggle-buddies" onclick="toggleItems(this, 'hidden-buddy'); return false;">See more</a>
+                </li>
             {% else %}
-            {% for buddy in buddies %}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{ buddy.username }}
-                {% if user.id == request.user.id %}
-                <form action="{% url 'social_app:unfriend' buddy.id %}" method="POST" style="display: inline;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-secondary">Remove</button>
-                </form>
-                {% endif %}
-            </li>
-            {% empty %}
-            <li class="list-group-item">No buddies yet</li>
-            {% endfor %}
+                {% for buddy in buddies %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ buddy.username }}
+                    {% if user.id == request.user.id %}
+                    <form action="{% url 'social_app:unfriend' buddy.id %}" method="POST" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-secondary">Remove</button>
+                    </form>
+                    {% endif %}
+                </li>
+                {% empty %}
+                <li class="list-group-item">No buddies yet</li>
+                {% endfor %}
             {% endif %}
             {% endwith %}
         </ul>
 
-
-
+        <!-- BUDDY REQUESTS: Show incoming requests with Accept/Decline buttons -->
         <h3>BUDDY REQUESTS</h3>
         <ul class="list-group">
             {% for buddy_req in buddy_incoming_requests %}
@@ -205,15 +199,15 @@
         </ul>
     </div>
 
-
-    <!-- CENTER COLUMN -->
-    <div class="center-col">
+    <!-- CENTER COLUMN: Handles event tabs and content -->
+    <div class="center-col">  <!-- center-col: center area for events -->
         {% if user.id == request.user.id %}
-        <div class="tabs-row">
+        <!-- Tabs for own profile events -->
+        <div class="tabs-row">  <!-- tabs-row: holds the tab buttons -->
             <button class="tab-btn active" data-tab="my-events">My Events</button>
             <button class="tab-btn" data-tab="create-event">Create Event</button>
         </div>
-        <div class="tab-content-area">
+        <div class="tab-content-area">  <!-- tab-content-area: container for tab content -->
             <div class="tab-content" id="create-event">
                 <h2>Create Event</h2>
                 <form method="POST">
@@ -224,7 +218,7 @@
             </div>
             <div class="tab-content active" id="my-events">
                 <h3>Hosting Events</h3>
-                <div class="events-section scrollable-events">
+                <div class="events-section scrollable-events">  <!-- scrollable-events: adds scroll for overflow -->
                     {% for event in hosted_events %}
                     <div class="event-item">
                         <strong>Title: {{ event.title }}</strong><br>
@@ -252,7 +246,7 @@
             </div>
         </div>
         {% else %}
-        <!-- SHOW "USER's EVENTS" IF VIEWING ANOTHER USER -->
+        <!-- If viewing another user's profile, show their events -->
         <h3>{{ user.username }}'s Hosted Events</h3>
         <div class="events-section scrollable-events">
             {% for event in hosted_events %}

@@ -6,23 +6,21 @@ from django.template.defaultfilters import slugify
 
         
 #-------------------User Model-----------------    
-#IZZAK: Gym choices for users to select
-
-# IZZAK: Gym Model
+# Gym Model
 class Gym(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
 
-# IZZAK: Sports Club Model
+# Sports Club Model
 class SportsClub(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name   
  
-# IZZAK: Attributes of each user     
+# Attributes of each user     
 class CustomUser(AbstractUser):
     gym = models.ManyToManyField(Gym, blank=False)
     profile_picture = models.ImageField(upload_to="profile_pictures/", default='profile_pictures/avatar.jpg', null=True, blank=True)
@@ -30,7 +28,7 @@ class CustomUser(AbstractUser):
     bio = models.TextField(blank=True, null=True)
     clubs = models.ManyToManyField(SportsClub, blank=True)
 
-     # HANNA added attribute: buddies (friendship links)
+     # Added attribute: buddies (friendship links)
     buddies = models.ManyToManyField(
         "self",  # Users can be buddies with other users
         symmetrical=True,  # Friendship is mutual
