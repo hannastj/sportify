@@ -56,8 +56,7 @@ document.addEventListener("DOMContentLoaded", function() {
         fetch(`/social/ajax/buddy-search/?q=${encodeURIComponent(query)}`)
             .then(response => response.json())
             .then(data => {
-                // data.users is an array of {id, username, age, bio}
-                // Clear the existing .buddy-grid
+                // Clear the existing buddy grid
                 buddyGrid.innerHTML = '';
 
                 // Build new cards from the JSON
@@ -65,20 +64,26 @@ document.addEventListener("DOMContentLoaded", function() {
                     const cardDiv = document.createElement('div');
                     cardDiv.classList.add('buddy-card');
                     cardDiv.dataset.buddyId = user.id;
-                    cardDiv.innerHTML = `<img src="/media/profile_pictures/avatar.jpg" alt="${user.username}"><p class="buddy-info">${user.username}, ${user.age || 'N/A'}, ${user.bio}</p>`;
 
-                    // Re-attach the HOVER logic here:
+                    // Set up card with consistent markup (only username shown initially)
+                    cardDiv.innerHTML = `
+                    <img src="/media/profile_pictures/avatar.jpg" alt="${user.username}">
+                    <p class="buddy-info">${user.username}</p>
+                    <button class="buddy-request-btn">Request</button>`;
+
+                    // Hover event: scale up and update info with just the username
                     cardDiv.addEventListener('mouseover', function () {
                         cardDiv.style.transform = 'scale(1.3)';
-                        cardDiv.style.zIndex = "9998";
+                        cardDiv.style.zIndex = "9999";
 
-                        // buddy detail fetch
+                        // Fetch buddy details on hover, but only use the username
                         fetch(`/social/ajax/buddy-details/${user.id}/`)
                             .then(r => r.json())
                             .then(d => {
                                 const infoEl = cardDiv.querySelector('.buddy-info');
-                                infoEl.textContent = `${d.username}\n${d.age || 'Age not available'}\n${d.bio}`;
+                                infoEl.textContent = d.username;
                                 infoEl.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                                infoEl.style.transform = 'scale(1.3)';
                             })
                             .catch(err => console.error("Error fetching details:", err));
                     });
@@ -91,16 +96,18 @@ document.addEventListener("DOMContentLoaded", function() {
                     cardDiv.addEventListener('click', function () {
                         window.location.href = `/buddy/${user.id}/`;
                     });
+
+                    // Attach the buddy request button event listener inside the loop
+                    const requestBtn = cardDiv.querySelector('.buddy-request-btn');
+                    if (requestBtn) {
+                        requestBtn.addEventListener('click', function(e) {
+                            e.stopPropagation(); // Prevent the card's click event
+                            sendBuddyRequest(user.id);
+                        });
+                    }
+
                     buddyGrid.appendChild(cardDiv);
                 });
-                // The request button
-                const requestBtn = cardDiv.querySelector('.buddy-request-btn');
-                if (requestBtn) {
-                    requestBtn.addEventListener('click', function(e) {
-                        e.stopPropagation(); // prevent card click from triggering
-                        sendBuddyRequest(buddyId);
-                    });
-                }
             });
 
         function sendBuddyRequest(buddyId) {
@@ -123,7 +130,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 .catch(error => console.error("Error sending buddy request:", error));
         }
 
-
         // Helper function for CSRF
         function getCookie(name) {
             let cookieValue = null;
@@ -141,3 +147,4 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+
