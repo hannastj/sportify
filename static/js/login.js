@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
         errors.push("Please enter a valid email address.");
       }
       
-      // Example: Check if the password meets a minimum length
+      // Check if the password meets a minimum length
       const passwordField = registerForm.querySelector('input[name="password1"]');
       if (passwordField.value.length < 8) {
         errors.push("Password must be at least 8 characters long.");

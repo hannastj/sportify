@@ -9,18 +9,23 @@
 {% block title %}Edit Profile - Sportify{% endblock %}
 
 {% block content %}
-  <!-- Heading Container with Centered Heading -->
+
+  <!-- Heading Container: wraps the page heading to manage spacing and layout -->
   <div class="heading-container">
+    <!-- Center-heading: centers the heading text for a balanced look -->
     <h1 class="center-heading">Edit Your Profile</h1>
   </div>
 
   <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
   
+    <!-- Edit_profile: main container for the entire edit profile form -->
     <div class="edit_profile">
-      <!-- Left Column -->
+
+      <!-- Left-col: left column for profile picture related content -->
       <div class="left-col">
         <h2>Profile Picture</h2>
+        <!-- Form-field: wrapper for consistent styling of each form input -->
         <div class="form-field">
           {{ form.profile_picture.label_tag }}<br>
           {{ form.profile_picture }}
@@ -28,18 +33,12 @@
             <div style="color: red;">{{ error }}</div>
           {% endfor %}
         </div>
-        <div class="form-field">
-          {{ form.background_photo.label_tag }}<br>
-          {{ form.background_photo }}
-          {% for error in form.background_photo.errors %}
-            <div style="color: red;">{{ error }}</div>
-          {% endfor %}
-        </div>
       </div>
 
-      <!-- Center Column -->
+      <!-- Center-col: central column for personal details -->
       <div class="center-col">
         <h2>Personal Details</h2>
+        <!-- Form-field: individual field styling for first name -->
         <div class="form-field">
           {{ form.first_name.label_tag }}<br>
           {{ form.first_name }}
@@ -47,6 +46,7 @@
             <div style="color: red;">{{ error }}</div>
           {% endfor %}
         </div>
+        <!-- Form-field: individual field styling for last name -->
         <div class="form-field">
           {{ form.last_name.label_tag }}<br>
           {{ form.last_name }}
@@ -57,10 +57,12 @@
 
         {% for field in form %}
           {% if field.name not in "profile_picture background_photo first_name last_name clubs gym" %}
+            <!-- Form-field: groups each additional field with consistent design -->
             <div class="form-field">
               {{ field.label_tag }}<br>
               {{ field }}
               {% if field.name == "bio" %}
+                <!-- Character counter for bio field: provides live character count feedback -->
                 <div id="char-counter">
                   Characters left: <span id="char-count">250</span>
                 </div>
@@ -73,9 +75,10 @@
         {% endfor %}
       </div>
 
-      <!-- Right Column -->
+      <!-- Right-col: right column for gyms and clubs details -->
       <div class="right-col">
         <h2>Gyms and Clubs</h2>
+        <!-- Form-field: styling for the gym input field -->
         <div class="form-field">
           {{ form.gym.label_tag }}<br>
           {{ form.gym }}
@@ -83,18 +86,22 @@
             <div style="color: red;">{{ error }}</div>
           {% endfor %}
         </div>
+        <!-- Form-field: styling for the clubs selection list -->
         <div class="form-field">
           {{ form.clubs.label_tag }}<br>
+          <!-- Clubs-list: unordered list styled to display club options -->
           <ul class="clubs-list">
             {% for club in form.clubs %}
               {% if forloop.counter <= 5 %}
                 <li>{{ club }}</li>
               {% else %}
+                <!-- Hidden-club: list items that start hidden for overflow clubs -->
                 <li class="hidden-club" style="display: none;">{{ club }}</li>
               {% endif %}
             {% endfor %}
             {% if form.clubs|length > 5 %}
               <li>
+                <!-- Toggle-clubs: link that allows users to see hidden clubs when clicked -->
                 <a href="#" class="toggle-clubs" onclick="toggleItems(this, 'hidden-club'); return false;">
                   See more
                 </a>

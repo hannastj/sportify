@@ -1,5 +1,4 @@
 from django.urls import path
-
 from .views import login_view, home_view, logout_view, edit_profile_view, profile_view
 
 

@@ -2,17 +2,20 @@
 {% load static %}
 
 {% block title %}
+  <!-- Page title: displayed in the browser tab -->
   Sportify Home
 {% endblock %}
 
 {% block extra_head %}
+  <!-- Home page CSS: loads the stylesheet for home-specific styles -->
   <link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
 
 {% block content %}
-<!-- CAROUSEL -->
+<!-- CAROUSEL SECTION -->
+<!-- Carousel container with Bootstrap's carousel classes -->
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-  <!-- Indicators -->
+  <!-- Carousel indicators: navigation dots for each slide -->
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" 
             class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -21,9 +24,10 @@
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" 
             aria-label="Slide 3"></button>
   </div>
-  <!-- Carousel Items -->
+  <!-- Carousel Items: each item represents one slide -->
   <div class="carousel-inner">
     <div class="carousel-item active">
+      <!-- Responsive image: fills the width of the carousel -->
       <img src="{% static 'images/Carousel3.jpg' %}" class="d-block w-100" alt="Carousel Image 1">
     </div>
     <div class="carousel-item">
@@ -33,7 +37,7 @@
       <img src="{% static 'images/Carousel5.jpg' %}" class="d-block w-100" alt="Carousel Image 3">
     </div>
   </div>
-  <!-- Carousel Controls -->
+  <!-- Carousel Controls: buttons to navigate between slides -->
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Previous</span>
@@ -46,10 +50,11 @@
 
 <!-- BOTTOM CONTENT: TWO COLUMNS -->
 <div class="container my-5">
+  <!-- Container: provides proper spacing and alignment for inner content -->
   <div class="row">
-
     <!-- LEFT COLUMN: DESCRIPTION -->
     <div class="col-md-6">
+       <!-- p-4: adds padding, bg-light: light background color, rounded: rounded corners, shadow-sm: subtle shadow -->
        <div class="p-4 bg-light rounded shadow-sm">
            <h2>WELCOME TO SPORTIFY</h2>
            <p>
@@ -60,35 +65,38 @@
        </div>
     </div>
 
-<!-- RIGHT COLUMN: NEXT EVENT -->
-<div class="col-md-6">
-  {% if next_event %}
-    <a href="{% url 'events_app:my_events' %}" class="next-event-link text-decoration-none text-dark">
-      <div class="p-4 bg-light rounded shadow-sm">
-        <h2>YOUR NEXT EVENT</h2>
-        <h4>{{ next_event.title }}</h4>
-        <p>
-          {{ next_event.start_time|date:"M d, Y H:i" }} - 
-          {{ next_event.end_time|date:"H:i" }}
-        </p>
-        <p><strong>Location:</strong> {{ next_event.location }}</p>
-      </div>
-    </a>
-  {% else %}
-    <div class="p-4 bg-light rounded shadow-sm">
-      <h2>YOUR NEXT EVENT</h2>
-      <p>You have no upcoming events.</p>
+    <!-- RIGHT COLUMN: NEXT EVENT -->
+    <div class="col-md-6">
+      {% if next_event %}
+        <!-- Link to the user's events with additional styling classes for text decoration and color -->
+        <a href="{% url 'events_app:my_events' %}" class="next-event-link text-decoration-none text-dark">
+          <div class="p-4 bg-light rounded shadow-sm">
+            <h2>YOUR NEXT EVENT</h2>
+            <!-- Event title -->
+            <h4>{{ next_event.title }}</h4>
+            <p>
+              <!-- Displays start and end times with formatted date/time -->
+              {{ next_event.start_time|date:"M d, Y H:i" }} - 
+              {{ next_event.end_time|date:"H:i" }}
+            </p>
+            <p><strong>Location:</strong> {{ next_event.location }}</p>
+          </div>
+        </a>
+      {% else %}
+        <!-- Fallback content when no upcoming events exist -->
+        <div class="p-4 bg-light rounded shadow-sm">
+          <h2>YOUR NEXT EVENT</h2>
+          <p>You have no upcoming events.</p>
+        </div>
+      {% endif %}
     </div>
-  {% endif %}
+  </div>
 </div>
 {% endblock %}
 
 {% block extra_scripts %}
 
-<!-- Loading jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
- <!-- Loading the JS file -->
 <script src="{% static 'js/home_hover.js' %}"></script>
 
 {% endblock %}
-

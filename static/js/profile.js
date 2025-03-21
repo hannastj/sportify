@@ -1,6 +1,6 @@
 // profile.js
 
-// 1) Tab Switching
+// Tab Switching
 document.addEventListener('DOMContentLoaded', () => {
   const tabButtons = document.querySelectorAll('.tab-btn');
   const tabContents = document.querySelectorAll('.tab-content');
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// 2) "See more"/"See less" toggling
+// "See more"/"See less" toggling
 function toggleItems(link, hiddenClass) {
 // Find all items in this <ul> with the given hiddenClass
 const ul = link.closest('ul');
@@ -54,7 +54,6 @@ document.addEventListener("DOMContentLoaded", function() {
             // Build POST data
             const formData = new FormData(form);
             formData.set('action', actionValue); // ensure correct action
-            // For CSRF token, Django form already has {% csrf_token %}
 
             // Make an AJAX (fetch) call
             fetch(`/social/buddy-requests/respond/${requestId}/`, {
@@ -73,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         msgDiv.style.color = (actionValue === 'accept') ? 'green' : 'red';
                     }
 
-                    // Optionally remove or hide the form so user can't re-click
+                    // Remove or hide the form so user can't re-click
                     form.style.display = 'none';
                 })
                 .catch(error => console.error("Error responding to buddy request:", error));
