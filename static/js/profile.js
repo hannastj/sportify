@@ -37,3 +37,46 @@ link.textContent = currentlyHidden ? 'See less' : 'See more';
 // Make toggleItems globally available
 window.toggleItems = toggleItems;
 
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Select all forms that respond to buddy requests
+    const respondForms = document.querySelectorAll('.respond-buddy-form');
+
+    respondForms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Stop normal form submission
+
+            const requestId = form.dataset.requestId;
+            // Which button was clicked? accept or reject
+            const clickedButton = document.activeElement;
+            const actionValue = clickedButton.value; // "accept" or "reject"
+
+            // Build POST data
+            const formData = new FormData(form);
+            formData.set('action', actionValue); // ensure correct action
+            // For CSRF token, Django form already has {% csrf_token %}
+
+            // Make an AJAX (fetch) call
+            fetch(`/social/buddy-requests/respond/${requestId}/`, {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Buddy request response:", data);
+                    // data => { message: "...", request_id: ... }
+
+                    // Show success/failure in the message div
+                    const msgDiv = document.getElementById(`buddy-message-${requestId}`);
+                    if (msgDiv) {
+                        msgDiv.textContent = data.message;
+                        msgDiv.style.color = (actionValue === 'accept') ? 'green' : 'red';
+                    }
+
+                    // Optionally remove or hide the form so user can't re-click
+                    form.style.display = 'none';
+                })
+                .catch(error => console.error("Error responding to buddy request:", error));
+        });
+    });
+});

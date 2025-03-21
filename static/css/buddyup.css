@@ -60,6 +60,7 @@
     display: flex;
     align-items: center;
     text-align: center;
+    font-family: sans-serif;
     font-style: oblique;
     opacity: 0;                    /* hidden by default */
     transition: transform 0.3s ease, opacity 0.5s ease;
@@ -70,17 +71,4 @@
     pointer-events: auto;
     border-radius: 20px;
     z-index: 10;
-}
-
-.buddy-request-btn {
-    margin-top: 0.5rem; /* some spacing */
-    background-color: #F4B942;
-    color: #242F40;
-    border: none;
-    padding: 1rem 1rem;
-    cursor: pointer;
-    border-radius: 4px;
-}
-.buddy-request-btn:hover {
-    background-color: #e0a62f; /* a slightly darker shade on hover */
 }

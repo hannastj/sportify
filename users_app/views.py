@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect 
 from django.contrib.auth import login, logout 
 from django.contrib.auth.forms import AuthenticationForm 
-from django.contrib.auth.decorators import login_required 
+from django.contrib.auth.decorators import login_required
+
+from social_app.models import BuddyRequest
 from .forms import RegistrationForm 
 from .models import CustomUser
 from django import forms
@@ -49,7 +51,10 @@ def profile_view(request):
         'hosted_events': hosted_events,
         'participated_events': participated_events,
         'event_form': event_form,
-    }
+        'buddy_incoming_requests': BuddyRequest.objects.filter(status="pending", receiver=request.user.id),
+        }
+
+    print(BuddyRequest.objects.all().first().id)
     return render(request, 'users_app/profile.html', context)
 
 #----------------------- LOGIN/SIGNUP PAGE --------------------------

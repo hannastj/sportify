@@ -16,6 +16,17 @@
   {% block extra_head %}{% endblock %}
 </head>
 <body>
+{% if message %}
+<div id="popup-alert" class="alert alert-success alert-dismissible fade show" role="alert"
+     style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999;">
+  <strong>{{ message }}</strong>
+</div>
+<script>
+  setTimeout(function() {
+    $("#popup-alert").alert('close');
+  }, 5000);
+</script>
+{% endif %}
   <!-- NAVIGATION BAR -->
   <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #242F40;">
     <div class="container-fluid">
