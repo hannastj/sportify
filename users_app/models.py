@@ -25,7 +25,7 @@ class SportsClub(models.Model):
 # IZZAK: Attributes of each user     
 class CustomUser(AbstractUser):
     gym = models.ManyToManyField(Gym, blank=False)
-    profile_picture = models.ImageField(upload_to="profile_pictures/",default='profile_pictures/avatar.jpg', null=True, blank=True)
+    profile_picture = models.ImageField(upload_to="profile_pictures/", default='profile_pictures/avatar.jpg', null=True, blank=True)
     age = models.PositiveIntegerField(null=True, blank=True)
     bio = models.TextField(blank=True, null=True)
     clubs = models.ManyToManyField(SportsClub, blank=True)

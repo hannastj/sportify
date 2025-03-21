@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 <body>
+
   <!-- Use a full-width container -->
   <div class="container-fluid min-vh-100 d-flex p-0">
     <div class="row flex-grow-1 m-0">
@@ -20,10 +21,22 @@
         <h1>SPORTIFY</h1>
         <p class="subtitle">YOUR LIFE</p>
       </div>
-
+ 
       <!-- RIGHT SECTION: LOGIN / SIGN UP FORMS -->
       <div class="col-md-4 right-section d-flex flex-column justify-content-center">
         <div class="forms-container">
+
+            <!-- Display messages for a sucessful registration-->
+          {% if messages %}
+            <div class="container mt-3">
+              {% for message in messages %}
+                <div class="alert alert-success">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+
           <!-- LOGIN FORM -->
           <form method="POST" class="form-block mb-4">
             {% csrf_token %}

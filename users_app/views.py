@@ -11,7 +11,42 @@ from django.utils import timezone
 from django.db.models import Q
 from events_app.forms import WorkoutEventForm
 from django.http import JsonResponse
+from django.contrib import messages
 
+
+
+#----------------------- LOGIN/SIGNUP PAGE --------------------------
+def login_view(request):
+    login_form = AuthenticationForm()
+    register_form = RegistrationForm()
+
+    if request.method == "POST":
+        if "register" in request.POST:  # Registration form
+            register_form = RegistrationForm(request.POST)
+            if register_form.is_valid():
+                register_form.save()  # Save user
+                messages.success(request, "Registration successful, please log in!")
+                return redirect("login")
+
+            
+        elif "login" in request.POST:  # Login form
+            login_form = AuthenticationForm(data=request.POST)
+            if login_form.is_valid():
+                user = login_form.get_user()
+                login(request, user)
+                return redirect("home")
+
+            else:
+                return render(request, "users_app/login.html", {
+                    "error_message": "Invalid credentials. Please try again or sign up.",
+                    "login_form": login_form,
+                    "register_form": register_form
+                })
+    
+    return render(request, "users_app/login.html", {
+        "login_form": login_form, 
+        "register_form": register_form
+    })
 
 #----------------------- HOME PAGE  ----------------------------
 def home_view(request):
@@ -29,6 +64,7 @@ def home_view(request):
     return render(request, 'users_app/home.html', {'next_event': next_event})
 
 #----------------------- PROFILE PAGE  ----------------------------
+
 @login_required
 def profile_view(request):
     if request.method == "POST" and 'create_event' in request.POST:
@@ -52,42 +88,7 @@ def profile_view(request):
     }
     return render(request, 'users_app/profile.html', context)
 
-#----------------------- LOGIN/SIGNUP PAGE --------------------------
-def login_view(request):
-    login_form = AuthenticationForm()
-    register_form = RegistrationForm()
-
-    if request.method == "POST":
-        if "register" in request.POST:  # Registration form
-            register_form = RegistrationForm(request.POST)
-            if register_form.is_valid():
-                register_form.save()  # Save user
-                return redirect("login")  # Redirect instead of rendering
-            
-        elif "login" in request.POST:  # Login form
-            login_form = AuthenticationForm(data=request.POST)
-            if login_form.is_valid():
-                user = login_form.get_user()
-                login(request, user)
-                return redirect("home")
-
-            else:
-                return render(request, "users_app/login.html", {
-                    "error_message": "Invalid credentials. Please try again or sign up.",
-                    "login_form": login_form,
-                    "register_form": register_form
-                })
-    
-    return render(request, "users_app/login.html", {
-        "login_form": login_form, 
-        "register_form": register_form
-    })
-
-@login_required
-def logout_view(request):
-    logout(request)
-    return redirect("login")  
-
+#----------------------- EDIT PROFILE --------------------------
 
 @login_required
 def edit_profile_view(request):
@@ -100,5 +101,13 @@ def edit_profile_view(request):
         form = ProfileUpdateForm(instance=request.user)
 
     return render(request, 'users_app/edit_profile.html', {'form': form})
+
+#----------------------- LOGOUT --------------------------
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect("login")  
+
 
 

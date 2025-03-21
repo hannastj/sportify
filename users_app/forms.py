@@ -60,4 +60,4 @@ class ProfileUpdateForm(forms.ModelForm):
     
     class Meta:
         model = CustomUser
-        fields = ('profile_picture', 'first_name', 'last_name', 'age', 'bio', 'clubs', 'gym')
+        fields = ('first_name', 'last_name', 'age', 'bio', 'clubs', 'gym', 'profile_picture')
